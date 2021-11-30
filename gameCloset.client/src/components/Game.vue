@@ -1,13 +1,9 @@
 <template>
-  <div class="game card m-2 p-3">
+  <div class="container-fluid game card m-2 p-3">
     <div class="row">
-      <img
-        class="m-1 rounded col"
-        src="https://thiscatdoesnotexist.com"
-        alt=""
-      />
+      <img class="m-1 rounded col img-container" :src="game.image_url" alt="" />
       <div class="row">
-        <h3 class="col">It's a really long game name!</h3>
+        <h3 class="col">{{ game.name }}</h3>
       </div>
       <div class="row">
         <p class="col">Play time:</p>
@@ -51,6 +47,7 @@
 
 <script>
 export default {
+  props: { game: { type: Object, required: true } },
   setup() {
     return {}
   }
@@ -67,6 +64,12 @@ img {
 p {
   // padding: 0;
   margin: 0;
+}
+
+.img-container {
+  height: 450px;
+  width: 450px;
+  object-fit: cover;
 }
 .card {
   width: 50vh;
