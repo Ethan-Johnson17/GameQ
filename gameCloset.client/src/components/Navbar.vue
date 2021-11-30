@@ -5,6 +5,11 @@
         <img alt="logo" src="../assets/img/GameQ.png" height="60" />
       </div>
     </router-link>
+    <router-link class="navbar-brand d-flex" :to="{ name: 'Search' }">
+      <div class="d-flex flex-column align-items-center">
+        <h3>Search Games</h3>
+      </div>
+    </router-link>
     <button
       class="navbar-toggler"
       type="button"

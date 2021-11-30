@@ -16,11 +16,23 @@
     <div class="container-fluid">
       <div class="row">
         <h1>My Game Closet</h1>
-        <div class="col-md-6"><Game /></div>
+        <div
+          class="col-md-4 d-flex justify-content-center"
+          v-for="game in closetGames"
+          :key="game.atlasGameId"
+        >
+          <Game :game="game" />
+        </div>
       </div>
       <div class="row">
         <h1>Wishlist</h1>
-        <div class="col-md-6"><Game /></div>
+        <div
+          class="col-md-4 d-flex justify-content-center"
+          v-for="game in wishlistGames"
+          :key="game.atlasGameId"
+        >
+          <Game :game="game" />
+        </div>
       </div>
     </div>
   </div>
@@ -29,18 +41,33 @@
 <script>
 import { computed } from "@vue/reactivity"
 import { AppState } from "../AppState"
+import { onMounted } from "@vue/runtime-core"
+import { logger } from "../utils/Logger"
+import { gamesService } from "../services/GamesService"
 export default {
   name: 'Home',
   setup() {
+    // onMounted(async () => {
+
+    //   try {
+    //     await gamesService.getAll('/search?q=')
+    //   } catch (error) {
+    //     logger.error(error)
+    //   }
+    // })
     return {
       user: computed(() => AppState.user),
-
+      closetGames: computed(() => AppState.closetGames),
+      wishlistGames: computed(() => AppState.wishlistGames)
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
+h1 {
+  text-decoration: underline;
+}
 .home {
   display: grid;
   height: 80vh;
