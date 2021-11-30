@@ -42,8 +42,8 @@
       <div class="row m-0 p-0">
         <div class="col">
           <p class="text-end">
-            <i class="selectable mdi mdi-playlist-plus me-3"></i>
-            <i class="selectable mdi mdi-heart-outline"></i>
+            <i class="selectable mdi mdi-playlist-plus me-3 p-2 rounded"></i>
+            <i class="selectable mdi mdi-heart-outline p-2 rounded"></i>
           </p>
         </div>
       </div>
