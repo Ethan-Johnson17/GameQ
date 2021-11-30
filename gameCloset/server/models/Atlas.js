@@ -3,14 +3,14 @@ const Schema = mongoose.Schema
 
 export const AtlasSchema = new Schema({
   name: { type: String, required: true },
-  rules_url: { type: URL, required: true },
+  rules_url: { type: String, required: true },
   id: { type: String, ref: 'apiGameId', required: true },
   min_players: { type: Number, required: true },
   max_players: { type: Number, required: true },
   price: { type: String, required: true },
   min_playtime: { type: Number, required: true },
   max_playtime: { type: Number, required: true },
-  image_url: { type: URL, required: true },
+  image_url: { type: String, required: true },
   min_age: { type: Number, required: true }
 
 }, { timestamps: true, toJSON: { virtuals: true } })
