@@ -65,6 +65,8 @@ export default {
       user: computed(() => AppState.user),
       games: computed(() => AppState.atlasGames),
 
+
+
       async searchGames() {
         try {
           await gamesService.getAll('/search?q=' + search.value)

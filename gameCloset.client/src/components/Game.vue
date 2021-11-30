@@ -42,7 +42,10 @@
       <div class="row m-0 p-0">
         <div class="col">
           <p class="text-end">
-            <i class="selectable mdi mdi-playlist-plus me-3 p-2 rounded"></i>
+            <i
+              @click="addToWishlist(game)"
+              class="selectable mdi mdi-playlist-plus me-3 p-2 rounded"
+            ></i>
             <i class="selectable mdi mdi-heart-outline p-2 rounded"></i>
           </p>
         </div>
@@ -53,21 +56,28 @@
 
 
 <script>
+import { gamesService } from "../services/GamesService"
+import { logger } from "../utils/Logger"
 export default {
   props: { game: { type: Object, required: true } },
-  setup() {
-    return {}
+  setup(props) {
+    return {
+      async addToWishlist() {
+        try {
+          const game = props.game
+          await gamesService.addToWishlist(game)
+          logger.log(game)
+        } catch (error) {
+          logger.error(error)
+        }
+      },
+    }
   }
 }
 </script>
 
 
 <style lang="scss" scoped>
-img {
-  // height: fit-content;
-  // width: fit-content;
-}
-
 p {
   // padding: 0;
   margin: 0;
