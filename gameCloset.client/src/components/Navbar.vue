@@ -6,8 +6,8 @@
       </div>
     </router-link>
     <router-link class="navbar-brand d-flex" :to="{ name: 'Search' }">
-      <div class="d-flex flex-column align-items-center">
-        <h3>Search Games</h3>
+      <div class="d-flex flex-column align-items-center text-white">
+        <h5 class="selectable">Search Games</h5>
       </div>
     </router-link>
     <button

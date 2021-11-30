@@ -47,14 +47,14 @@ import { gamesService } from "../services/GamesService"
 export default {
   name: 'Home',
   setup() {
-    // onMounted(async () => {
+    onMounted(async () => {
 
-    //   try {
-    //     await gamesService.getAll('/search?q=')
-    //   } catch (error) {
-    //     logger.error(error)
-    //   }
-    // })
+      try {
+        await gamesService.getMyGames('/api/games')
+      } catch (error) {
+        logger.error(error)
+      }
+    })
     return {
       user: computed(() => AppState.user),
       closetGames: computed(() => AppState.closetGames),
