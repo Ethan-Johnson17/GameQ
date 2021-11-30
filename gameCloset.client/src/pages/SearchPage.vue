@@ -6,23 +6,23 @@
         <div class="search">
           <div class="mb-3 w-25 m-3">
             <form @submit.prevent="searchGames">
-              <label for="" class="form-label"></label>
-              <input
-                v-model="search"
-                type="text"
-                class="form-control"
-                name=""
-                id=""
-                aria-describedby="helpId"
-                placeholder="Search Games"
-              />
-              <input
-                name="search"
-                id=""
-                class="btn btn-primary"
-                type="submit"
-                value=""
-              />
+              <div class="input-group mb-3">
+                <input
+                  v-model="search"
+                  type="text"
+                  class="form-control"
+                  placeholder="Search Games"
+                  aria-label="Search Games"
+                  aria-describedby="button-addon2"
+                />
+                <button
+                  class="btn btn-outline-primary"
+                  type="submit"
+                  id="button-addon2"
+                >
+                  Search
+                </button>
+              </div>
             </form>
           </div>
         </div>
