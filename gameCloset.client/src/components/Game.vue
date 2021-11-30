@@ -1,20 +1,30 @@
 <template>
-  <div class="container-fluid game card m-2 p-3">
+  <div class="container-fluid game card elevation-3 m-2 p-3">
     <div class="row">
       <img class="m-1 rounded col img-container" :src="game.image_url" alt="" />
       <div class="row">
         <h3 class="col">{{ game.name }}</h3>
       </div>
-      <div class="row">
-        <p class="col">Play time:</p>
+      <div class="row" v-if="game.min_playtime && game.max_playtime">
+        <p class="col" v-if="game.min_playtime === game.max_playtime">
+          Play time: {{ game.min_playtime }} minutes
+        </p>
+        <p class="col" v-else>
+          Play time: {{ game.min_playtime }} - {{ game.max_playtime }} minutes
+        </p>
       </div>
-      <div class="row">
-        <p class="col">Number of players:</p>
+      <div class="row" v-if="game.min_players && game.max_players">
+        <p class="col" v-if="game.min_players === game.max_players">
+          Number of players: {{ game.min_players }}
+        </p>
+        <p class="col" v-else>
+          Number of players: {{ game.min_players }} - {{ game.max_players }}
+        </p>
       </div>
       <!-- v-if="game.owned" -->
-      <div class="row">
+      <div class="row" v-if="game.rules_url">
         <div class="col">
-          <p>Rules:</p>
+          <p><a :href="game.rules_url">Game Rules</a></p>
         </div>
       </div>
       <div class="row">

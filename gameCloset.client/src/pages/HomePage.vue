@@ -16,16 +16,23 @@
     <div class="container-fluid">
       <div class="row">
         <h1>My Game Closet</h1>
-        <div class="col-md-6 d-flex justify-content-center">
-          <Game />
-        </div>
-        <div class="col-md-6 d-flex justify-content-center">
-          <Game />
+        <div
+          class="col-md-4 d-flex justify-content-center"
+          v-for="game in closetGames"
+          :key="game.atlasGameId"
+        >
+          <Game :game="game" />
         </div>
       </div>
       <div class="row">
         <h1>Wishlist</h1>
-        <div class="col-md-6 d-flex justify-content-center"><Game /></div>
+        <div
+          class="col-md-4 d-flex justify-content-center"
+          v-for="game in wishlistGames"
+          :key="game.atlasGameId"
+        >
+          <Game :game="game" />
+        </div>
       </div>
     </div>
   </div>
@@ -50,7 +57,8 @@ export default {
     // })
     return {
       user: computed(() => AppState.user),
-
+      closetGames: computed(() => AppState.closetGames),
+      wishlistGames: computed(() => AppState.wishlistGames)
     }
   }
 }
