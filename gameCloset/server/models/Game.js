@@ -16,7 +16,7 @@ export const GameSchema = new Schema({
   min_age: { type: Number, required: true },
   owned: { type: Boolean, default: false },
   accountId: { type: Schema.Types.ObjectId, ref: 'Account', required: true },
-  url: { type: String }
+  atlasUrl: { type: String }
 
 }, { timestamps: true, toJSON: { virtuals: true } })
 
