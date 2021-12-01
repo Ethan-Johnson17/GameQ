@@ -6,7 +6,7 @@ export const GameNightSchema = new Schema({
   name: { type: String, required: true },
   gameNightDate: { type: Date },
   accountId: { type: Schema.Types.ObjectId, ref: 'Account', required: true },
-  pin: { type: String }
+  pin: { type: String, unique: true, required: true }
 }, { timestamps: true, toJSON: { virtuals: true } })
 
 GameNightSchema.virtual('account', {

@@ -44,7 +44,7 @@ export class GameNightsController extends BaseController {
 
   async remove(req, res, next) {
     try {
-      const userId = req.userId.id
+      const userId = req.userInfo.id
       const gamenightId = req.params.id
       await gameNightsService.remove(gamenightId, userId)
       res.send('Sad day, you cancelled on me')
