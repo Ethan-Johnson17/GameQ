@@ -1,5 +1,5 @@
 import { dbContext } from '../db/DbContext'
-import { BadRequest } from '../utils/Errors'
+import { BadRequest, Forbidden } from '../utils/Errors'
 
 class GameNightsService {
   async create(body) {
@@ -27,6 +27,20 @@ class GameNightsService {
     return gamenight
   }
 
-  async remove()
+  async getById(id) {
+    const gamenight = await dbContext.GameNight.findById(id).populate('account')
+    if (!gamenight) {
+      throw new BadRequest('not your game night!')
+    }
+    return gamenight
+  }
+
+  async remove(gamenightId, userId) {
+    const gamenight = await this.getById(gamenightId)
+    if (gamenight.accountId.toString() !== userId) {
+      throw new Forbidden('What is your favorite color... wrong')
+    }
+    await dbContext.GameNight.findByIdAndDelete(gamenightId)
+  }
 }
 export const gameNightsService = new GameNightsService()
