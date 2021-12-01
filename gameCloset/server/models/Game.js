@@ -5,7 +5,7 @@ export const GameSchema = new Schema({
   name: { type: String, required: true },
   rules_url: { type: String },
   houseRules: { type: String, default: 'no rules added yet.' },
-  // id: { type: String, ref: 'apiGameId', required: true },
+  id: { type: String },
   // NOTE will need to change id to ids if you want to search atlas api by id(ids)
   min_players: { type: Number },
   max_players: { type: Number },
@@ -16,7 +16,7 @@ export const GameSchema = new Schema({
   min_age: { type: Number },
   owned: { type: Boolean, default: false },
   accountId: { type: Schema.Types.ObjectId, ref: 'Account', required: true },
-  atlasUrl: { type: String, unique: true, required: true }
+  atlasUrl: { type: String }
 
 }, { timestamps: true, toJSON: { virtuals: true } })
 
