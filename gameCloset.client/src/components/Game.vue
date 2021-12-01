@@ -93,6 +93,7 @@ export default {
           await gamesService.addToWishlist(game)
           Pop.toast('Added to Wishlist', 'success')
         } catch (error) {
+          Pop.toast("Already in your wishlist!", 'error')
           logger.error(error)
         }
       },
@@ -105,6 +106,7 @@ export default {
 
           Pop.toast('Added to Game Closet', 'success')
         } catch (error) {
+          Pop.toast("Already in your closet!", 'error')
           logger.error(error)
         }
       },
