@@ -1,5 +1,6 @@
 import { AppState } from "../AppState"
 import { Game } from "../Models/Game"
+import { logger } from "../utils/Logger"
 import Pop from "../utils/Pop"
 import { atlasApi, api } from "./AxiosService"
 const clientId = '&client_id=RhH4WBOfK3'
@@ -25,12 +26,14 @@ class GamesService {
   }
 
   async addToGameCloset(closetGame) {
-    if (!closetGame.id) {
+    if (!closetGame.atlasGameId) {
+      logger.log('test1', closetGame.atlasGameId)
       const res = await api.post('api/games', closetGame)
       AppState.myGames.unshift(res.data)
     }
     else {
-      const res = await api.put('api/games/' + closetGame.id, closetGame)
+      logger.log('test2', closetGame.atlasGameId)
+      const res = await api.put('api/games/' + closetGame.atlasGameId, closetGame)
       AppState.myGames.unshift(res.data)
     }
   }
