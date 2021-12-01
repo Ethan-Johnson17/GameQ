@@ -31,9 +31,9 @@ class GamesService {
 
   async goodwillit(gameId, userId) {
     const game = await this.getById(gameId)
-    if (game.accountId.toString() !== userId) {
-      throw new Forbidden('Wat!!')
-    }
+    // if (game.accountId.toString() !== userId) {
+    //   throw new Forbidden('Wat!!')
+    // }
     await dbContext.Game.findByIdAndDelete(gameId)
   }
 }
