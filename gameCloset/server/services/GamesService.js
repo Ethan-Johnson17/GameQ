@@ -16,10 +16,10 @@ class GamesService {
   }
 
   async create(body) {
-    const gameurl = await dbContext.Game.findOne({ gameAtlasId: body.id })
-    if (gameurl) {
-      throw new BadRequest('you cant have two of the same game')
-    }
+    // const gameurl = await dbContext.Game.findOne({ gameAtlasId: body.id })
+    // if (gameurl) {
+    //   throw new BadRequest('you cant have two of the same game')
+    // }
     const game = await dbContext.Game.create(body)
     return game.populate('account')
   }
