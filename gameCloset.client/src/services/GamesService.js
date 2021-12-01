@@ -27,12 +27,12 @@ class GamesService {
 
   async addToGameCloset(closetGame) {
     if (!closetGame.atlasGameId) {
-      logger.log('test1', closetGame)
+      logger.log('test1', closetGame.atlasGameId)
       const res = await api.post('api/games', closetGame)
       AppState.myGames.unshift(res.data)
     }
     else {
-      logger.log('test2', closetGame)
+      logger.log('test2', closetGame.atlasGameId)
       const res = await api.put('api/games/' + closetGame.atlasGameId, closetGame)
       AppState.myGames.unshift(res.data)
     }
