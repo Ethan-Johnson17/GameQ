@@ -35,6 +35,15 @@ class GameNightsService {
     return gamenight
   }
 
+  async edit(body) {
+    const night = await this.getById(body.id)
+    if (night.accountId.toString() !== body.accountId) {
+      throw new Forbidden('not your game night')
+    }
+    const update = await dbContext.GameNight.findOneAndUpdate({ _id: body.id, accountId: body.accountId }, body, { new: true })
+    return update
+  }
+
   async remove(gamenightId, userId) {
     const gamenight = await this.getById(gamenightId)
     if (gamenight.accountId.toString() !== userId) {

@@ -11,6 +11,7 @@ export class GameNightsController extends BaseController {
       .get('', this.getAll)
       .get('/:pin', this.getByPin)
       .delete('/:id', this.remove)
+      .put('/:id', this.edit)
   }
 
   async create(req, res, next) {
@@ -37,6 +38,17 @@ export class GameNightsController extends BaseController {
       const query = req.query
       const gamenight = await gameNightsService.getAll(query)
       return res.send(gamenight)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async edit(req, res, next) {
+    try {
+      req.body.accountId = req.userInfo.id
+      req.body.id = req.params.id
+      const night = await gameNightsService.edit(req.body)
+      return res.send(night)
     } catch (error) {
       next(error)
     }
