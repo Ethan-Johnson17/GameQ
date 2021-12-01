@@ -27,5 +27,14 @@ class GamesService {
     AppState.wishlistGames.unshift(res.data)
     Pop.toast('Game added to wishlist', 'success')
   }
+
+  async remove(gameId) {
+    logger.log('remove', gameId)
+    const yes = await Pop.confirm('Remove game?')
+    if (!yes) { return }
+    await api.delete('api/games/' + gameId)
+    AppState.wishlistGames = AppState.wishlistGames.filter(g => g.id !== gameId)
+    AppState.closetGames = AppState.closetGames.filter(g => g.id !== gameId)
+  }
 }
 export const gamesService = new GamesService()

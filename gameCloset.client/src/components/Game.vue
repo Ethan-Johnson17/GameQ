@@ -1,9 +1,12 @@
 <template>
   <div class="container-fluid game card elevation-3 m-2 p-3">
     <div class="row">
-      <div class="col text-danger text-end" v-if="game.owned">
+      <div class="col text-danger text-end" v-if="route.name == 'GameCloset'">
         <!-- TODO consider moving this to the bottom of the card because we don't need the buttons there if they're in the closet and wishlist -->
-        <i class="mdi mdi-trash-can-outline selectable mdi-24px p-2"></i>
+        <i
+          class="mdi mdi-trash-can-outline selectable mdi-24px p-2"
+          @click="remove(game.id)"
+        ></i>
       </div>
     </div>
 
@@ -64,12 +67,18 @@
 
 
 <script>
+import { computed } from "@vue/reactivity"
 import { gamesService } from "../services/GamesService"
 import { logger } from "../utils/Logger"
+import { AppState } from "../AppState"
+import { useRoute } from "vue-router"
+import Pop from "../utils/Pop"
 export default {
   props: { game: { type: Object, required: true } },
   setup(props) {
+    const route = useRoute()
     return {
+      route,
       async addToWishlist() {
         try {
           const game = props.game
@@ -80,11 +89,12 @@ export default {
         }
       },
 
-      async remove() {
+      async remove(id) {
         try {
-
+          await gamesService.remove(id)
         } catch (error) {
           logger.error(error)
+          Pop.toast('error', 'error')
         }
       }
     }
