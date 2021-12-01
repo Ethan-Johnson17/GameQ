@@ -1,5 +1,12 @@
 <template>
   <div class="container-fluid game card elevation-3 m-2 p-3">
+    <div class="row">
+      <div class="col text-danger text-end" v-if="game.owned">
+        <!-- TODO consider moving this to the bottom of the card because we don't need the buttons there if they're in the closet and wishlist -->
+        <i class="mdi mdi-trash-can-outline selectable mdi-24px p-2"></i>
+      </div>
+    </div>
+
     <div class="row m-auto">
       <img class="m-1 rounded col img-container" :src="game.image_url" alt="" />
       <div class="row">
@@ -42,6 +49,7 @@
       <div class="row m-0 p-0">
         <div class="col">
           <p class="text-end">
+            <!-- v-ifs for the icons when you're on the closet / wishlist -->
             <i
               @click="addToWishlist(game)"
               class="selectable mdi mdi-playlist-plus me-3 p-2 rounded"
@@ -71,6 +79,14 @@ export default {
           logger.error(error)
         }
       },
+
+      async remove() {
+        try {
+
+        } catch (error) {
+          logger.error(error)
+        }
+      }
     }
   }
 }
