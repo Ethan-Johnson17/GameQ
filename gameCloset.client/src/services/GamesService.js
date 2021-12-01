@@ -15,8 +15,13 @@ class GamesService {
   }
 
   async addToWishlist(game) {
-    const res = await api.post('api/games', game)
-    AppState.myGames.unshift(res.data)
+    const found = AppState.myGames.find(g => g.atlasUrl == game.atlasUrl)
+    if (!found) {
+      const res = await api.post('api/games', game)
+      AppState.myGames.unshift(res.data)
+    } else {
+      Pop.toast('no way.', error)
+    }
   }
 
   async addToGameCloset(closetGame) {

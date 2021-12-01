@@ -111,6 +111,7 @@ export default {
 
       async remove(id) {
         try {
+          logger.log('remove', id)
           await gamesService.remove(id)
         } catch (error) {
           logger.error(error)
