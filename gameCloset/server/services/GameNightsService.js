@@ -14,13 +14,13 @@ class GameNightsService {
   }
 
   gameCode() {
-    const digit = Math.floor(Math.random() * 100000)
+    const digit = 100000 + (Math.floor(Math.random() * 100000))
     return digit
   }
   // TODO integrate this with game night
 
   async getByPin(pin) {
-    const gamenight = await dbContext.GameNight.find({ pin }).populate('account')
+    const gamenight = await dbContext.GameNight.findOne({ pin }).populate('account')
     if (!gamenight) {
       throw new BadRequest('not your game night!')
     }
