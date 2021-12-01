@@ -20,9 +20,9 @@ const routes = [
     beforeEnter: authSettled
   },
   {
-    path: '/about',
-    name: 'About',
-    component: loadPage('AboutPage'),
+    path: '/gameNight',
+    name: 'GameNight',
+    component: loadPage('GameNightPage'),
     beforeEnter: authSettled
   },
 

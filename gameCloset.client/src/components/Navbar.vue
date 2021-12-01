@@ -1,15 +1,15 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-info bg-info px-3">
-    <router-link class="navbar-brand d-flex" :to="{ name: 'GameCloset' }">
-      <div class="d-flex flex-column align-items-center">
-        <img alt="logo" src="../assets/img/GameQ.png" height="60" />
-      </div>
-    </router-link>
-    <router-link class="navbar-brand d-flex" :to="{ name: 'Search' }">
-      <div class="d-flex flex-column align-items-center text-white">
-        <h5 class="selectable">Search Games</h5>
-      </div>
-    </router-link>
+  <nav
+    class="
+      navbar navbar-expand-lg navbar-dark
+      bg-primary
+      px-3
+      border-bottom border-2 border-dark
+    "
+  >
+    <div class="d-flex flex-column align-items-center me-5">
+      <img alt="logo" src="../assets/img/GameQ2.png" height="60" />
+    </div>
     <button
       class="navbar-toggler"
       type="button"
@@ -22,22 +22,48 @@
       <span class="navbar-toggler-icon" />
     </button>
     <div class="collapse navbar-collapse" id="navbarText">
+      <ul class="navbar-nav me-auto">
+        <li>
+          <router-link
+            :to="{ name: 'GameCloset' }"
+            class="btn text-ep selectable text-uppercase text-light"
+          >
+            Game Closet
+          </router-link>
+        </li>
+
+        <li>
+          <router-link
+            :to="{ name: 'Search' }"
+            class="
+              btn
+              text-ep
+              selectable
+              text-uppercase text-light
+              search-borders
+            "
+          >
+            Search Games
+          </router-link>
+        </li>
+
+        <li>
+          <router-link
+            :to="{ name: 'GameNight' }"
+            class="btn text-ep selectable text-uppercase text-light"
+          >
+            Game Night
+          </router-link>
+        </li>
+      </ul>
       <span class="navbar-text">
         <button
-          class="
-            btn
-            selectable
-            text-success
-            lighten-30
-            text-uppercase
-            my-2 my-lg-0
-          "
+          class="btn selectable text-ep text-light text-uppercase my-2 my-lg-0"
           @click="login"
           v-if="!user.isAuthenticated"
         >
           Login
         </button>
-
         <div class="dropdown my-2 my-lg-0" v-else>
           <div
             class="dropdown-toggle selectable"
@@ -51,7 +77,7 @@
               height="40"
               class="rounded"
             />
-            <span class="mx-3 text-success lighten-30">{{ user.name }}</span>
+            <span class="mx-3 text-ep">{{ user.name }}</span>
           </div>
           <div
             class="dropdown-menu p-0 list-group w-100"
@@ -79,6 +105,8 @@
     </div>
   </nav>
 </template>
+
+
 
 <script>
 import { AuthService } from '../services/AuthService'
@@ -119,8 +147,13 @@ a:hover {
   text-transform: uppercase;
 }
 .navbar-nav .router-link-exact-active {
-  border-bottom: 2px solid var(--bs-success);
+  border-bottom: 2px solid var(--bs-secondary);
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
+}
+
+.search-borders {
+  border-right: 1px solid var(--bs-light);
+  border-left: 1px solid var(--bs-light);
 }
 </style>
