@@ -10,6 +10,7 @@ export class GameNightsController extends BaseController {
       .post('', this.create)
       .get('', this.getAll)
       .get('/:pin', this.getByPin)
+      .delete('/:id', this.remove)
   }
 
   async create(req, res, next) {
@@ -36,6 +37,17 @@ export class GameNightsController extends BaseController {
       const query = req.query
       const gamenight = await gameNightsService.getAll(query)
       return res.send(gamenight)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async remove(req, res, next) {
+    try {
+      const userId = req.userId.id
+      const gamenightId = req.params.id
+      await gameNightsService.remove(gamenightId, userId)
+      res.send('Sad day, you cancelled on me')
     } catch (error) {
       next(error)
     }

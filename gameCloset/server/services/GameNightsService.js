@@ -20,11 +20,13 @@ class GameNightsService {
   // TODO integrate this with game night
 
   async getByPin(pin) {
-    const gamenight = await dbContext.GameNight.find(pin).populate('account')
+    const gamenight = await dbContext.GameNight.find({ pin }).populate('account')
     if (!gamenight) {
       throw new BadRequest('not your game night!')
     }
     return gamenight
   }
+
+  async remove()
 }
 export const gameNightsService = new GameNightsService()
