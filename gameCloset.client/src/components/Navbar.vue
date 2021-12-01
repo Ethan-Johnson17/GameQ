@@ -8,7 +8,9 @@
     "
   >
     <div class="d-flex flex-column align-items-center me-5">
-      <img alt="logo" src="../assets/img/GameQ2.png" height="60" />
+      <a href="../closet">
+        <img alt="logo" src="../assets/img/GameQ2.png" height="60" />
+      </a>
     </div>
     <button
       class="navbar-toggler"

@@ -57,11 +57,13 @@
               v-if="route.name == 'Search'"
               @click="addToWishlist(game)"
               class="selectable mdi mdi-playlist-plus me-3 p-2 rounded"
+              title="add to wishlist"
             ></i>
             <i
               v-if="!game.owned"
               @click="addToGameCloset(game)"
               class="selectable mdi mdi-heart-outline p-2 rounded"
+              title="add to game closet"
             ></i>
           </p>
         </div>
