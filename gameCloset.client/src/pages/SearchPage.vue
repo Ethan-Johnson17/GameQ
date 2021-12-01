@@ -54,7 +54,7 @@ export default {
     onMounted(async () => {
       try {
         await gamesService.getAll('/search?q=' + search.value)
-        // if there's nothing in the appstate, call atlasApi
+        await gamesService.getMyGames('/api/games')
       } catch (error) {
         logger.error(error)
       }
@@ -64,6 +64,20 @@ export default {
       search,
       user: computed(() => AppState.user),
       games: computed(() => AppState.atlasGames),
+
+      // this might be a way to filter out games we own or have on our wishlist
+
+      // games: computed(() => {
+      //   const myGames = AppState.myGames
+      //   let filteredGames = []
+      //   AppState.atlasGames.forEach(atlasGame => {
+      //     if (!(myGames.find(g => g.atlasUrl === atlasGame.atlasUrl))) {
+      //       filteredGames.push(atlasGame)
+      //     }
+      //   })
+      //   return filteredGames
+      // }),
+      // myGames: computed(() => AppState.myGames),
 
 
 
