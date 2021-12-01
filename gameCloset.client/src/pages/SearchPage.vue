@@ -16,7 +16,7 @@
                   aria-describedby="button-addon2"
                 />
                 <button
-                  class="btn btn-outline-primary"
+                  class="btn btn-outline-light"
                   type="submit"
                   id="button-addon2"
                 >
@@ -51,14 +51,14 @@ import { AppState } from "../AppState"
 export default {
   setup() {
     const search = ref('')
-    // onMounted(async () => {
-    //   try {
-    //     await gamesService.getAll('/search?q=' + search.value)
-    //     // if there's nothing in the appstate, call atlasApi
-    //   } catch (error) {
-    //     logger.error(error)
-    //   }
-    // })
+    onMounted(async () => {
+      try {
+        await gamesService.getAll('/search?q=' + search.value)
+        // if there's nothing in the appstate, call atlasApi
+      } catch (error) {
+        logger.error(error)
+      }
+    })
 
     return {
       search,

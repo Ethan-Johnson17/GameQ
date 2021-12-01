@@ -5,7 +5,7 @@
         <!-- TODO consider moving this to the bottom of the card because we don't need the buttons there if they're in the closet and wishlist -->
         <i
           class="mdi mdi-trash-can-outline selectable mdi-24px p-2"
-          @click="remove(game.id)"
+          @click="remove(game.atlasGameId)"
         ></i>
       </div>
     </div>
@@ -45,19 +45,24 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-8 mt-3">
           <p><a target="_blank" :href="game.atlasUrl">See More Details</a></p>
         </div>
       </div>
-      <div class="row m-0 p-0">
+      <div class="row m-0 p-0" v-if="user.isAuthenticated">
         <div class="col">
           <p class="text-end">
             <!-- v-ifs for the icons when you're on the closet / wishlist -->
             <i
+              v-if="route.name == 'Search'"
               @click="addToWishlist(game)"
               class="selectable mdi mdi-playlist-plus me-3 p-2 rounded"
             ></i>
-            <i class="selectable mdi mdi-heart-outline p-2 rounded"></i>
+            <i
+              v-if="!game.owned"
+              @click="addToGameCloset(game)"
+              class="selectable mdi mdi-heart-outline p-2 rounded"
+            ></i>
           </p>
         </div>
       </div>
@@ -74,16 +79,29 @@ import { AppState } from "../AppState"
 import { useRoute } from "vue-router"
 import Pop from "../utils/Pop"
 export default {
-  props: { game: { type: Object, required: true } },
+  props: { game: { type: Object } },
   setup(props) {
     const route = useRoute()
     return {
       route,
+      user: computed(() => AppState.user),
       async addToWishlist() {
         try {
           const game = props.game
           await gamesService.addToWishlist(game)
-          logger.log(game)
+          Pop.toast('Added to Wishlist', 'success')
+        } catch (error) {
+          logger.error(error)
+        }
+      },
+
+      async addToGameCloset() {
+        try {
+          const closetGame = props.game
+          closetGame.owned = true
+          await gamesService.addToGameCloset(closetGame)
+
+          Pop.toast('Added to Game Closet', 'success')
         } catch (error) {
           logger.error(error)
         }

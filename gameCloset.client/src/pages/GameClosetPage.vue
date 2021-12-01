@@ -12,26 +12,34 @@
   >
     <h1>SIGN IN FOOL</h1>
   </div>
-  <div class="game-closet" v-if="user.isAuthenticated">
+  <div class="game-closet p-5" v-if="user.isAuthenticated">
     <div class="container-fluid">
       <div class="row">
-        <h1>My Game Closet</h1>
-        <div
-          class="col-md-4 d-flex justify-content-center"
-          v-for="game in closetGames"
-          :key="game.atlasGameId"
-        >
-          <Game :game="game" />
+        <div class="col mt-2 text-light">
+          <h1>My Game Closet</h1>
+        </div>
+        <div class="row">
+          <div
+            class="col-md-4 d-flex justify-content-center"
+            v-for="game in closetGames"
+            :key="game.atlasGameId"
+          >
+            <Game :game="game" />
+          </div>
         </div>
       </div>
       <div class="row">
-        <h1>Wishlist</h1>
-        <div
-          class="col-md-4 d-flex justify-content-center"
-          v-for="game in wishlistGames"
-          :key="game.atlasGameId"
-        >
-          <Game :game="game" />
+        <div class="col text-light mt-5">
+          <h1>Wishlist</h1>
+        </div>
+        <div class="row">
+          <div
+            class="col-md-4 d-flex justify-content-center"
+            v-for="game in wishlistGames"
+            :key="game.atlasGameId"
+          >
+            <Game :game="game" />
+          </div>
         </div>
       </div>
     </div>
@@ -41,7 +49,7 @@
 <script>
 import { computed } from "@vue/reactivity"
 import { AppState } from "../AppState"
-import { onMounted } from "@vue/runtime-core"
+import { onMounted, watchEffect } from "@vue/runtime-core"
 import { logger } from "../utils/Logger"
 import { gamesService } from "../services/GamesService"
 export default {
@@ -57,8 +65,8 @@ export default {
     })
     return {
       user: computed(() => AppState.user),
-      closetGames: computed(() => AppState.closetGames),
-      wishlistGames: computed(() => AppState.wishlistGames)
+      closetGames: computed(() => AppState.myGames.filter(g => g.owned)),
+      wishlistGames: computed(() => AppState.myGames.filter(g => !g.owned)),
     }
   }
 }

@@ -1,6 +1,7 @@
 export class Game {
   constructor(data) {
     this.name = data.name
+    this.owned = data.owned
     this.atlasUrl = data.url
     this.houseRules = data.houseRules
     this.rules_url = data.rules_url
