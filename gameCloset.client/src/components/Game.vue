@@ -103,7 +103,6 @@ export default {
           const closetGame = props.game
           closetGame.owned = true
           await gamesService.addToGameCloset(closetGame)
-
           Pop.toast('Added to Game Closet', 'success')
         } catch (error) {
           Pop.toast("Already in your closet!", 'error')
