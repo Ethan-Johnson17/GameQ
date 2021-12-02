@@ -1,11 +1,12 @@
 <template>
   <div class="container-fluid game card elevation-3 m-2 p-3">
+    <!-- v-if="user.id === game.accountId" -->
     <div class="row">
       <div class="col text-danger text-end" v-if="route.name == 'GameCloset'">
         <!-- TODO consider moving this to the bottom of the card because we don't need the buttons there if they're in the closet and wishlist -->
         <i
           class="mdi mdi-trash-can-outline selectable mdi-24px p-2"
-          @click="remove(game.atlasGameId)"
+          @click="remove(game.id)"
         ></i>
       </div>
     </div>
@@ -87,6 +88,7 @@ export default {
     return {
       route,
       user: computed(() => AppState.user),
+      account: computed(() => AppState.account),
       async addToWishlist() {
         try {
           const game = props.game
@@ -102,6 +104,7 @@ export default {
         try {
           const closetGame = props.game
           closetGame.owned = true
+          logger.log('add', closetGame)
           await gamesService.addToGameCloset(closetGame)
           Pop.toast('Added to Game Closet', 'success')
         } catch (error) {

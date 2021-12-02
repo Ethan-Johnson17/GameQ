@@ -10,7 +10,7 @@
       justify-content-center
     "
   >
-    <h1>SIGN IN FOOL</h1>
+    <h1 @click="login" class="selectable">Please sign in to view your games</h1>
   </div>
   <div class="game-closet p-5" v-if="user.isAuthenticated">
     <div class="container-fluid">
@@ -52,6 +52,7 @@ import { AppState } from "../AppState"
 import { onMounted, watchEffect } from "@vue/runtime-core"
 import { logger } from "../utils/Logger"
 import { gamesService } from "../services/GamesService"
+import { AuthService } from "../services/AuthService"
 export default {
   name: 'Home',
   setup() {
@@ -67,6 +68,9 @@ export default {
       user: computed(() => AppState.user),
       closetGames: computed(() => AppState.myGames.filter(g => g.owned)),
       wishlistGames: computed(() => AppState.myGames.filter(g => !g.owned)),
+      async login() {
+        AuthService.loginWithPopup()
+      },
     }
   }
 }
