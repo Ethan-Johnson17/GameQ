@@ -5,7 +5,7 @@ export const GameQueueSchema = new Schema({
   gameId: { type: Schema.Types.ObjectId, ref: 'Game', required: true },
   gameNightId: { type: Schema.Types.ObjectId, ref: 'GameNight', required: true },
   accountId: { type: Schema.Types.ObjectId, ref: 'Account', required: true },
-  votes: { type: Array, required: true }
+  votes: [{ type: Schema.Types.ObjectId, required: true, default: [] }]
 }, { timestamps: true, toJSON: { virtuals: true } })
 
 GameQueueSchema.virtual('account', {
