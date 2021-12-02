@@ -30,7 +30,6 @@ class GamesService {
     if (!closetGame.id) {
       const res = await api.post('api/games', closetGame)
       AppState.myGames.unshift(res.data)
-      logger.log('post', closetGame.id, 'res', res)
     }
     else {
       const res = await api.put('api/games/' + closetGame.id, closetGame)
