@@ -3,7 +3,7 @@ export class Game {
     this.name = data.name
     this.owned = data.owned || false
     this.accountId = data.accountId
-    this.atlasUrl = data.url
+    this.atlasUrl = data.url || data.atlasUrl
     this.houseRules = data.houseRules
     this.rules_url = data.rules_url
     // we're gonna need two id's
