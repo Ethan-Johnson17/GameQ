@@ -9,6 +9,7 @@ class GamesService {
   async getAll(query = '') {
     const res = await atlasApi.get(query + clientId)
     AppState.atlasGames = res.data.games.map(g => new Game(g))
+    logger.log(res)
   }
   async getMyGames(query = '') {
     const res = await api.get(query)
@@ -26,14 +27,12 @@ class GamesService {
   }
 
   async addToGameCloset(closetGame) {
-    if (!closetGame.atlasGameId) {
-      logger.log('test1', closetGame.atlasGameId)
+    if (!closetGame.id) {
       const res = await api.post('api/games', closetGame)
       AppState.myGames.unshift(res.data)
     }
     else {
-      logger.log('test2', closetGame.atlasGameId)
-      const res = await api.put('api/games/' + closetGame.atlasGameId, closetGame)
+      const res = await api.put('api/games/' + closetGame.id, closetGame)
       AppState.myGames.unshift(res.data)
     }
   }
