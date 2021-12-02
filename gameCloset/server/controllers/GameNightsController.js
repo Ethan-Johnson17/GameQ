@@ -14,6 +14,7 @@ export class GameNightsController extends BaseController {
       .delete('/:id', this.remove)
       // NOTE  this id is the Gamenight id
       .put('/:id', this.edit)
+      .put('/:id/isCanceled', this.cancel)
   }
 
   async create(req, res, next) {
@@ -51,6 +52,17 @@ export class GameNightsController extends BaseController {
       req.body.id = req.params.id
       const night = await gameNightsService.edit(req.body)
       return res.send(night)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async cancel(req, res, next) {
+    try {
+      const accountId = req.userInfo.id
+      const id = req.params.id
+      const cancelGamenight = await gameNightsService.cancel(id, { isCanceled: true, accountId: accountId })
+      return res.send(cancelGamenight)
     } catch (error) {
       next(error)
     }

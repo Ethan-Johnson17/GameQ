@@ -44,6 +44,15 @@ class GameNightsService {
     return update
   }
 
+  async cancel(id, update) {
+    const night = await this.getById(id)
+    if (night.accountId.toString() !== update.accountId) {
+      throw new Forbidden('na')
+    }
+    const newNight = await dbContext.GameNight.findByIdAndUpdate(id, update, { new: true })
+    return newNight
+  }
+
   async remove(gamenightId, userId) {
     const gamenight = await this.getById(gamenightId)
     if (gamenight.accountId.toString() !== userId) {
