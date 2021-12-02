@@ -21,12 +21,16 @@ class GamesQueueService {
   }
 
   async edit(body) {
-    const vote = await this.getById(body.id)
-    // if (vote) {
-    //   throw new Forbidden('stay in yo lane playa')
-    // }
-    const update = await dbContext.GameQueue.findByIdAndUpdate({ _id: body.id, accountId: body.accountId }, body, { new: true })
-    return update
+    const gameq = await this.getById(body.id)
+    const votes = gameq.votes
+    const index = votes.findIndex(v => v.toString() === body.accountId)
+    if (index === -1) {
+      votes.push(body.accountId)
+    } else {
+      votes.splice(index, 1)
+    }
+    await gameq.save()
+    return gameq
   }
 
   async remove(gameqId, userId) {
