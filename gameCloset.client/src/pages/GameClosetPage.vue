@@ -64,18 +64,20 @@ export default {
         logger.error(error)
       }
     })
-  },
-  return {
-    user: computed(() => AppState.user),
-    closetGames: computed(() => AppState.myGames.filter(g => g.owned)),
-    wishlistGames: computed(() => AppState.myGames.filter(g => !g.owned)),
-    async login() {
-      AuthService.loginWithPopup()
-    },
+
+
+
+    return {
+      user: computed(() => AppState.user),
+      closetGames: computed(() => AppState.myGames.filter(g => g.owned)),
+      wishlistGames: computed(() => AppState.myGames.filter(g => !g.owned)),
+      async login() {
+        AuthService.loginWithPopup()
+      },
+    }
   }
+
 }
-
-
 </script>
 
 <style scoped lang="scss">
