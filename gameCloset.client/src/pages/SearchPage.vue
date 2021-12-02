@@ -36,7 +36,7 @@
         v-for="game in games"
         :key="game.atlasGameId"
       >
-        <Game :game="game" />
+        <Game :game="game" :isSearchResult="true" />
       </div>
     </div>
   </div>
@@ -64,20 +64,8 @@ export default {
       search,
       user: computed(() => AppState.user),
       games: computed(() => AppState.atlasGames),
+      myGames: computed(() => AppState.myGames),
 
-      // this might be a way to filter out games we own or have on our wishlist
-
-      // games: computed(() => {
-      //   const myGames = AppState.myGames
-      //   let filteredGames = []
-      //   AppState.atlasGames.forEach(atlasGame => {
-      //     if (!(myGames.find(g => g.atlasUrl === atlasGame.atlasUrl))) {
-      //       filteredGames.push(atlasGame)
-      //     }
-      //   })
-      //   return filteredGames
-      // }),
-      // myGames: computed(() => AppState.myGames),
 
 
 

@@ -51,22 +51,27 @@
         </div>
       </div>
       <div class="row m-0 p-0" v-if="user.isAuthenticated">
-        <div class="col">
-          <p class="text-end">
-            <!-- v-ifs for the icons when you're on the closet / wishlist -->
-            <i
-              v-if="route.name == 'Search'"
-              @click="addToWishlist(game)"
-              class="selectable mdi mdi-playlist-plus me-3 p-2 rounded"
-              title="add to wishlist"
-            ></i>
-            <i
-              v-if="!game.owned"
-              @click="addToGameCloset(game)"
-              class="selectable mdi mdi-heart-outline p-2 rounded"
-              title="add to game closet"
-            ></i>
-          </p>
+        <div class="col" v-if="isSearchResult">
+          <div v-if="!hasGame">
+            <p class="text-end">
+              <!-- v-ifs for the icons when you're on the closet / wishlist -->
+              <i
+                v-if="route.name == 'Search'"
+                @click="addToWishlist(game)"
+                class="selectable mdi mdi-playlist-plus me-3 p-2 rounded"
+                title="add to wishlist"
+              ></i>
+              <i
+                v-if="!game.owned"
+                @click="addToGameCloset(game)"
+                class="selectable mdi mdi-heart-outline p-2 rounded"
+                title="add to game closet"
+              ></i>
+            </p>
+          </div>
+          <div v-else>
+            <p>You have this!</p>
+          </div>
         </div>
       </div>
     </div>
@@ -82,13 +87,21 @@ import { AppState } from "../AppState"
 import { useRoute } from "vue-router"
 import Pop from "../utils/Pop"
 export default {
-  props: { game: { type: Object } },
+  props: {
+    game: { type: Object },
+    isSearchResult: { type: Boolean, default: false }
+  },
   setup(props) {
     const route = useRoute()
     return {
       route,
       user: computed(() => AppState.user),
       account: computed(() => AppState.account),
+      hasGame: computed(() => {
+        const found = AppState.myGames.find(g => g.atlasGameId === props.game.atlasGameId)
+        return found
+      }),
+
       async addToWishlist() {
         try {
           const game = props.game
@@ -115,7 +128,6 @@ export default {
 
       async remove(id) {
         try {
-          logger.log('remove', id)
           await gamesService.remove(id)
         } catch (error) {
           logger.error(error)

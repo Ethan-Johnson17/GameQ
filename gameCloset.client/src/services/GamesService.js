@@ -7,7 +7,7 @@ const clientId = '&client_id=RhH4WBOfK3'
 
 class GamesService {
   async getAll(query = '') {
-    const res = await atlasApi.get(query + clientId)
+    const res = await atlasApi.get(query + '&limit=24' + clientId)
     AppState.atlasGames = res.data.games.map(g => new Game(g))
     logger.log(res)
   }
@@ -41,7 +41,7 @@ class GamesService {
     const yes = await Pop.confirm('Remove game?')
     if (!yes) { return }
     await api.delete('api/games/' + gameId)
-    AppState.myGames = AppState.myGames.filter(g => g.atlasGameId !== gameId)
+    AppState.myGames = AppState.myGames.filter(g => g.id !== gameId)
   }
 }
 export const gamesService = new GamesService()
