@@ -4,10 +4,7 @@
     <div class="row">
       <div class="col text-danger text-end" v-if="route.name == 'GameCloset'">
         <!-- TODO consider moving this to the bottom of the card because we don't need the buttons there if they're in the closet and wishlist -->
-        <i
-          class="mdi mdi-trash-can-outline selectable mdi-24px p-2"
-          @click="remove(game.id)"
-        ></i>
+        <i class="mdi mdi-trash-can-outline selectable mdi-24px p-2" @click="remove(game.id)"></i>
       </div>
     </div>
 
@@ -33,9 +30,13 @@
         </p>
       </div>
       <!-- v-if="game.owned" -->
-      <div class="row" v-if="game.rules_url">
+      <div class="row" v-if="game.rules_url || game.houseRules">
         <div class="col">
-          <p><a target="_blank" :href="game.rules_url">Game Rules</a></p>
+          <details>
+            <summary>Game Rules</summary>
+            <p><a target="_blank" :href="game.rules_url">Game Rules</a></p>
+            <p>{{ game.houseRules }}</p>
+          </details>
         </div>
       </div>
 
@@ -55,18 +56,10 @@
           <div v-if="!hasGame">
             <p class="text-end">
               <!-- v-ifs for the icons when you're on the closet / wishlist -->
-              <i
-                v-if="route.name == 'Search'"
-                @click="addToWishlist(game)"
-                class="selectable mdi mdi-playlist-plus me-3 p-2 rounded"
-                title="add to wishlist"
-              ></i>
-              <i
-                v-if="!game.owned"
-                @click="addToGameCloset(game)"
-                class="selectable mdi mdi-heart-outline p-2 rounded"
-                title="add to game closet"
-              ></i>
+              <i v-if="route.name == 'Search'" @click="addToWishlist(game)"
+                class="selectable mdi mdi-playlist-plus me-3 p-2 rounded" title="add to wishlist"></i>
+              <i v-if="!game.owned" @click="addToGameCloset(game)" class="selectable mdi mdi-heart-outline p-2 rounded"
+                title="add to game closet"></i>
             </p>
           </div>
           <div v-else>
@@ -80,78 +73,79 @@
 
 
 <script>
-import { computed } from "@vue/reactivity"
-import { gamesService } from "../services/GamesService"
-import { logger } from "../utils/Logger"
-import { AppState } from "../AppState"
-import { useRoute } from "vue-router"
-import Pop from "../utils/Pop"
-export default {
-  props: {
-    game: { type: Object },
-    isSearchResult: { type: Boolean, default: false }
-  },
-  setup(props) {
-    const route = useRoute()
-    return {
-      route,
-      user: computed(() => AppState.user),
-      account: computed(() => AppState.account),
-      hasGame: computed(() => {
-        const found = AppState.myGames.find(g => g.atlasGameId === props.game.atlasGameId)
-        return found
-      }),
+  import { computed } from "@vue/reactivity"
+  import { gamesService } from "../services/GamesService"
+  import { logger } from "../utils/Logger"
+  import { AppState } from "../AppState"
+  import { useRoute } from "vue-router"
+  import Pop from "../utils/Pop"
+  export default {
+    props: {
+      game: { type: Object },
+      isSearchResult: { type: Boolean, default: false }
+    },
+    setup(props) {
+      const route = useRoute()
+      return {
+        route,
+        user: computed(() => AppState.user),
+        account: computed(() => AppState.account),
+        hasGame: computed(() => {
+          const found = AppState.myGames.find(g => g.atlasGameId === props.game.atlasGameId)
+          return found
+        }),
 
-      async addToWishlist() {
-        try {
-          const game = props.game
-          await gamesService.addToWishlist(game)
-          Pop.toast('Added to Wishlist', 'success')
-        } catch (error) {
-          Pop.toast("Already in your wishlist!", 'error')
-          logger.error(error)
-        }
-      },
+        async addToWishlist() {
+          try {
+            const game = props.game
+            await gamesService.addToWishlist(game)
+            Pop.toast('Added to Wishlist', 'success')
+          } catch (error) {
+            Pop.toast("Already in your wishlist!", 'error')
+            logger.error(error)
+          }
+        },
 
-      async addToGameCloset() {
-        try {
-          const closetGame = props.game
-          closetGame.owned = true
-          logger.log('add', closetGame)
-          await gamesService.addToGameCloset(closetGame)
-          Pop.toast('Added to Game Closet', 'success')
-        } catch (error) {
-          Pop.toast("Already in your closet!", 'error')
-          logger.error(error)
-        }
-      },
+        async addToGameCloset() {
+          try {
+            const closetGame = props.game
+            closetGame.owned = true
+            logger.log('add', closetGame)
+            await gamesService.addToGameCloset(closetGame)
+            Pop.toast('Added to Game Closet', 'success')
+          } catch (error) {
+            Pop.toast("Already in your closet!", 'error')
+            logger.error(error)
+          }
+        },
 
-      async remove(id) {
-        try {
-          await gamesService.remove(id)
-        } catch (error) {
-          logger.error(error)
-          Pop.toast('error', 'error')
+        async remove(id) {
+          try {
+            await gamesService.remove(id)
+          } catch (error) {
+            logger.error(error)
+            Pop.toast('error', 'error')
+          }
         }
       }
     }
   }
-}
 </script>
 
 
 <style lang="scss" scoped>
-p {
+  /* p {
   // padding: 0;
   margin: 0;
-}
+} */
 
-.img-container {
-  height: 450px;
-  width: 450px;
-  object-fit: cover;
-}
-.card {
-  width: 50vh;
-}
+  .img-container {
+    height: 450px;
+    width: 450px;
+    object-fit: cover;
+  }
+
+  .card {
+    width: 50vh;
+  }
 </style>
