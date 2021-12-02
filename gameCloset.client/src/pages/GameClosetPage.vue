@@ -64,30 +64,35 @@ export default {
         logger.error(error)
       }
     })
-    return {
-      user: computed(() => AppState.user),
-      closetGames: computed(() => AppState.myGames.filter(g => g.owned)),
-      wishlistGames: computed(() => AppState.myGames.filter(g => !g.owned)),
-      async login() {
-        AuthService.loginWithPopup()
-      },
-    }
+  },
+  return {
+    user: computed(() => AppState.user),
+    closetGames: computed(() => AppState.myGames.filter(g => g.owned)),
+    wishlistGames: computed(() => AppState.myGames.filter(g => !g.owned)),
+    async login() {
+      AuthService.loginWithPopup()
+    },
   }
 }
+
+
 </script>
 
 <style scoped lang="scss">
 h1 {
   text-decoration: underline;
 }
+
 .home {
   display: grid;
   height: 80vh;
   place-content: center;
   text-align: center;
   user-select: none;
+
   .home-card {
     width: 50vw;
+
     > img {
       height: 200px;
       max-width: 200px;
