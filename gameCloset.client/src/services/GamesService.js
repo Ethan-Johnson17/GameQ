@@ -41,7 +41,7 @@ class GamesService {
     const yes = await Pop.confirm('Remove game?')
     if (!yes) { return }
     await api.delete('api/games/' + gameId)
-    AppState.myGames = AppState.myGames.filter(g => g.atlasGameId !== gameId)
+    AppState.myGames = AppState.myGames.filter(g => g.id !== gameId)
   }
 }
 export const gamesService = new GamesService()
