@@ -9,6 +9,7 @@ export class GamesController extends BaseController {
       .use(Auth0Provider.getAuthorizedUserInfo)
       .get('', this.getAll)
       .post('', this.create)
+      // NOTE everything below id is the game id
       .get('/:id', this.getById)
       .delete('/:id', this.goodwillit)
       .put('/:id', this.edit)

@@ -21,7 +21,7 @@ class GamesQueueService {
   }
 
   async edit(body) {
-    // NOTE we first have to find the accountId
+    // NOTE we first have to find the gameq id
     const gameq = await this.getById(body.id)
     // NOTE here we are setting votes to the accountId's votes if any
     const votes = gameq.votes

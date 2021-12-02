@@ -10,7 +10,9 @@ export class GameNightsController extends BaseController {
       .post('', this.create)
       .get('', this.getAll)
       .get('/:pin', this.getByPin)
+      // NOTE this id is the Gamenight id
       .delete('/:id', this.remove)
+      // NOTE  this id is the Gamenight id
       .put('/:id', this.edit)
   }
 
