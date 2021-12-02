@@ -2,6 +2,11 @@ import { dbContext } from '../db/DbContext'
 import { BadRequest, Forbidden } from '../utils/Errors'
 
 class GamesService {
+  async getMyGames(query = {}) {
+    const games = await dbContext.Game.find(query)
+    return games
+  }
+
   async getAll(query = {}) {
     const games = await dbContext.Game.find(query)
     return games
