@@ -34,7 +34,7 @@
         <div class="col">
           <details>
             <summary>Game Rules</summary>
-            <p><a target="_blank" :href="game.rules_url">Game Rules</a></p>
+            <p><a target="_blank" :href="game.rules_url">Official Rules</a></p>
             <p>{{ game.houseRules }}</p>
           </details>
         </div>
