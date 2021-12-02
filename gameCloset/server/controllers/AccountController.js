@@ -1,5 +1,6 @@
 import { Auth0Provider } from '@bcwdev/auth0provider'
 import { accountService } from '../services/AccountService'
+import { gamesService } from '../services/GamesService'
 import BaseController from '../utils/BaseController'
 
 export class AccountController extends BaseController {
@@ -9,12 +10,23 @@ export class AccountController extends BaseController {
       .use(Auth0Provider.getAuthorizedUserInfo)
       .get('', this.getUserAccount)
       .put('', this.updateAccount)
+      .get('/myGames', this.getMyGames)
   }
 
   async getUserAccount(req, res, next) {
     try {
       const account = await accountService.getAccount(req.userInfo)
       res.send(account)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async getMyGames(req, res, next) {
+    try {
+      const accountId = req.userInfo.id
+      const myGames = await gamesService.getMyGames({ accountId: accountId })
+      return res.send(myGames)
     } catch (error) {
       next(error)
     }
