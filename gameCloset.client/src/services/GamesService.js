@@ -22,7 +22,7 @@ class GamesService {
       const res = await api.post('api/games', game)
       AppState.myGames.unshift(res.data)
     } else {
-      Pop.toast('no way.', error)
+      Pop.toast('no way.', 'error')
     }
   }
 
@@ -30,6 +30,7 @@ class GamesService {
     if (!closetGame.id) {
       const res = await api.post('api/games', closetGame)
       AppState.myGames.unshift(res.data)
+      logger.log('post', closetGame.id, 'res', res)
     }
     else {
       const res = await api.put('api/games/' + closetGame.id, closetGame)

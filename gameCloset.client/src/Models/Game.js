@@ -1,11 +1,14 @@
 export class Game {
   constructor(data) {
     this.name = data.name
-    this.owned = data.owned
-    this.atlasUrl = data.atlasUrl
+    this.owned = data.owned || false
+    this.accountId = data.accountId
+    this.atlasUrl = data.url
     this.houseRules = data.houseRules
     this.rules_url = data.rules_url
-    this.atlasGameId = data.id
+    // we're gonna need two id's
+    this.atlasGameId = data.atlasGameId || data.id
+    this.id = data._id
     this.min_players = data.min_players
     this.max_players = data.max_players
     this.price = data.price
