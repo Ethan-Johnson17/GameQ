@@ -59,7 +59,7 @@ export default {
     onMounted(async () => {
 
       try {
-        await gamesService.getMyGames('/api/games')
+        await gamesService.getMyGames('/account/myGames')
       } catch (error) {
         logger.error(error)
       }
