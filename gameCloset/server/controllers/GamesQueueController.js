@@ -8,9 +8,12 @@ export class GamesQueueController extends BaseController {
     this.router
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.create)
+      // NOTE this id is the specific gamequeue id
       .get('/:id', this.getById)
       .get('', this.getAll)
+      // NOTE this id is the gamequeue id
       .put('/:id/votes', this.edit)
+      // NOTE this id is the gamequeue id
       .delete('/:id', this.remove)
   }
 

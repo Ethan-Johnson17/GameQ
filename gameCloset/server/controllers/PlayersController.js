@@ -7,8 +7,10 @@ export class PlayersController extends BaseController {
     super('/api/players')
     this.router
       .use(Auth0Provider.getAuthorizedUserInfo)
-      .put('/:id', this.edit)
+      // NOTE the player id is created when a user has used the pin to enter a gamenight
       .post('/:pin', this.create)
+      // NOTE this id is the player id
+      .put('/:id', this.edit)
   }
 
   async edit(req, res, next) {
