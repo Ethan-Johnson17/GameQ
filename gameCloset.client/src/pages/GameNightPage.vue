@@ -6,100 +6,86 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-md-6 my-3 text-center">
-        <button class="btn btn-outline-light">Game Code</button>
+      <div class="col-md-3 my-3 text-center">
+        <form @submit.prevent="gameCodeSearch()">
+          <div class="input-group mb-3">
+            <input
+              v-model="search"
+              type="text"
+              class="form-control"
+              placeholder="Enter code..."
+              aria-label="Enter code..."
+              aria-describedby="button-addon2"
+            />
+            <button class="btn btn-outline-light" title="Find Game">
+              Find Game
+            </button>
+          </div>
+        </form>
       </div>
-      <div class="col-md-6 my-3 text-center">
-        <button class="btn btn-outline-light">Add Game</button>
+      <div class="col-md-9 my-3 text-end">
+        <button class="btn btn-outline-light" title="Add Game">Add Game</button>
       </div>
     </div>
-    <div class="row justify-content-center">
-      <div class="col-md-10 card">
+    <!-- NOTE this is where the template starts for landing page for game nights 
+    Parenthesis is where the data will need to be bound  -->
+    <div class="row">
+      <div class="col text-light">
+        <h1>Active Event(s)</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
         <div class="row justify-content-center">
-          <div class="col-md-8 text-dark text-center">
-            <!-- //NOTE bind date and time of active game here -->
-            <h3>Date and time</h3>
-          </div>
-          <div class="row">
-            <div class="col-md-8 mt-3">
-              <h3>Vote on the Game(s) to play!</h3>
+          <div
+            class="col-md-6 card elevation-2 mt-3 selectable grow"
+            title="Game Night Details"
+          >
+            <div class="row">
+              <div class="col-6 mt-2">
+                <h4>(Game Night Name)</h4>
+              </div>
+              <div class="col-6 text-end dropdown">
+                <i
+                  class="
+                    mdi mdi-dots-horizontal mdi-16px
+                    text-dark
+                    selectable
+                    dropdown-toggle
+                  "
+                  data-bs-toggle="dropdown"
+                  title="Options"
+                ></i>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a
+                      class="dropdown-item selectable text-danger"
+                      @click="cancelEvent(activeEvent)"
+                      >Cancel Event</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item selectable text-primary"
+                      data-bs-toggle="modal"
+                      data-bs-target="#editEventForm"
+                      >Edit Event</a
+                    >
+                  </li>
+                </ul>
+              </div>
             </div>
-            <!-- //NOTE Voting area will vfor over game Q for active game need to
-              also decide on style of selection input like checkbox style or
-              toggle button etc. -->
-            <div class="col-md-8">
-              <div class="row">
-                <div class="col">
-                  <input type="checkbox" name="game" id="game" />
-                  <label class="ms-3" for="game">(Game Name)</label>
-                </div>
-              </div>
-              <!-- NOTE these are just example wont be needed -->
-              <div class="row">
-                <div class="col">
-                  <input type="checkbox" name="game" id="game" />
-                  <label class="ms-3" for="game">(Game Name)</label>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col">
-                  <input type="checkbox" name="game" id="game" />
-                  <label class="ms-3" for="game">(Game Name)</label>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="row">
-                <div class="col-md-10 bg-primary mb-3">
-                  <div class="row">
-                    <div class="col text-center mt-3">
-                      <h3><b>Total Votes</b></h3>
-                      <hr />
-                    </div>
-                  </div>
-                  <!-- //NOTE vfor -->
-                  <div class="row">
-                    <div class="col-9 my-2">(Game Name)</div>
-                    <div class="col-3 my-2">(Votes)</div>
-                    <!-- NOTE Dont need these (for example) -->
-                    <div class="col-9 my-2">(Game Name)</div>
-                    <div class="col-3 my-2">(Votes)</div>
-                    <div class="col-9 my-2">(Game Name)</div>
-                    <div class="col-3 my-2">(Votes)</div>
+            <div class="row justify-content-center">
+              <div class="col-md-6 my-3">
+                <div class="row">
+                  <div class="col">
+                    <h5>(Start Date)</h5>
                   </div>
                 </div>
-              </div>
-            </div>
-            <hr />
-          </div>
-          <div class="row">
-            <div class="col">
-              <div class="row">
-                <div class="col">
-                  <h2>Who is bring what..</h2>
-                </div>
-              </div>
-              <!-- NOTE Vfor -->
-              <div class="row">
-                <div class="col my-2">
-                  <ul>
-                    <li>Item: Name of whos bringing it</li>
-                  </ul>
-                </div>
-              </div>
-              <!-- NOTE wont need these are examples  -->
-              <div class="row">
-                <div class="col my-3">
-                  <ul>
-                    <li>Item: Name of whos bringing it</li>
-                  </ul>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col my-3">
-                  <ul>
-                    <li>Item: Name of whos bringing it</li>
-                  </ul>
+                <div class="row">
+                  <div class="col">
+                    <h5>(Location, at (Start Time))</h5>
+                  </div>
                 </div>
               </div>
             </div>
@@ -121,4 +107,10 @@ export default {
 
 
 <style lang="scss" scoped>
+.grow {
+  transition: all 0.2s ease-in-out;
+}
+.grow:hover {
+  transform: scale(1.1);
+}
 </style>

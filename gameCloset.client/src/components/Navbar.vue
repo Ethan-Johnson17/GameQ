@@ -58,6 +58,7 @@
           </router-link>
         </li>
       </ul>
+      <button class="btn btn-light me-5" title="Host Game">Host Game</button>
       <span class="navbar-text">
         <button
           class="btn selectable text-ep text-light text-uppercase my-2 my-lg-0"
