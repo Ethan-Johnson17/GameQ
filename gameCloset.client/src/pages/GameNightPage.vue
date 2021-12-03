@@ -58,7 +58,7 @@
               <div class="col-md-6 my-3">
                 <div class="row">
                   <div class="col">
-                    <h5>{{g.gameNightDate}}</h5>
+                    <h5>{{formatDate(g.gameNightDate)}}</h5>
                   </div>
                 </div>
                 <div class="row">
@@ -84,11 +84,7 @@
 
 
   export default {
-    props: {
-      gameNight: {
-        type: Object
-      }
-    },
+
     setup() {
       onMounted(async () => {
 
@@ -100,7 +96,12 @@
         }
       })
       return {
-        myGameNights: computed(() => AppState.myGameNights)
+        closetGames: computed(() => AppState.myGames.filter(g => g.owned)),
+        myGameNights: computed(() => AppState.myGameNights),
+        formatDate(dateString) {
+          let date = new Date(dateString)
+          return date.toLocaleString()
+        }
       }
     }
   }

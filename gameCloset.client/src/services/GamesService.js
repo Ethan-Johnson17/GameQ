@@ -26,7 +26,6 @@ class GamesService {
   }
 
   async addToGameCloset(closetGame) {
-    debugger
     if (!closetGame.id) {
       await api.post('api/games', closetGame)
     }
