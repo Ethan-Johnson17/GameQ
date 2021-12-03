@@ -120,8 +120,6 @@ export default {
       account: computed(() => AppState.account),
       hasGame: computed(() => {
         const found = AppState.myGames.find(g => g.atlasGameId === props.game.atlasGameId)
-        // BUG
-        logger.log('AppState.myGames is including every game in closet+wishlist across the application for every user!!!', AppState.myGames)
         return found
       }),
 
