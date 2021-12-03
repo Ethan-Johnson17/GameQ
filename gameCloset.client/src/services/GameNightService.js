@@ -15,6 +15,7 @@ class GameNightService {
     const res = await api.get(query)
     AppState.myGameNights = res.data
   }
+
 }
 
 export const gameNightService = new GameNightService()

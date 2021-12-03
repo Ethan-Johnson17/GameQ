@@ -7,5 +7,8 @@ export const AppState = reactive({
   atlasGames: [],
   myGames: [],
   activeGameNight: {},
-  myGameNights: []
+  myGameNights: [],
+  player: [],
+  gameQueue: [],
+  myAttendance: []
 })
