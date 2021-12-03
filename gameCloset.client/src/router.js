@@ -27,6 +27,13 @@ const routes = [
   },
 
   {
+    path: '/gameNight/:id',
+    name: 'GameNightDetails',
+    component: loadPage('ActiveGameNightPage'),
+    beforeEnter: authSettled
+  },
+
+  {
     path: '/account',
     name: 'Account',
     component: loadPage('AccountPage'),

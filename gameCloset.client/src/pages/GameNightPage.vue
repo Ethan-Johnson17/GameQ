@@ -30,14 +30,15 @@
     </div>
     <div class="row" v-for="g in myGameNights" :key="g.id">
       <div class="col">
-        <div class="row justify-content-center">
-          <div class="col-md-6 card elevation-2 mt-3 selectable grow" title="Game Night Details">
-            <div class="row">
-              <div class="col-6 mt-2">
-                <h4>{{ g.name }}</h4>
-              </div>
-              <div class="col-6 text-end dropdown">
-                <i class="
+        <router-link :to="{ name: 'GameNightDetails', params: { id: g.id } }">
+          <div class="row justify-content-center" @click="setActive(g)">
+            <div class="col-md-6 card elevation-2 mt-3 selectable grow" title="Game Night Details">
+              <div class="row">
+                <div class="col-6 mt-2">
+                  <h4>{{ g.name }}</h4>
+                </div>
+                <div class="col-6 text-end dropdown">
+                  <i class="
                     rounded
                     p-2
                     mdi mdi-dots-horizontal mdi-24px
@@ -45,33 +46,34 @@
                     selectable
                     dropdown-toggle
                   " data-bs-toggle="dropdown" title="Options"></i>
-                <ul class="dropdown-menu">
-                  <li>
-                    <a class="dropdown-item selectable text-danger" @click="cancelEvent(activeEvent)">Cancel Event</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item selectable text-primary" data-bs-toggle="modal"
-                      data-bs-target="#editEventForm">Edit Event</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div class="row justify-content-center">
-              <div class="col-md-6 my-3">
-                <div class="row">
-                  <div class="col">
-                    <h5>{{formatDate(g.gameNightDate)}}</h5>
-                  </div>
+                  <ul class="dropdown-menu">
+                    <li>
+                      <a class="dropdown-item selectable text-danger" @click="cancelEvent(activeEvent)">Cancel Event</a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item selectable text-primary" data-bs-toggle="modal"
+                        data-bs-target="#editEventForm">Edit Event</a>
+                    </li>
+                  </ul>
                 </div>
-                <div class="row">
-                  <div class="col">
-                    <h5>{{ g.location }}</h5>
+              </div>
+              <div class="row justify-content-center">
+                <div class="col-md-6 my-3">
+                  <div class="row">
+                    <div class="col">
+                      <h5>{{formatDate(g.gameNightDate)}}</h5>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                      <h5>{{ g.location }}</h5>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </router-link>
       </div>
     </div>
   </div>
@@ -86,11 +88,13 @@
   import { logger } from "../utils/Logger"
   import Pop from "../utils/Pop"
   import { gamesService } from "../services/GamesService"
+  import { useRouter } from "vue-router";
 
 
   export default {
 
     setup() {
+      const router = useRouter();
       onMounted(async () => {
 
         try {
@@ -107,6 +111,10 @@
         formatDate(dateString) {
           let date = new Date(dateString)
           return date.toLocaleString()
+        },
+
+        setActive(game) {
+          AppState.activeGameNight = game
         }
       }
     }
