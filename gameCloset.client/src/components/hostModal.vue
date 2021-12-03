@@ -33,8 +33,8 @@
 
 
           <div class="modal-footer">
-            <button type="submit" class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal"
-              data-bs-dismiss="modal">
+            <button type="submit" class="btn btn-outline-secondary" data-bs-target="#exampleModalToggle2"
+              data-bs-toggle="modal" data-bs-dismiss="modal">
               Create
             </button>
           </div>
