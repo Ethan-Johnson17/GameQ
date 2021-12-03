@@ -19,7 +19,7 @@
             aria-label="Close"
           ></button>
         </div>
-        <form @submit.prevent="createGameNight">
+        <form @submit.prevent="createGameNight()">
           <div class="modal-body">
             <div class="row">
               <div class="col m-2">
@@ -57,49 +57,6 @@
                 />
               </div>
             </div>
-          </div>
-
-          <div class="modal-footer">
-            <button
-              type="submit"
-              class="btn btn-outline-secondary"
-              data-bs-target="#exampleModalToggle2"
-              data-bs-toggle="modal"
-              data-bs-dismiss="modal"
-            >
-              Create
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-  <div
-    class="modal fade"
-    id="exampleModalToggle2"
-    aria-hidden="true"
-    aria-labelledby="exampleModalToggleLabel2"
-    tabindex="-1"
-  >
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalToggleLabel2">Modal 2</h5>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </div>
-        <form @submit.prevent="addGames()">
-          <div class="modal-body">
-            <!-- NOTE This is the game choosing drop down  -->
-            <div class="row">
-              <div class="col">
-                <h5 class="mx-3">Choose 3 games to bring to the vote!</h5>
-              </div>
-            </div>
             <div class="dropdown mx-4 my-2">
               <button
                 class="btn btn-secondary dropdown-toggle"
@@ -108,55 +65,13 @@
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                {{ gameQueue.selected1 }}
+                {{ gameQueue }}
               </button>
               <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                 <li v-for="game in closetGames" :key="game.atlasGameId">
                   <div
                     class="dropdown-item selectable"
-                    @click="gameQueue.selected1 = game.name"
-                  >
-                    {{ game.name }}
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="dropdown mx-4 my-2">
-              <button
-                class="btn btn-secondary dropdown-toggle"
-                type="button"
-                id="dropdownMenuButton2"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                {{ gameQueue.selected2 }}
-              </button>
-              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                <li v-for="game in closetGames" :key="game.atlasGameId">
-                  <div
-                    class="dropdown-item selectable"
-                    @click="gameQueue.selected2 = game.name"
-                  >
-                    {{ game.name }}
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="dropdown mx-4 my-2">
-              <button
-                class="btn btn-secondary dropdown-toggle"
-                type="button"
-                id="dropdownMenuButton3"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                {{ gameQueue.selected3 }}
-              </button>
-              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton3">
-                <li v-for="game in closetGames" :key="game.atlasGameId">
-                  <div
-                    class="dropdown-item selectable"
-                    @click="gameQueue.selected3 = game.name"
+                    @click="gameQueue = game.name"
                   >
                     {{ game.name }}
                   </div>
@@ -164,15 +79,14 @@
               </ul>
             </div>
           </div>
+
           <div class="modal-footer">
             <button
               type="submit"
               class="btn btn-outline-secondary"
-              data-bs-target="#exampleModalToggle2"
-              data-bs-toggle="modal"
               data-bs-dismiss="modal"
             >
-              Add Games
+              Create
             </button>
           </div>
         </form>
@@ -189,33 +103,34 @@ import Pop from "../utils/Pop";
 import { useRoute, useRouter } from "vue-router";
 import { AppState } from "../AppState";
 import { gameNightService } from "../services/GameNightService";
-
+import { gameQueuesService } from "../services/GameQueuesService"
 
 
 
 export default {
   setup() {
     const newPlayer = ref({})
+    const gameQueue = ref('Choose a game!')
     const state = reactive({
       editable: {},
-
     });
-    const gameQueue = reactive({
-      selected1: 'Choose a game!',
-      selected2: 'Choose a game!',
-      selected3: 'Choose a game!',
-    })
     return {
       closetGames: computed(() => AppState.myGames.filter(g => g.owned)),
-      state,
       gameQueue,
+      state,
 
 
 
 
       async createGameNight() {
-        logger.log('create', state.editable)
+        const game = gameQueue.value
+        logger.log('create', state.editable, 'gameQueue', game)
         await gameNightService.createGameNight(state.editable)
+        const found = AppState.myGames.find(g => g.name === game)
+        logger.log('found', found)
+        let gameObject = { gameId: found.id, gameNightId: AppState.activeGameNight.id }
+        await gameQueuesService.addToGameQueue(gameObject)
+
         // const gameId = AppState.activeGame.id
         // router.push({
         //   name: "active",
@@ -223,10 +138,6 @@ export default {
         // })
         // newPlayer.value.accountId = AppState.account.id
         // newPlayer.value.gameNightId = route.params.id
-      },
-
-      async addGames() {
-        logger.log(gameQueue)
       }
     }
   }
