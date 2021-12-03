@@ -9,7 +9,6 @@ class GamesService {
   async getAll(query = '') {
     const res = await atlasApi.get(query + '&limit=24' + clientId)
     AppState.atlasGames = res.data.games.map(g => new Game(g))
-    logger.log(res)
   }
   async getMyGames(query = '') {
     const res = await api.get(query)

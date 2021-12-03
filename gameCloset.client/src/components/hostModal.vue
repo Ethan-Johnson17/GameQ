@@ -73,7 +73,7 @@
       </div>
     </div>
   </div>
-  <div
+  <!-- <div
     class="modal fade"
     id="exampleModalToggle2"
     aria-hidden="true"
@@ -106,7 +106,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 </template>
 
 
@@ -116,6 +116,8 @@ import { logger } from "../utils/Logger";
 import Pop from "../utils/Pop";
 import { useRoute, useRouter } from "vue-router";
 import { AppState } from "../AppState";
+import { gameNightService } from "../services/GameNightService";
+
 
 export default {
   setup() {

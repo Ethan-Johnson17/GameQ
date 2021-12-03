@@ -53,6 +53,7 @@ import { onMounted, watchEffect } from "@vue/runtime-core"
 import { logger } from "../utils/Logger"
 import { gamesService } from "../services/GamesService"
 import { AuthService } from "../services/AuthService"
+import Pop from "../utils/Pop"
 export default {
   name: 'Home',
   setup() {
@@ -62,6 +63,7 @@ export default {
         await gamesService.getMyGames('/account/myGames')
       } catch (error) {
         logger.error(error)
+        Pop.toast(error.message, 'error')
       }
     })
 
