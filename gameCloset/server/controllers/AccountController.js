@@ -2,6 +2,7 @@ import { Auth0Provider } from '@bcwdev/auth0provider'
 import { accountService } from '../services/AccountService'
 import { gameNightsService } from '../services/GameNightsService'
 import { gamesService } from '../services/GamesService'
+import { playersService } from '../services/PlayersService'
 import BaseController from '../utils/BaseController'
 
 export class AccountController extends BaseController {
@@ -13,12 +14,23 @@ export class AccountController extends BaseController {
       .put('', this.updateAccount)
       .get('/myGames', this.getMyGames)
       .get('/gamenight', this.getMyGameNights)
+      .get('/players', this.getMyAttendance)
   }
 
   async getUserAccount(req, res, next) {
     try {
       const account = await accountService.getAccount(req.userInfo)
       res.send(account)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async getMyAttendance(req, res, next) {
+    try {
+      const accountId = req.userInfo.id
+      const attending = await playersService.getMyAttendance({ accountId: accountId })
+      return res.send(attending)
     } catch (error) {
       next(error)
     }
