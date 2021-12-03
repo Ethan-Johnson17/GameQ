@@ -10,7 +10,7 @@ export class GamesQueueController extends BaseController {
       .post('', this.create)
       // NOTE this id is the specific gamequeue id
       .get('/:id', this.getById)
-      .get('', this.getAll)
+
       // NOTE this id is the gamequeue id
       .put('/:id/votes', this.edit)
       // NOTE this id is the gamequeue id
@@ -21,16 +21,6 @@ export class GamesQueueController extends BaseController {
     try {
       req.body.accountId = req.userInfo.id
       const gameq = await gamesQueueService.create(req.body)
-      return res.send(gameq)
-    } catch (error) {
-      next(error)
-    }
-  }
-
-  async getAll(req, res, next) {
-    try {
-      const query = req.query
-      const gameq = await gamesQueueService.getAll(query)
       return res.send(gameq)
     } catch (error) {
       next(error)

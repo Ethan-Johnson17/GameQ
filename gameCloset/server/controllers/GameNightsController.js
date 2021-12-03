@@ -1,6 +1,6 @@
 import { Auth0Provider } from '@bcwdev/auth0provider'
-import { dbContext } from '../db/DbContext'
 import { gameNightsService } from '../services/GameNightsService'
+import { gamesQueueService } from '../services/GamesQueueService'
 import { playersService } from '../services/PlayersService'
 import BaseController from '../utils/BaseController'
 
@@ -10,7 +10,7 @@ export class GameNightsController extends BaseController {
     this.router
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.create)
-
+      .get('/:id/gamequeue', this.getAllGQGames)
       .get('/:pin', this.getByPin)
       // NOTE this id is the Gamenight id
       .delete('/:id', this.remove)
@@ -26,6 +26,15 @@ export class GameNightsController extends BaseController {
       req.body.accountId = req.userInfo.id
       const gamenight = await gameNightsService.create(req.body)
       return res.send(gamenight)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async getAllGQGames(req, res, next) {
+    try {
+      const gameq = await gamesQueueService.getAll({ gameNightId: req.params.id })
+      return res.send(gameq)
     } catch (error) {
       next(error)
     }
