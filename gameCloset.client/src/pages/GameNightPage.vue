@@ -9,13 +9,8 @@
       <div class="col-md-3 my-3 text-center">
         <form @submit.prevent="gameCodeSearch()">
           <div class="input-group mb-3">
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Enter code..."
-              aria-label="Enter code..."
-              aria-describedby="button-addon2"
-            />
+            <input type="text" class="form-control" placeholder="Enter code..." aria-label="Enter code..."
+              aria-describedby="button-addon2" />
             <button class="btn btn-outline-light" title="Find Game">
               Find Game
             </button>
@@ -36,42 +31,27 @@
     <div class="row" v-for="g in myGameNights" :key="g.id">
       <div class="col">
         <div class="row justify-content-center">
-          <div
-            class="col-md-6 card elevation-2 mt-3 selectable grow"
-            title="Game Night Details"
-          >
+          <div class="col-md-6 card elevation-2 mt-3 selectable grow" title="Game Night Details">
             <div class="row">
               <div class="col-6 mt-2">
                 <h4>{{ g.name }}</h4>
               </div>
               <div class="col-6 text-end dropdown">
-                <i
-                  class="
+                <i class="
                     rounded
                     p-2
                     mdi mdi-dots-horizontal mdi-24px
                     text-dark
                     selectable
                     dropdown-toggle
-                  "
-                  data-bs-toggle="dropdown"
-                  title="Options"
-                ></i>
+                  " data-bs-toggle="dropdown" title="Options"></i>
                 <ul class="dropdown-menu">
                   <li>
-                    <a
-                      class="dropdown-item selectable text-danger"
-                      @click="cancelEvent(activeEvent)"
-                      >Cancel Event</a
-                    >
+                    <a class="dropdown-item selectable text-danger" @click="cancelEvent(activeEvent)">Cancel Event</a>
                   </li>
                   <li>
-                    <a
-                      class="dropdown-item selectable text-primary"
-                      data-bs-toggle="modal"
-                      data-bs-target="#editEventForm"
-                      >Edit Event</a
-                    >
+                    <a class="dropdown-item selectable text-primary" data-bs-toggle="modal"
+                      data-bs-target="#editEventForm">Edit Event</a>
                   </li>
                 </ul>
               </div>
@@ -80,11 +60,7 @@
               <div class="col-md-6 my-3">
                 <div class="row">
                   <div class="col">
-<<<<<<< HEAD
                     <h5>{{formatDate(g.gameNightDate)}}</h5>
-=======
-                    <h5>{{ g.gameNightDate }}</h5>
->>>>>>> 52965484b06a56f735a96d12a4ac9cbae3a79e45
                   </div>
                 </div>
                 <div class="row">
@@ -103,13 +79,15 @@
 
 
 <script>
-import { AppState } from "../AppState"
-import { computed } from "@vue/reactivity"
-import { gameNightService } from "../services/GameNightService";
-import { onMounted, watchEffect } from "@vue/runtime-core"
+  import { AppState } from "../AppState"
+  import { computed } from "@vue/reactivity"
+  import { gameNightService } from "../services/GameNightService";
+  import { onMounted, watchEffect } from "@vue/runtime-core"
+  import { logger } from "../utils/Logger"
+  import Pop from "../utils/Pop"
+  import { gamesService } from "../services/GamesService"
 
 
-<<<<<<< HEAD
   export default {
 
     setup() {
@@ -117,6 +95,7 @@ import { onMounted, watchEffect } from "@vue/runtime-core"
 
         try {
           await gameNightService.getMyGameNights('/account/gamenight')
+          await gamesService.getMyGames('/account/myGames')
         } catch (error) {
           logger.error(error)
           Pop.toast(error.message, 'error')
@@ -129,38 +108,18 @@ import { onMounted, watchEffect } from "@vue/runtime-core"
           let date = new Date(dateString)
           return date.toLocaleString()
         }
-=======
-export default {
-  props: {
-    gameNight: {
-      type: Object
-    }
-  },
-  setup() {
-    onMounted(async () => {
-
-      try {
-        await gameNightService.getMyGameNights('/account/gamenight')
-      } catch (error) {
-        logger.error(error)
-        Pop.toast(error.message, 'error')
->>>>>>> 52965484b06a56f735a96d12a4ac9cbae3a79e45
       }
-    })
-    return {
-      myGameNights: computed(() => AppState.myGameNights)
     }
   }
-}
 </script>
 
 
 <style lang="scss" scoped>
-.grow {
-  transition: all 0.2s ease-in-out;
-}
+  .grow {
+    transition: all 0.2s ease-in-out;
+  }
 
-.grow:hover {
-  transform: scale(1.06);
-}
+  .grow:hover {
+    transform: scale(1.06);
+  }
 </style>

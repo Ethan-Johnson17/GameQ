@@ -2,11 +2,11 @@
   <div class="modal fade" id="hostModal" aria-hidden="true" aria-labelledby="hostModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
-        <div class="modal-header">
+        <div class="modal-header bg-secondary">
           <h5 class="modal-title" id="exampleModalToggleLabel">
             Host a Game Night
           </h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn-close bg-secondary" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <form @submit.prevent="createGameNight">
           <div class="modal-body">
@@ -29,18 +29,47 @@
               </div>
             </div>
           </div>
+
           <!-- NOTE This is the game choosing drop down  -->
-          <div class="dropdown">
+          <div class="row">
+            <div class="col">
+              <h5 class="mx-3">Choose 3 games to bring to the vote!</h5>
+            </div>
+          </div>
+          <div class="dropdown mx-4 my-2">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
               data-bs-toggle="dropdown" aria-expanded="false">
-              Dropdown button
+              Choose Game 1
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
               <li v-for="game in closetGames" :key="game.atlasGameId">
-                <div class="dropdown-item">{{ game.name }}</div>
+                <div class="dropdown-item" @click="selected1= '{{game.name}}'">{{ game.name }}</div>
               </li>
             </ul>
           </div>
+          <div class="dropdown mx-4 my-2">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              Choose Game 2
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+              <li v-for="game in closetGames" :key="game.atlasGameId">
+                <div class="dropdown-item" @click="selected2= '{{game.name}}'">{{ game.name }}</div>
+              </li>
+            </ul>
+          </div>
+          <div class="dropdown mx-4 my-2">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton3"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              Choose Game 3
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton3">
+              <li v-for="game in closetGames" :key="game.atlasGameId">
+                <div class="dropdown-item" @click="selected3= '{{game.name}}'">{{ game.name }}</div>
+              </li>
+            </ul>
+          </div>
+
           <div class="modal-footer">
             <button type="submit" class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal"
               data-bs-dismiss="modal">
@@ -104,7 +133,9 @@
       const newPlayer = ref({})
       const state = reactive({
         editable: {},
-        selected: '',
+        selected1: '',
+        selected2: '',
+        selected3: '',
       });
       return {
         closetGames: computed(() => AppState.myGames.filter(g => g.owned)),
