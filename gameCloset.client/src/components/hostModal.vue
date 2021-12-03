@@ -52,7 +52,7 @@
                   aria-label="date"
                   placeholder="Date"
                   class="form-control"
-                  v-model="state.editable.date"
+                  v-model="state.editable.gameNightDate"
                   required
                 />
               </div>
