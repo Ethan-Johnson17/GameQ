@@ -32,6 +32,10 @@ class PlayersService {
     return attend
   }
 
+  async getGameNightPlayers(query) {
+
+  }
+
   async unattend(playerId, userId) {
     const found = await dbContext.Player.findById(playerId)
     if (found.accountId.toString() !== userId) {

@@ -26,8 +26,8 @@ export class AccountController extends BaseController {
 
   async getMyGameNights(req, res, next) {
     try {
-      const query = req.query
-      const gamenight = await gameNightsService.getAll(query)
+      const accountId = req.userInfo.id
+      const gamenight = await gameNightsService.getAll({ accountId: accountId })
       return res.send(gamenight)
     } catch (error) {
       next(error)
