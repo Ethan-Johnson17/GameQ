@@ -66,6 +66,15 @@
             <p>You have this!</p>
           </div>
         </div>
+        <div class="col" v-else>
+          <p class="text-end">
+            <!-- v-ifs for the icons when you're on the closet / wishlist -->
+            <i v-if="route.name == 'Search'" @click="addToWishlist(game)"
+              class="selectable mdi mdi-playlist-plus me-3 p-2 rounded" title="add to wishlist"></i>
+            <i v-if="!game.owned" @click="addToGameCloset(game)" class="selectable mdi mdi-heart-outline p-2 rounded"
+              title="add to game closet"></i>
+          </p>
+        </div>
       </div>
     </div>
   </div>
