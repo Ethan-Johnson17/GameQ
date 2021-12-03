@@ -5,7 +5,7 @@
         <div class="col-md-8 text-dark text-center">
           <!-- //NOTE bind date and time of active game here -->
           <h3>{{activeGameNight.name}}</h3>
-          <h3>{{activeGameNight.gameNightDate}}</h3>
+          <h3>{{formatDate(activeGameNight.gameNightDate)}}</h3>
           <h3>{{activeGameNight.location}}</h3>
           <h3 v-if="activeGameNight.isCancelled" class="text-dark bg-warning">Cancelled</h3>
         </div>
@@ -18,13 +18,13 @@
               toggle button etc. -->
           <div class="col-md-8">
             <div class="row">
-              <div class="col">
+              <div class="col" v-for="g in gameQueue" :key="g.id">
                 <input type="checkbox" name="game" id="game" />
-                <label class="ms-3" for="game">(Game Name)</label>
+                <label class="ms-3" for="game">{{g.name}}</label>
               </div>
             </div>
             <!-- NOTE these are just example wont be needed -->
-            <div class="row">
+            <!-- <div class="row">
               <div class="col">
                 <input type="checkbox" name="game" id="game" />
                 <label class="ms-3" for="game">(Game Name)</label>
@@ -35,7 +35,7 @@
                 <input type="checkbox" name="game" id="game" />
                 <label class="ms-3" for="game">(Game Name)</label>
               </div>
-            </div>
+            </div> -->
           </div>
           <div class="col-md-4">
             <div class="row">
@@ -65,7 +65,7 @@
           <div class="col">
             <div class="row">
               <div class="col">
-                <h2>Who is bring what..</h2>
+                <h2>Who is bring what (Greg)..</h2>
               </div>
             </div>
             <!-- NOTE Vfor -->
@@ -112,7 +112,18 @@
   export default {
     setup() {
       return {
-        activeGameNight: computed(() => AppState.activeGameNight)
+        activeGameNight: computed(() => AppState.activeGameNight),
+        gameQueue: computed(() => {
+          const found = AppState.gameQueue.find(g => g.gameNightId === AppState.activeGameNight.id)
+          logger.log(AppState.activeGameNight.id)
+          // Get all gameQueues and try route.params if needed
+          return found
+        }),
+
+        formatDate(dateString) {
+          let date = new Date(dateString)
+          return date.toLocaleString()
+        },
 
       }
     }
