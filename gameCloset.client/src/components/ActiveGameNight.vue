@@ -4,6 +4,7 @@
       <div class="row justify-content-center">
         <div class="col-md-8 text-dark text-center">
           <!-- //NOTE bind date and time of active game here -->
+          <h3>{{activeGame.name}}</h3>
           <h3>Date and time</h3>
         </div>
         <div class="row">
@@ -97,11 +98,14 @@
 
 
 <script>
-export default {
-  setup() {
-    return {}
+  export default {
+    setup() {
+      return {
+        activeGameNight: computed(() => AppState.activeGameNight)
+
+      }
+    }
   }
-}
 </script>
 
 
