@@ -74,7 +74,7 @@ export default {
           await gamesService.getAll('/search?q=' + search.value)
           search.value = ''
         } catch (error) {
-          logger.error
+          logger.error(error)
         }
       }
     }
