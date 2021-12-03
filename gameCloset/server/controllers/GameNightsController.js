@@ -8,7 +8,7 @@ export class GameNightsController extends BaseController {
     this.router
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.create)
-      .get('', this.getAll)
+
       .get('/:pin', this.getByPin)
       // NOTE this id is the Gamenight id
       .delete('/:id', this.remove)
@@ -30,16 +30,6 @@ export class GameNightsController extends BaseController {
   async getByPin(req, res, next) {
     try {
       const gamenight = await gameNightsService.getByPin(req.params.pin)
-      return res.send(gamenight)
-    } catch (error) {
-      next(error)
-    }
-  }
-
-  async getAll(req, res, next) {
-    try {
-      const query = req.query
-      const gamenight = await gameNightsService.getAll(query)
       return res.send(gamenight)
     } catch (error) {
       next(error)
