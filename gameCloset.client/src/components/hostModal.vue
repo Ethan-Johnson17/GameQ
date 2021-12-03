@@ -126,16 +126,18 @@ export default {
     return {
       state,
 
+
+
       async createGameNight() {
         logger.log('create', state.editable)
         await gameNightService.createGameNight(state.editable)
-        // const eventId = AppState.activeEvent.id
+        // const gameId = AppState.activeGame.id
         // router.push({
-        //   name: "EventDetails",
-        //   params: { id: eventId }
+        //   name: "active",
+        //   params: { id: gameId }
         // })
-        newPlayer.value.accountId = AppState.account.id
-        newPlayer.value.gameNightId = route.params.id
+        // newPlayer.value.accountId = AppState.account.id
+        // newPlayer.value.gameNightId = route.params.id
       }
     }
   }
