@@ -32,8 +32,9 @@ class PlayersService {
     return attend
   }
 
-  async getGameNightPlayers(query) {
-
+  async getGameNightPlayers(query = {}) {
+    const gameNight = await dbContext.Player.find(query).populate('account')
+    return gameNight
   }
 
   async unattend(playerId, userId) {
@@ -42,6 +43,11 @@ class PlayersService {
       throw new Forbidden('what are you doing??')
     }
     await dbContext.Player.findByIdAndDelete(playerId)
+  }
+
+  async getMyAttendance(query = {}) {
+    const myAttendance = await dbContext.Player.find(query).populate('gameNight')
+    return myAttendance
   }
 }
 
