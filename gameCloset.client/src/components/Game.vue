@@ -1,9 +1,7 @@
 <template>
   <div class="container-fluid game card elevation-3 m-2 p-3">
-    <!-- v-if="user.id === game.accountId" -->
     <div class="row">
       <div class="col text-danger text-end" v-if="route.name == 'GameCloset'">
-        <!-- TODO consider moving this to the bottom of the card because we don't need the buttons there if they're in the closet and wishlist -->
         <i
           class="mdi mdi-trash-can-outline selectable mdi-24px p-2"
           @click="remove(game.id)"
@@ -32,7 +30,6 @@
           Number of players: {{ game.min_players }} - {{ game.max_players }}
         </p>
       </div>
-      <!-- v-if="game.owned" -->
       <div class="row" v-if="game.rules_url || game.houseRules">
         <div class="col">
           <details>
@@ -43,7 +40,6 @@
         </div>
       </div>
 
-      <!-- v-if="!game.owned" -->
       <div class="row">
         <div class="col" v-if="game.price > 0">
           <p>Cost: ${{ game.price }}</p>
@@ -58,7 +54,6 @@
         <div class="col" v-if="isSearchResult">
           <div v-if="!hasGame">
             <p class="text-end">
-              <!-- v-ifs for the icons when you're on the closet / wishlist -->
               <i
                 v-if="route.name == 'Search'"
                 @click="addToWishlist(game)"
@@ -79,7 +74,6 @@
         </div>
         <div class="col" v-else>
           <p class="text-end">
-            <!-- v-ifs for the icons when you're on the closet / wishlist -->
             <i
               v-if="route.name == 'Search'"
               @click="addToWishlist(game)"
@@ -126,10 +120,11 @@ export default {
       async addToWishlist() {
         try {
           const game = props.game
-          await gamesService.addToWishlist(game)
+          const response = await gamesService.addToWishlist(game)
+          logger.log('wishlist response', response)
           Pop.toast('Added to Wishlist', 'success')
         } catch (error) {
-          Pop.toast("Already in your wishlist!", 'error')
+          Pop.toast("Already in your wishlist!:" + error.message, 'error')
           logger.error(error)
         }
       },
@@ -142,7 +137,7 @@ export default {
           await gamesService.addToGameCloset(closetGame)
           Pop.toast('Added to Game Closet', 'success')
         } catch (error) {
-          Pop.toast("Already in your closet!", 'error')
+          Pop.toast("Already in your closet!" + error.message, 'error')
           logger.error(error)
         }
       },
@@ -151,8 +146,8 @@ export default {
         try {
           await gamesService.remove(id)
         } catch (error) {
+          Pop.toast(error.message, 'error')
           logger.error(error)
-          Pop.toast('error', 'error')
         }
       }
     }
