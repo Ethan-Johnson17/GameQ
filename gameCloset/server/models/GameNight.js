@@ -4,7 +4,7 @@ const Schema = mongoose.Schema
 export const GameNightSchema = new Schema({
   location: { type: String, default: 'TBD' },
   name: { type: String, required: true },
-  gameNightDate: { type: Date },
+  gameNightDate: { type: String },
   accountId: { type: Schema.Types.ObjectId, ref: 'Account', required: true },
   pin: { type: String, unique: true, required: true },
   isCanceled: { type: Boolean, default: false }
