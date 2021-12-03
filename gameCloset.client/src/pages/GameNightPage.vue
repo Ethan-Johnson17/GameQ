@@ -9,8 +9,13 @@
       <div class="col-md-3 my-3 text-center">
         <form @submit.prevent="gameCodeSearch()">
           <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Enter code..." aria-label="Enter code..."
-              aria-describedby="button-addon2" />
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Enter code..."
+              aria-label="Enter code..."
+              aria-describedby="button-addon2"
+            />
             <button class="btn btn-outline-light" title="Find Game">
               Find Game
             </button>
@@ -30,50 +35,75 @@
     </div>
     <div class="row" v-for="g in myGameNights" :key="g.id">
       <div class="col">
-        <router-link :to="{ name: 'GameNightDetails', params: { id: g.id } }">
-          <div class="row justify-content-center" @click="setActive(g)">
-            <div class="col-md-6 card elevation-2 mt-3 selectable grow" title="Game Night Details">
-              <div class="row">
-                <div class="col-6 mt-2">
-                  <h4>{{ g.name }}</h4>
-                </div>
-                <div class="col-6 text-end dropdown">
-                  <i class="
-                    rounded
-                    p-2
-                    mdi mdi-dots-horizontal mdi-24px
-                    text-dark
-                    selectable
-                    dropdown-toggle
-                  " data-bs-toggle="dropdown" title="Options"></i>
+        <div class="row justify-content-center">
+          <div
+            class="col-md-6 card elevation-2 mt-3 selectable grow"
+            title="Game Night Details"
+          >
+            <div class="row">
+              <div class="col">
+                <div class="col text-end dropdown">
+                  <i
+                    class="
+                      rounded
+                      p-2
+                      mdi mdi-dots-horizontal mdi-24px
+                      text-dark
+                      selectable
+                      dropdown-toggle
+                    "
+                    data-bs-toggle="dropdown"
+                    title="Options"
+                  ></i>
                   <ul class="dropdown-menu">
                     <li>
-                      <a class="dropdown-item selectable text-danger" @click="cancelEvent(activeEvent)">Cancel Event</a>
+                      <button
+                        class="dropdown-item selectable text-danger"
+                        @click="cancelGameNight(g.id)"
+                      >
+                        Cancel Event
+                      </button>
                     </li>
                     <li>
-                      <a class="dropdown-item selectable text-primary" data-bs-toggle="modal"
-                        data-bs-target="#editEventForm">Edit Event</a>
+                      <button
+                        class="dropdown-item selectable text-primary"
+                        data-bs-toggle="modal"
+                        data-bs-target="#editEventForm"
+                      >
+                        Edit Event
+                      </button>
                     </li>
                   </ul>
                 </div>
               </div>
-              <div class="row justify-content-center">
-                <div class="col-md-6 my-3">
-                  <div class="row">
-                    <div class="col">
-                      <h5>{{formatDate(g.gameNightDate)}}</h5>
-                    </div>
+            </div>
+            <div>
+              <router-link
+                :to="{ name: 'GameNightDetails', params: { id: g.id } }"
+              >
+                <div class="row">
+                  <div class="col mt-2">
+                    <h4>{{ g.name }}</h4>
                   </div>
-                  <div class="row">
-                    <div class="col">
-                      <h5>{{ g.location }}</h5>
+                </div>
+                <div class="row justify-content-center">
+                  <div class="col-md-6 my-3">
+                    <div class="row">
+                      <div class="col">
+                        <h5>{{ formatDate(g.gameNightDate) }}</h5>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <h5>{{ g.location }}</h5>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              </router-link>
             </div>
           </div>
-        </router-link>
+        </div>
       </div>
     </div>
   </div>
@@ -81,53 +111,64 @@
 
 
 <script>
-  import { AppState } from "../AppState"
-  import { computed } from "@vue/reactivity"
-  import { gameNightService } from "../services/GameNightService";
-  import { onMounted, watchEffect } from "@vue/runtime-core"
-  import { logger } from "../utils/Logger"
-  import Pop from "../utils/Pop"
-  import { gamesService } from "../services/GamesService"
-  import { useRouter } from "vue-router";
+import { AppState } from "../AppState"
+import { computed } from "@vue/reactivity"
+import { gameNightService } from "../services/GameNightService";
+import { onMounted, watchEffect } from "@vue/runtime-core"
+import { logger } from "../utils/Logger"
+import Pop from "../utils/Pop"
+import { gamesService } from "../services/GamesService"
+import { useRouter } from "vue-router";
 
 
-  export default {
+export default {
 
-    setup() {
-      const router = useRouter();
-      onMounted(async () => {
+  setup() {
+    const router = useRouter();
+    onMounted(async () => {
 
-        try {
-          await gameNightService.getMyGameNights('/account/gamenight')
-          await gamesService.getMyGames('/account/myGames')
-        } catch (error) {
-          logger.error(error)
-          Pop.toast(error.message, 'error')
-        }
-      })
-      return {
-        closetGames: computed(() => AppState.myGames.filter(g => g.owned)),
-        myGameNights: computed(() => AppState.myGameNights),
-        formatDate(dateString) {
-          let date = new Date(dateString)
-          return date.toLocaleString()
-        },
+      try {
+        await gameNightService.getMyGameNights('/account/gamenight')
+        await gamesService.getMyGames('/account/myGames')
+      } catch (error) {
+        logger.error(error)
+        Pop.toast(error.message, 'error')
+      }
+    })
+    return {
+      closetGames: computed(() => AppState.myGames.filter(g => g.owned)),
+      myGameNights: computed(() => AppState.myGameNights),
+      formatDate(dateString) {
+        let date = new Date(dateString)
+        return date.toLocaleString()
+      },
 
-        setActive(game) {
-          AppState.activeGameNight = game
-        }
+      cancelGameNight(gameNightId) {
+        logger.log(gameNightId)
+      },
+
+      setActive(game) {
+        AppState.activeGameNight = game
       }
     }
   }
+}
 </script>
 
 
 <style lang="scss" scoped>
-  .grow {
-    transition: all 0.2s ease-in-out;
-  }
+.grow {
+  transition: all 0.2s ease-in-out;
+}
 
-  .grow:hover {
-    transform: scale(1.06);
-  }
+.grow:hover {
+  transform: scale(1.06);
+}
+
+a {
+  color: var(--bs-dark);
+}
+a:hover {
+  color: var(--bs-secondary) !important;
+}
 </style>
