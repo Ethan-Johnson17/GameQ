@@ -31,6 +31,18 @@ class PlayersService {
     await attend.populate('account gameNight')
     return attend
   }
+
+  async getGameNightPlayers(query) {
+
+  }
+
+  async unattend(playerId, userId) {
+    const found = await dbContext.Player.findById(playerId)
+    if (found.accountId.toString() !== userId) {
+      throw new Forbidden('what are you doing??')
+    }
+    await dbContext.Player.findByIdAndDelete(playerId)
+  }
 }
 
 export const playersService = new PlayersService()

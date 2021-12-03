@@ -1,5 +1,7 @@
 import { Auth0Provider } from '@bcwdev/auth0provider'
+import { dbContext } from '../db/DbContext'
 import { gameNightsService } from '../services/GameNightsService'
+import { playersService } from '../services/PlayersService'
 import BaseController from '../utils/BaseController'
 
 export class GameNightsController extends BaseController {
@@ -15,6 +17,8 @@ export class GameNightsController extends BaseController {
       // NOTE  this id is the Gamenight id
       .put('/:id', this.edit)
       .put('/:id/isCanceled', this.cancel)
+      // NOTE this id is the gamenight id
+      .get('/:id/players', this.getPlayers)
   }
 
   async create(req, res, next) {
@@ -64,6 +68,15 @@ export class GameNightsController extends BaseController {
       const gamenightId = req.params.id
       await gameNightsService.remove(gamenightId, userId)
       res.send('Sad day, you cancelled on me')
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async getPlayers(req, res, next) {
+    try {
+      const gameNight = await playersService.getGameNightPlayers({ id: req.params.id })
+      return res.send(gameNight)
     } catch (error) {
       next(error)
     }

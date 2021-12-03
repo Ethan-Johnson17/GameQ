@@ -22,18 +22,17 @@ class GamesService {
       const res = await api.post('api/games', game)
       AppState.myGames.unshift(res.data)
     } else {
-      Pop.toast('no way.', 'error')
+      Pop.toast('Already in wishlist.', 'error')
     }
   }
 
   async addToGameCloset(closetGame) {
+    debugger
     if (!closetGame.id) {
-      const res = await api.post('api/games', closetGame)
-      AppState.myGames.unshift(res.data)
+      await api.post('api/games', closetGame)
     }
     else {
-      const res = await api.put('api/games/' + closetGame.id, closetGame)
-      AppState.myGames.unshift(res.data)
+      await api.put('api/games/' + closetGame.id, closetGame)
     }
   }
 

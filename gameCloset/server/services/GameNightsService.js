@@ -17,7 +17,6 @@ class GameNightsService {
     const digit = 100000 + (Math.floor(Math.random() * 100000))
     return digit
   }
-  // TODO integrate this with game night
 
   async getByPin(pin) {
     const gamenight = await dbContext.GameNight.findOne({ pin }).populate('account')
