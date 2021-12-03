@@ -111,11 +111,9 @@
   import { AppState } from "../AppState";
   import { gameNightService } from "../services/GameNightService";
 
-
-
-
   export default {
     setup() {
+      const router = useRouter()
       const newPlayer = ref({})
       const state = reactive({
         editable: {},
@@ -135,10 +133,9 @@
           logger.log('create', state.editable)
           await gameNightService.createGameNight(state.editable)
           // const gameId = AppState.activeGame.id
-          // router.push({
-          //   name: "active",
-          //   params: { id: gameId }
-          // })
+          router.push({
+            name: "GameCloset",
+          })
           // newPlayer.value.accountId = AppState.account.id
           // newPlayer.value.gameNightId = route.params.id
         }
