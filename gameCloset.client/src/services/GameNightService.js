@@ -5,7 +5,7 @@ import { api, atlasApi } from "./AxiosService"
 
 class GameNightService {
   async createGameNight(gameData) {
-    const res = await api.post('api/gameNight', gameData)
+    const res = await api.post('api/gamenight', gameData)
     logger.log('create GNService', res)
     AppState.activeGameNight = res.data
     AppState.myGameNights.push(res.data)

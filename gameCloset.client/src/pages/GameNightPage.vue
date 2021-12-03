@@ -28,7 +28,7 @@
         <h1>Active Event(s)</h1>
       </div>
     </div>
-    <div class="row" v-for="g in myGameNights">
+    <div class="row" v-for="g in myGameNights" :key="g.id">
       <div class="col">
         <div class="row justify-content-center">
           <div class="col-md-6 card elevation-2 mt-3 selectable grow" title="Game Night Details">
@@ -58,7 +58,7 @@
               <div class="col-md-6 my-3">
                 <div class="row">
                   <div class="col">
-                    <h5>{{g.start}}</h5>
+                    <h5>{{g.gameNightDate}}</h5>
                   </div>
                 </div>
                 <div class="row">
