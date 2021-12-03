@@ -60,73 +60,46 @@
           <div class="dropdown mx-4 my-2">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
               data-bs-toggle="dropdown" aria-expanded="false">
-              {{ state.selected1 }}
+              Choose Game 1
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
               <li v-for="game in closetGames" :key="game.atlasGameId">
-                <div class="dropdown-item selectable" @click="state.selected1 = '{{game.name}}'">
-                  {{ game.name }}
-                </div>
+                <div class="dropdown-item" @click="selected1= '{{game.name}}'">{{ game.name }}</div>
               </li>
             </ul>
           </div>
           <div class="dropdown mx-4 my-2">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2"
               data-bs-toggle="dropdown" aria-expanded="false">
-              {{ state.selected2 }}
+              Choose Game 2
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
               <li v-for="game in closetGames" :key="game.atlasGameId">
-                <div class="dropdown-item selectable" @click="state.selected2 = '{{game.name}}'">
-                  {{ game.name }}
-                </div>
+                <div class="dropdown-item" @click="selected2= '{{game.name}}'">{{ game.name }}</div>
               </li>
             </ul>
           </div>
           <div class="dropdown mx-4 my-2">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton3"
               data-bs-toggle="dropdown" aria-expanded="false">
-              {{ state.selected3 }}
+              Choose Game 3
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton3">
               <li v-for="game in closetGames" :key="game.atlasGameId">
-                <div class="dropdown-item selectable" @click="state.selected3 = '{{game.name}}'">
-                  {{ game.name }}
-                </div>
+                <div class="dropdown-item" @click="selected3= '{{game.name}}'">{{ game.name }}</div>
               </li>
             </ul>
           </div>
-
-          <div class="modal-footer">
-            <button type="submit" class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal"
-              data-bs-dismiss="modal">
-              Create
-            </button>
-          </div>
-          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal"
+            data-bs-dismiss="modal">
+            Add Games
+          </button>
         </div>
       </div>
     </div>
-    <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2"
-      tabindex="-1">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalToggleLabel2">Modal 2</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            Hide this modal and show the first with the button below.
-          </div>
-          <div class="modal-footer">
-            <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal"
-              data-bs-dismiss="modal">
-              Add Games
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+  </div>
 </template>
 
 
@@ -138,9 +111,11 @@
   import { AppState } from "../AppState";
   import { gameNightService } from "../services/GameNightService";
 
+
+
+
   export default {
     setup() {
-      const router = useRouter()
       const newPlayer = ref({})
       const state = reactive({
         editable: {},
@@ -152,20 +127,24 @@
         closetGames: computed(() => AppState.myGames.filter(g => g.owned)),
         state,
 
+
+
+
+
         async createGameNight() {
           logger.log('create', state.editable)
           await gameNightService.createGameNight(state.editable)
           // const gameId = AppState.activeGame.id
-          router.push({
-            name: "GameCloset",
-          })
+          // router.push({
+          //   name: "active",
+          //   params: { id: gameId }
+          // })
           // newPlayer.value.accountId = AppState.account.id
           // newPlayer.value.gameNightId = route.params.id
         }
       }
     }
   }
-
 </script>
 
 
