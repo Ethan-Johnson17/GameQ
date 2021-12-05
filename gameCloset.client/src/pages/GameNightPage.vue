@@ -143,8 +143,18 @@ export default {
         return date.toLocaleString()
       },
 
-      cancelGameNight(gameNightId) {
-        logger.log(gameNightId)
+      async cancelGameNight(gameNightId) {
+        // logger.log(gameNightId)
+        try {
+          await gameNightService.delete('/api/gamenight/' + gameNightId)
+
+          // Rerun getMyGameNights to remove the cancelled night from the page. 
+          // REVIEW not entirely sure why the computed's do this sometimes, and other times they don't seem to work. 
+          await gameNightService.getMyGameNights('/account/gamenight')
+        } catch (error) {
+          logger.error(error)
+          Pop.toast(error.message, 'error')
+        }
       },
 
       setActive(game) {
