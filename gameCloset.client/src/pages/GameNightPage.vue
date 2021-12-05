@@ -146,7 +146,7 @@ export default {
       async cancelGameNight(gameNightId) {
         // logger.log(gameNightId)
         try {
-          await gameNightService.delete('/api/gamenight/' + gameNightId)
+          await gameNightService.delete(gameNightId)
 
           // Rerun getMyGameNights to remove the cancelled night from the page. 
           // REVIEW not entirely sure why the computed's do this sometimes, and other times they don't seem to work. 

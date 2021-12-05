@@ -18,9 +18,10 @@ class GameNightService {
 
   async delete(gameNightId) {
     let myGameNights = AppState.myGameNights
+    logger.log('gameNightId', gameNightId)
     const yes = await Pop.confirm('Delete game night?')
     if (!yes) { return }
-    await api.delete(gameNightId)
+    await api.delete('/api/gamenight/' + gameNightId)
     myGameNights = myGameNights.filter(g => g.id !== gameNightId)
   }
 
