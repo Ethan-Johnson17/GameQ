@@ -56,7 +56,7 @@
                       </li>
                     </ul>
                   </div>
-                  <button type="submit">>></button>
+                  <button class="btn btn-primary" type="submit">+</button>
                 </form>
               </div>
             </div>
