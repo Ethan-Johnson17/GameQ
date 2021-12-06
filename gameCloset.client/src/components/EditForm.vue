@@ -38,7 +38,7 @@
           />
         </div>
       </div>
-      <div class="dropdown mx-4 my-2">
+      <div class="dropdown mx-4 my-2" hidden>
         <button
           class="btn btn-secondary dropdown-toggle"
           type="button"
