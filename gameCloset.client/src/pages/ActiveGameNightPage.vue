@@ -62,7 +62,7 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-md-10 bg-primary mb-3">
+              <div class="col-md-10 bg-primary mb-3 pb-2">
                 <div class="row">
                   <div class="col text-center mt-3">
                     <h3><b>Total Votes</b></h3>
