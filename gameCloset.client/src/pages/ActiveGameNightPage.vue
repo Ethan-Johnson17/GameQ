@@ -48,6 +48,7 @@
                       data-bs-toggle="dropdown" aria-expanded="false">
                       {{ newGame }}
                     </button>
+                    <!-- TODO Filters of gameCloset games in gameQueue -->
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                       <li v-for="game in closetGames" :key="game.atlasGameId">
                         <div class="dropdown-item selectable" @click="newGame = game.name">
