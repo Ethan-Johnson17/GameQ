@@ -22,9 +22,6 @@
           </div>
         </form>
       </div>
-      <div class="col-md-9 my-3 text-end">
-        <button class="btn btn-outline-light" title="Add Game">Add Game</button>
-      </div>
     </div>
     <!-- NOTE this is where the template starts for landing page for game nights 
     Parenthesis is where the data will need to be bound  -->
