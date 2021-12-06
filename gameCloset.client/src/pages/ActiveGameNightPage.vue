@@ -18,10 +18,11 @@
           <!-- //NOTE Voting area will vfor over game Q for active game need to
               also decide on style of selection input like checkbox style or
               toggle button etc. -->
-          <div class="col-md-8">
+          <div class="col-md-7">
             <div class="row" v-for="g in gameQueue" :key="g.id">
-              <div class="col">
-                <input type="checkbox" name="game" id="game" />
+              <div class="col d-flex">
+                <input type="checkbox" class="btn-check" name="game" id="game" autocomplete="off">
+                <label class="btn btn-outline-primary mdi mdi-thumb-up px-2 py-1 mb-2" for="btncheck1"></label>
                 <label class="ms-3" for="game">{{ g.game.name }}</label>
               </div>
             </div>
@@ -39,9 +40,9 @@
               </div>
             </div> -->
           </div>
-          <div class="col-md-4">
+          <div class="col-md-5">
             <div class="row mb-2">
-              <div class="col-md-6 ">
+              <div class="col-md-12 d-flex">
                 <form @submit.prevent="addGame">
                   <div class="dropdown mx-4 my-2">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
@@ -56,8 +57,9 @@
                         </div>
                       </li>
                     </ul>
+                    <button class="btn bg-white border border-secondary text-secondary px-2 ms-2" type="submit"><i
+                        class="mdi mdi-plus-thick"></i></button>
                   </div>
-                  <button class="btn btn-primary" type="submit"><i class="mdi mdi-plus-thick"></i></button>
                 </form>
               </div>
             </div>
