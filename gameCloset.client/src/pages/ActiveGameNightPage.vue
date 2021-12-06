@@ -1,13 +1,15 @@
 <template>
-  <div class="row justify-content-center">
-    <div class="col-md-10 card">
+  <div class="row justify-content-center container-fluid">
+    <div class="col-md-10 card my-2 elevation-3">
       <div class="row justify-content-center">
         <div class="col-md-8 text-dark text-center">
           <!-- //NOTE bind date and time of active game here -->
-          <h3>{{activeGameNight.name}}</h3>
-          <h3>{{formatDate(activeGameNight.gameNightDate)}}</h3>
-          <h3>{{activeGameNight.location}}</h3>
-          <h3 v-if="activeGameNight.isCancelled" class="text-dark bg-warning">Cancelled</h3>
+          <h3>{{ activeGameNight.name }}</h3>
+          <h3>{{ formatDate(activeGameNight.gameNightDate) }}</h3>
+          <h3>{{ activeGameNight.location }}</h3>
+          <h3 v-if="activeGameNight.isCancelled" class="text-dark bg-warning">
+            Cancelled
+          </h3>
         </div>
         <div class="row">
           <div class="col-md-8 mt-3">
@@ -20,7 +22,7 @@
             <div class="row">
               <div class="col" v-for="g in gameQueue" :key="g.id">
                 <input type="checkbox" name="game" id="game" />
-                <label class="ms-3" for="game">{{g.name}}</label>
+                <label class="ms-3" for="game">{{ g.name }}</label>
               </div>
             </div>
             <!-- NOTE these are just example wont be needed -->
@@ -65,14 +67,14 @@
           <div class="col">
             <div class="row">
               <div class="col">
-                <h2>Who is bring what (Greg)..</h2>
+                <h2>What everyone's bringing...</h2>
               </div>
             </div>
             <!-- NOTE Vfor -->
             <div class="row">
               <div class="col my-2">
                 <ul>
-                  <li>Item: Name of whos bringing it</li>
+                  <li>Item: Name of whose bringing it</li>
                 </ul>
               </div>
             </div>
@@ -80,14 +82,14 @@
             <div class="row">
               <div class="col my-3">
                 <ul>
-                  <li>Item: Name of whos bringing it</li>
+                  <li>Item: Name of whose bringing it</li>
                 </ul>
               </div>
             </div>
             <div class="row">
               <div class="col my-3">
                 <ul>
-                  <li>Item: Name of whos bringing it</li>
+                  <li>Item: Name of whose bringing it</li>
                 </ul>
               </div>
             </div>
@@ -100,34 +102,34 @@
 
 
 <script>
-  import { AppState } from "../AppState"
-  import { computed } from "@vue/reactivity"
-  import { gameNightService } from "../services/GameNightService";
-  import { onMounted, watchEffect } from "@vue/runtime-core"
-  import { logger } from "../utils/Logger"
-  import Pop from "../utils/Pop"
-  import { gamesService } from "../services/GamesService"
-  import { useRouter } from "vue-router";
+import { AppState } from "../AppState"
+import { computed } from "@vue/reactivity"
+import { gameNightService } from "../services/GameNightService";
+import { onMounted, watchEffect } from "@vue/runtime-core"
+import { logger } from "../utils/Logger"
+import Pop from "../utils/Pop"
+import { gamesService } from "../services/GamesService"
+import { useRouter } from "vue-router";
 
-  export default {
-    setup() {
-      return {
-        activeGameNight: computed(() => AppState.activeGameNight),
-        gameQueue: computed(() => {
-          const found = AppState.gameQueue.find(g => g.gameNightId === AppState.activeGameNight.id)
-          logger.log(AppState.activeGameNight.id)
-          // Get all gameQueues and try route.params if needed
-          return found
-        }),
+export default {
+  setup() {
+    return {
+      activeGameNight: computed(() => AppState.activeGameNight),
+      gameQueue: computed(() => {
+        const found = AppState.gameQueue.find(g => g.gameNightId === AppState.activeGameNight.id)
+        logger.log(AppState.activeGameNight.id)
+        // Get all gameQueues and try route.params if needed
+        return found
+      }),
 
-        formatDate(dateString) {
-          let date = new Date(dateString)
-          return date.toLocaleString()
-        },
+      formatDate(dateString) {
+        let date = new Date(dateString)
+        return date.toLocaleString()
+      },
 
-      }
     }
   }
+}
 </script>
 
 
