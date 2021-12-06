@@ -106,12 +106,15 @@ export default {
 
       closetGames: computed(() => AppState.myGames.filter(g => g.owned)),
       myGameNights: computed(() => AppState.myGameNights),
+      account: computed(() => AppState.account),
 
       async editGameNight(gameNightId) {
         try {
-          // await gameNightService.edit(id, editable.value)
+          await gameNightService.edit(gameNightId, editable.value)
           logger.log('editable.value', editable.value, 'gameNightId', gameNightId)
           Modal.getOrCreateInstance(document.getElementById('editGameNight-' + gameNightId)).hide()
+          await gameNightService.getMyGameNights('/account/gamenight')
+
         } catch (error) {
           logger.log(error)
           Pop.toast(error.message, 'error')

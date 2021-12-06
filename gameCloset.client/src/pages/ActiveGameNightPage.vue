@@ -21,8 +21,23 @@
           <div class="col-md-7">
             <div class="row" v-for="g in gameQueue" :key="g.id">
               <div class="col d-flex">
-                <input type="checkbox" class="btn-check" name="game" id="game" autocomplete="off">
-                <label class="btn btn-outline-primary mdi mdi-thumb-up px-2 py-1 mb-2" for="btncheck1"></label>
+                <input
+                  type="checkbox"
+                  class="btn-check"
+                  name="game"
+                  id="game"
+                  autocomplete="off"
+                />
+                <label
+                  class="
+                    btn btn-outline-primary
+                    mdi mdi-thumb-up
+                    px-2
+                    py-1
+                    mb-2
+                  "
+                  for="btncheck1"
+                ></label>
                 <label class="ms-3" for="game">{{ g.game.name }}</label>
               </div>
             </div>
@@ -45,20 +60,42 @@
               <div class="col-md-12 d-flex">
                 <form @submit.prevent="addGame">
                   <div class="dropdown mx-4 my-2">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
-                      data-bs-toggle="dropdown" aria-expanded="false">
+                    <button
+                      class="btn btn-secondary dropdown-toggle"
+                      type="button"
+                      id="dropdownMenuButton1"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                    >
                       {{ newGame }}
                     </button>
                     <!-- TODO Filters of gameCloset games in gameQueue -->
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <ul
+                      class="dropdown-menu"
+                      aria-labelledby="dropdownMenuButton1"
+                    >
                       <li v-for="game in closetGames" :key="game.atlasGameId">
-                        <div class="dropdown-item selectable" @click="newGame = game.name">
+                        <div
+                          class="dropdown-item selectable"
+                          @click="newGame = game.name"
+                        >
                           {{ game.name }}
                         </div>
                       </li>
                     </ul>
-                    <button class="btn bg-white border border-secondary text-secondary px-2 ms-2" type="submit"><i
-                        class="mdi mdi-plus-thick"></i></button>
+                    <button
+                      class="
+                        btn
+                        bg-white
+                        border border-secondary
+                        text-secondary
+                        px-2
+                        ms-2
+                      "
+                      type="submit"
+                    >
+                      <i class="mdi mdi-plus-thick"></i>
+                    </button>
                   </div>
                 </form>
               </div>
@@ -120,66 +157,66 @@
 
 
 <script>
-  import { AppState } from "../AppState"
-  import { computed, ref } from "@vue/reactivity"
-  import { gameNightService } from "../services/GameNightService";
-  import { onMounted, watchEffect } from "@vue/runtime-core"
-  import { logger } from "../utils/Logger"
-  import Pop from "../utils/Pop"
-  import { gamesService } from "../services/GamesService"
-  import { useRoute, useRouter } from "vue-router"
-  import { gameQueuesService } from "../services/GameQueuesService"
+import { AppState } from "../AppState"
+import { computed, ref } from "@vue/reactivity"
+import { gameNightService } from "../services/GameNightService";
+import { onMounted, watchEffect } from "@vue/runtime-core"
+import { logger } from "../utils/Logger"
+import Pop from "../utils/Pop"
+import { gamesService } from "../services/GamesService"
+import { useRoute, useRouter } from "vue-router"
+import { gameQueuesService } from "../services/GameQueuesService"
 
-  export default {
-    setup() {
-      const route = useRoute()
-      const newGame = ref('Choose a game!')
-      const newGameQueue = ref({})
-      onMounted(async () => {
+export default {
+  setup() {
+    const route = useRoute()
+    const newGame = ref('Choose a game!')
+    const newGameQueue = ref({})
+    onMounted(async () => {
+      try {
+        await gameNightService.getMyGameNights('/account/gamenight')
+        const found = AppState.myGameNights.find(g => g.id === route.params.id)
+        AppState.activeGameNight = found
+        await gamesService.getMyGames('/account/myGames')
+        await gameQueuesService.getAllGameQueue(route.params.id)
+      } catch (error) {
+        logger.error(error)
+        Pop.toast('error', 'error')
+      }
+    })
+    return {
+      route,
+      newGame,
+      activeGameNight: computed(() => AppState.activeGameNight),
+      closetGames: computed(() => AppState.myGames.filter(g => g.owned)),
+      // filteredGames: computed(() => {
+      //   closetGames.filter(c => c.id)
+      // }),
+      gameQueue: computed(() => AppState.gameQueue),
+
+      formatDate(dateString) {
+        let date = new Date(dateString)
+        return date.toLocaleString()
+      },
+
+      async addGame() {
         try {
-          await gameNightService.getMyGameNights('/account/gamenight')
-          const found = AppState.myGameNights.find(g => g.id === route.params.id)
-          AppState.activeGameNight = found
-          await gamesService.getMyGames('/account/myGames')
-          await gameQueuesService.getAllGameQueue(route.params.id)
+          // newGameQueue.value.gameId =
+          const game = newGame.value
+          const found = AppState.myGames.find(g => g.name === game)
+          logger.log('button works', game)
+          let gameObject = { gameId: found.id, gameNightId: AppState.activeGameNight.id }
+          logger.log('game object', gameObject)
+          await gameQueuesService.addToGameQueue(gameObject)
         } catch (error) {
           logger.error(error)
-          Pop.toast('error', 'error')
-        }
-      })
-      return {
-        route,
-        newGame,
-        activeGameNight: computed(() => AppState.activeGameNight),
-        closetGames: computed(() => AppState.myGames.filter(g => g.owned)),
-        // filteredGames: computed(() => {
-        //   closetGames.filter(c => c.id)
-        // }),
-        gameQueue: computed(() => AppState.gameQueue),
+          Pop.toast('Someone is bringing that game.', 'warning')
 
-        formatDate(dateString) {
-          let date = new Date(dateString)
-          return date.toLocaleString()
-        },
-
-        async addGame(game) {
-          try {
-            // newGameQueue.value.gameId =
-            const game = newGame.value
-            const found = AppState.myGames.find(g => g.name === game)
-            logger.log('button works', game)
-            let gameObject = { gameId: found.id, gameNightId: AppState.activeGameNight.id }
-            logger.log('game object', gameObject)
-            await gameQueuesService.addToGameQueue(gameObject)
-          } catch (error) {
-            logger.error(error)
-            Pop.toast('Someone is bringing that game.', 'warning')
-
-          }
         }
       }
     }
   }
+}
 </script>
 
 

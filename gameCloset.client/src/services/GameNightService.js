@@ -37,13 +37,12 @@ class GameNightService {
 
   async edit(id, gameNight) {
     const res = await api.put(`api/gamenight/${id}`, gameNight)
-    logger.log(res)
     const newGameNight = res.data
     // AppState.activeGameNight = newGameNight
     const index = AppState.myGameNights.findIndex(g => g.id === newGameNight)
-    if (index === -1) {
-      AppState.myGameNights.unshift(newGameNight)
-    }
+    // if (index === -1) {
+    //   AppState.myGameNights.unshift(newGameNight)
+    // }
     AppState.myGameNights.splice(index, 1, newGameNight)
 
   }
