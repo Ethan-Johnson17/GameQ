@@ -58,19 +58,19 @@
                   <ul class="dropdown-menu">
                     <li>
                       <button
-                        class="dropdown-item selectable text-danger"
-                        @click="cancelGameNight(g.id)"
-                      >
-                        Cancel Event
-                      </button>
-                    </li>
-                    <li>
-                      <button
                         class="dropdown-item selectable text-primary"
                         data-bs-toggle="modal"
                         data-bs-target="#editEventForm"
                       >
                         Edit Event
+                      </button>
+                    </li>
+                    <li>
+                      <button
+                        class="dropdown-item selectable text-danger"
+                        @click="deleteGameNight(g.id)"
+                      >
+                        Delete Event
                       </button>
                     </li>
                   </ul>
@@ -143,12 +143,12 @@ export default {
         return date.toLocaleString()
       },
 
-      async cancelGameNight(gameNightId) {
-        // logger.log(gameNightId)
+      async deleteGameNight(gameNightId) {
+
         try {
           await gameNightService.delete(gameNightId)
 
-          // Rerun getMyGameNights to remove the cancelled night from the page. 
+          // Rerun getMyGameNights to remove the deleted night from the page. 
           // REVIEW not entirely sure why the computed's do this sometimes, and other times they don't seem to work. 
           await gameNightService.getMyGameNights('/account/gamenight')
         } catch (error) {
