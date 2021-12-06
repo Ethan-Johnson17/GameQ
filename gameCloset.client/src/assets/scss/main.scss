@@ -81,3 +81,70 @@ form:invalid button[type="submit"] {
   height: 350px;
   width: 350px;
 }
+
+@media screen and (max-width: 1230px) {
+  .img-container {
+    height: 250px;
+    width: 250px;
+  }
+  .flip-card-front, .flip-card-back {
+    position: absolute;
+    min-width: 300px;
+    min-height: 350px;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+  .flip-card {
+    background-color: transparent;
+    min-width: 300px;
+    min-height: 350px;
+    perspective: 1000px;
+  }
+  
+  .flip-card-inner {
+    position: relative;
+    min-width: 300px;
+    min-height: 350px;
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+  }
+}
+
+@media screen and (max-width: 930px) {
+  .img-container {
+    height: 200px;
+    width: 200px;
+  }
+  .flip-card-front, .flip-card-back {
+    position: absolute;
+    min-width: 250px;
+    min-height: 300px;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+  h4 {
+    font-size: medium;
+  }
+  h5 {
+    font-size: medium;
+  }
+  h3 {
+    font-size: large;
+  }
+  .flip-card {
+    background-color: transparent;
+    min-width: 250px;
+    min-height: 300px;
+    perspective: 1000px;
+  }
+  
+  .flip-card-inner {
+    position: relative;
+    min-width: 250px;
+    min-height: 300px;
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+  }
+}
