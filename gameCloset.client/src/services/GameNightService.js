@@ -28,22 +28,23 @@ class GameNightService {
   async cancel(gameNightId) {
     // let myGameNights = AppState.myGameNights
     // logger.log(myGameNights, gameNightId)
-
+    // TODO Move pops back to component
     const yes = await Pop.confirm('Cancel your game night?')
     if (!yes) { return }
     await api.put(`api/gamenight/${gameNightId}/isCanceled`)
+    // TODO update appstate with upto date information
     Pop.toast("You've canceled your event.", 'success')
   }
 
   async edit(id, gameNight) {
     const res = await api.put(`api/gamenight/${id}`, gameNight)
-    logger.log(res)
     const newGameNight = res.data
     // AppState.activeGameNight = newGameNight
-    const index = AppState.myGameNights.findIndex(g => g.id === newGameNight)
-    if (index === -1) {
-      AppState.myGameNights.unshift(newGameNight)
-    }
+    // REVIEW[epic=Tristan] test this 
+    const index = AppState.myGameNights.findIndex(g => g.id === newGameNight.id)
+    // if (index === -1) {
+    //   AppState.myGameNights.unshift(newGameNight)
+    // }
     AppState.myGameNights.splice(index, 1, newGameNight)
 
   }
