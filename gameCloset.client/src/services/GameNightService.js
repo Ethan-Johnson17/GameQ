@@ -18,13 +18,23 @@ class GameNightService {
 
   async delete(gameNightId) {
     let myGameNights = AppState.myGameNights
-    logger.log('gameNightId', gameNightId)
-    const yes = await Pop.confirm('Delete game night?')
+    // logger.log('gameNightId', gameNightId)
+    const yes = await Pop.confirm('Delete your game night?')
     if (!yes) { return }
     await api.delete('/api/gamenight/' + gameNightId)
     myGameNights = myGameNights.filter(g => g.id !== gameNightId)
   }
 
+  async cancel(gameNightId) {
+    // let myGameNights = AppState.myGameNights
+    // logger.log(myGameNights, gameNightId)
+
+    const yes = await Pop.confirm('Cancel your game night?')
+    if (!yes) { return }
+    await api.put(`api/gamenight/${gameNightId}/isCanceled`)
+    Pop.toast("You've canceled your event.", 'success')
+
+  }
 }
 
 export const gameNightService = new GameNightService()
