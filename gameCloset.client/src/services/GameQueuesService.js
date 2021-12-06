@@ -11,9 +11,7 @@ class GameQueuesService {
   }
   async removeGameQueue(gameQueueId) {
     await api.delete(`api/gamequeue/${gameQueueId}`)
-    // NOTE we need the gameque id from the component.
-    // NOTE  either call the get all game queue functon here or make sure the computed in the component is listening for the right thing
-
+    AppState.gameQueue = AppState.gameQueue.filter(g => g.id !== gameQueueId)
   }
   async getAllGameQueue(gameNightId) {
     // NOTE make sure you have the gamenight id being pulled through the component. this allows all game queues to be pull for that game night

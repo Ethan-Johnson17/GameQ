@@ -21,24 +21,18 @@
           <div class="col-md-7">
             <div class="row" v-for="g in gameQueue" :key="g.id">
               <div class="col d-flex">
-                <input type="checkbox" class="btn-check" name="game" id="game" autocomplete="off">
-                <label class="btn btn-outline-primary mdi mdi-thumb-up px-2 py-1 mb-2" for="btncheck1"></label>
-                <label class="ms-3" for="game">{{ g.game.name }}</label>
+                <!-- NOTE Checkbox style 
+                  <input type="checkbox" class="btn-check" name="game" id="game" autocomplete="off">
+                <label class="btn btn-outline-primary mdi mdi-thumb-up px-2 py-1 mb-2" for="game"></label>
+                <label class="ms-3" for="game"></label> -->
+                <p class="vote">
+                  <i class="mdi mdi-thumb-up f-16 pt-0 selectable h-25 me-2" @click="vote(playerId)"></i> {{
+                  g.game.name }}
+                  <i class="mdi mdi-trash-can mdi-24px text-danger ms-5 selectable"></i>
+                </p>
+
               </div>
             </div>
-            <!-- NOTE these are just example wont be needed -->
-            <!-- <div class="row">
-              <div class="col">
-                <input type="checkbox" name="game" id="game" />
-                <label class="ms-3" for="game">(Game Name)</label>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col">
-                <input type="checkbox" name="game" id="game" />
-                <label class="ms-3" for="game">(Game Name)</label>
-              </div>
-            </div> -->
           </div>
           <div class="col-md-5">
             <div class="row mb-2">
@@ -74,7 +68,7 @@
                 <!-- //NOTE vfor -->
                 <div class="row" v-for="gq in gameQueue" :key="gq.id">
                   <div class="col-9 my-2">{{ gq.game.name }}</div>
-                  <div class="col-3 my-2">{{ gq.game.votes }}</div>
+                  <div class="col-3 my-2">{{ gq.votes.length }}</div>
                 </div>
               </div>
             </div>
@@ -167,16 +161,35 @@
             // newGameQueue.value.gameId =
             const game = newGame.value
             const found = AppState.myGames.find(g => g.name === game)
-            logger.log('button works', game)
             let gameObject = { gameId: found.id, gameNightId: AppState.activeGameNight.id }
-            logger.log('game object', gameObject)
             await gameQueuesService.addToGameQueue(gameObject)
           } catch (error) {
             logger.error(error)
             Pop.toast('Someone is bringing that game.', 'warning')
 
           }
-        }
+        },
+
+        async removeGameQueue(id) {
+          try {
+            const yes = await Pop.confirm('Delete your game?')
+            if (!yes) { return }
+            await gameQueuesService.removeGameQueue(id)
+          } catch (error) {
+            logger.error(error)
+            Pop.toast(error.message, 'error')
+          }
+        },
+
+        async vote(id) {
+          try {
+            logger.log('vote', id)
+            await gameQueuesService.vote(id)
+
+          } catch (error) {
+            logger.error(error)
+          }
+        },
       }
     }
   }
@@ -184,4 +197,8 @@
 
 
 <style lang="scss" scoped>
+  p:focus {
+    background-color: red;
+    color: red;
+  }
 </style>
