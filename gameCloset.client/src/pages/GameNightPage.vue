@@ -22,9 +22,6 @@
           </div>
         </form>
       </div>
-      <div class="col-md-9 my-3 text-end">
-        <button class="btn btn-outline-light" title="Add Game">Add Game</button>
-      </div>
     </div>
     <!-- NOTE this is where the template starts for landing page for game nights 
     Parenthesis is where the data will need to be bound  -->
@@ -56,7 +53,10 @@
                     title="Options"
                   ></i>
                   <ul class="dropdown-menu">
-                    <li data-bs-toggle="modal" data-bs-target="#editGameNight">
+                    <li
+                      data-bs-toggle="modal"
+                      :data-bs-target="'#editGameNight-' + g.id"
+                    >
                       <button class="dropdown-item selectable text-primary">
                         Edit Event
                       </button>
@@ -125,7 +125,7 @@
           </div>
         </div>
       </div>
-      <Modal id="editGameNight">
+      <Modal :id="'editGameNight-' + g.id">
         <template #modal-title>Edit your game night!</template>
         <template #modal-body>
           <EditForm :gameNight="g" />

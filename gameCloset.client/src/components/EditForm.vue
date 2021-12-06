@@ -38,7 +38,7 @@
           />
         </div>
       </div>
-      <div class="dropdown mx-4 my-2">
+      <div class="dropdown mx-4 my-2" hidden>
         <button
           class="btn btn-secondary dropdown-toggle"
           type="button"
@@ -67,7 +67,7 @@
         class="btn btn-outline-secondary"
         data-bs-dismiss="modal"
       >
-        Create
+        Save Changes
       </button>
     </div>
   </form>
@@ -111,7 +111,7 @@ export default {
         try {
           // await gameNightService.edit(id, editable.value)
           logger.log('editable.value', editable.value, 'gameNightId', gameNightId)
-          Modal.getOrCreateInstance(document.getElementById('editGameNight')).hide()
+          Modal.getOrCreateInstance(document.getElementById('editGameNight-' + gameNightId)).hide()
         } catch (error) {
           logger.log(error)
           Pop.toast(error.message, 'error')
