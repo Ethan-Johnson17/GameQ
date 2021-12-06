@@ -111,7 +111,7 @@ export default {
         try {
           // await gameNightService.edit(id, editable.value)
           logger.log('editable.value', editable.value, 'gameNightId', gameNightId)
-          Modal.getOrCreateInstance(document.getElementById('editGameNight')).hide()
+          Modal.getOrCreateInstance(document.getElementById('editGameNight-' + gameNightId)).hide()
         } catch (error) {
           logger.log(error)
           Pop.toast(error.message, 'error')

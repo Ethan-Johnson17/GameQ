@@ -56,7 +56,10 @@
                     title="Options"
                   ></i>
                   <ul class="dropdown-menu">
-                    <li data-bs-toggle="modal" data-bs-target="#editGameNight">
+                    <li
+                      data-bs-toggle="modal"
+                      :data-bs-target="'#editGameNight-' + g.id"
+                    >
                       <button class="dropdown-item selectable text-primary">
                         Edit Event
                       </button>
@@ -125,7 +128,7 @@
           </div>
         </div>
       </div>
-      <Modal id="editGameNight">
+      <Modal :id="'editGameNight-' + g.id">
         <template #modal-title>Edit your game night!</template>
         <template #modal-body>
           <EditForm :gameNight="g" />
