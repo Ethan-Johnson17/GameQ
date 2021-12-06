@@ -17,23 +17,27 @@ class GameNightService {
   }
 
   async delete(gameNightId) {
-    let myGameNights = AppState.myGameNights
+
     // logger.log('gameNightId', gameNightId)
-    const yes = await Pop.confirm('Delete your game night?')
-    if (!yes) { return }
+
     await api.delete('/api/gamenight/' + gameNightId)
-    myGameNights = myGameNights.filter(g => g.id !== gameNightId)
+    AppState.myGameNights = AppState.myGameNights.filter(g => g.id !== gameNightId)
+    // NOTE[epic=Tristan] It won't be responsive if you alias out appstate
+
   }
 
   async cancel(gameNightId) {
-    // let myGameNights = AppState.myGameNights
+    let myGameNights = AppState.myGameNights
     // logger.log(myGameNights, gameNightId)
-    // TODO Move pops back to component
-    const yes = await Pop.confirm('Cancel your game night?')
-    if (!yes) { return }
-    await api.put(`api/gamenight/${gameNightId}/isCanceled`)
+    const res = await api.put(`api/gamenight/${gameNightId}/isCanceled`)
     // TODO update appstate with upto date information
-    Pop.toast("You've canceled your event.", 'success')
+    const editedGameNight = res.data
+    const index = AppState.myGameNights.findIndex(g => g.id === editedGameNight.id)
+    if (index === -1) {
+      AppState.myGameNights.unshift(editedGameNight)
+    }
+    myGameNights.splice(index, 1, editedGameNight)
+
   }
 
   async edit(id, gameNight) {
@@ -42,9 +46,9 @@ class GameNightService {
     // AppState.activeGameNight = newGameNight
     // REVIEW[epic=Tristan] test this 
     const index = AppState.myGameNights.findIndex(g => g.id === newGameNight.id)
-    // if (index === -1) {
-    //   AppState.myGameNights.unshift(newGameNight)
-    // }
+    if (index === -1) {
+      AppState.myGameNights.unshift(newGameNight)
+    }
     AppState.myGameNights.splice(index, 1, newGameNight)
 
   }

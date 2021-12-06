@@ -16,8 +16,8 @@ class GameQueuesService {
   async getAllGameQueue(gameNightId) {
     // NOTE make sure you have the gamenight id being pulled through the component. this allows all game queues to be pull for that game night
     const res = await api.get(`api/gamenight/${gameNightId}/gamequeue`)
-    AppState.gameQueue = res.data
-    logger.log('GQ', res.data)
+    AppState.gameQueue.push(res.data)
+    logger.log('GQ AppState', AppState.gameQueue)
   }
   async vote(gameQueueId) {
     await api.put(`api/gamequeue/${gameQueueId}/votes`)
