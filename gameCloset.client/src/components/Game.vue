@@ -210,12 +210,4 @@ export default {
 
 
 <style lang="scss" scoped>
-.img-container {
-  height: 350px;
-  width: 350px;
-}
-
-// .card {
-//   width: 50vh;
-// }
 </style>
