@@ -33,6 +33,18 @@ class GameNightService {
     if (!yes) { return }
     await api.put(`api/gamenight/${gameNightId}/isCanceled`)
     Pop.toast("You've canceled your event.", 'success')
+  }
+
+  async edit(id, gameNight) {
+    const res = await api.put(`api/gamenight/${id}`, gameNight)
+    logger.log(res)
+    const newGameNight = res.data
+    // AppState.activeGameNight = newGameNight
+    const index = AppState.myGameNights.findIndex(g => g.id === newGameNight)
+    if (index === -1) {
+      AppState.myGameNights.unshift(newGameNight)
+    }
+    AppState.myGameNights.splice(index, 1, newGameNight)
 
   }
 }

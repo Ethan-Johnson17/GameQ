@@ -56,15 +56,12 @@
                     title="Options"
                   ></i>
                   <ul class="dropdown-menu">
-                    <li>
-                      <button
-                        class="dropdown-item selectable text-primary"
-                        data-bs-toggle="modal"
-                        data-bs-target="#editEventForm"
-                      >
+                    <li data-bs-toggle="modal" data-bs-target="#editGameNight">
+                      <button class="dropdown-item selectable text-primary">
                         Edit Event
                       </button>
                     </li>
+
                     <li>
                       <button
                         class="dropdown-item selectable text-primary"
@@ -117,7 +114,7 @@
                     <div class="col-md-6 my-3">
                       <div class="row">
                         <div class="col">
-                          <h5>This game night has been canceled</h5>
+                          <h5>This game night has been canceled.</h5>
                         </div>
                       </div>
                     </div>
@@ -128,6 +125,12 @@
           </div>
         </div>
       </div>
+      <Modal id="editGameNight">
+        <template #modal-title>Edit your game night!</template>
+        <template #modal-body>
+          <EditForm :gameNight="g" />
+        </template>
+      </Modal>
     </div>
   </div>
 </template>
