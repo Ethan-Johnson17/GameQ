@@ -171,10 +171,11 @@ export default {
 
       async deleteGameNight(gameNightId) {
         try {
-          await gameNightService.delete(gameNightId)
-          // Rerun getMyGameNights to remove the deleted night from the page. 
-          // REVIEW not entirely sure why the computed's do this sometimes, and other times they don't seem to work. 
-          await gameNightService.getMyGameNights('/account/gamenight')
+          const yes = await Pop.confirm('Delete your game night?')
+          if (!yes) { return }
+          const res = await gameNightService.delete(gameNightId)
+          logger.log(res)
+          Pop.toast('Deleted', 'success')
         } catch (error) {
           logger.error(error)
           Pop.toast(error.message, 'error')
@@ -184,17 +185,10 @@ export default {
       async cancelGameNight(gameNightId) {
         try {
           // logger.log(gameNightId)
-          const found = this.myGameNights.find(g => g.id === gameNightId)
-          // logger.log(found)
-          // found.isCanceled = true
-
-          // if (found.isCanceled) {
-          //   logger.log('canceled already')
-          //   Pop.toast("You've canceled this already, playa!", 'warning')
-          // }
-
-          await gameNightService.cancel(gameNightId, found)
-          await gameNightService.getMyGameNights('/account/gamenight')
+          const yes = await Pop.confirm('Cancel your game night?')
+          if (!yes) { return }
+          await gameNightService.cancel(gameNightId)
+          Pop.toast("You've canceled your event.", 'success')
         } catch (error) {
           logger.error(error)
           Pop.toast(error.message, 'error')
