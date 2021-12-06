@@ -75,6 +75,7 @@
                       aria-labelledby="dropdownMenuButton1"
                     >
                       <li v-for="game in closetGames" :key="game.atlasGameId">
+                        <!-- TODO v-if array.... method below: hasGame(game.id), return bool to hide, class disabled; v-if hasGame, else-->
                         <div
                           class="dropdown-item selectable"
                           @click="newGame = game.name"

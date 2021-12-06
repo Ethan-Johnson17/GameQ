@@ -34,7 +34,7 @@ class GamesQueueService {
     } else {
       votes.splice(index, 1)
     }
-    // REVIEW here it will save anytime it changes wether it adds or removes then return you the new array
+    // ANCHOR[epic=Scott] here it will save anytime it changes wether it adds or removes then return you the new array
     await gameq.save()
     return gameq
   }
