@@ -89,6 +89,7 @@
               <div :class="g.isCanceled ? 'disabled' : ''">
                 <router-link
                   :to="{ name: 'GameNightDetails', params: { id: g.id } }"
+                  @click="setActive(g)"
                 >
                   <div class="row">
                     <div class="col mt-2">
@@ -134,7 +135,7 @@
 
 <script>
 import { AppState } from "../AppState"
-import { computed } from "@vue/reactivity"
+import { computed, reactive } from "@vue/reactivity"
 import { gameNightService } from "../services/GameNightService";
 import { onMounted, watchEffect } from "@vue/runtime-core"
 import { logger } from "../utils/Logger"
@@ -147,6 +148,9 @@ export default {
 
   setup() {
     const router = useRouter();
+    const state = reactive({
+      editable: {}
+    })
     onMounted(async () => {
 
       try {
@@ -158,6 +162,7 @@ export default {
       }
     })
     return {
+      state,
       closetGames: computed(() => AppState.myGames.filter(g => g.owned)),
       myGameNights: computed(() => AppState.myGameNights),
 
