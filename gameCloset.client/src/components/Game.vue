@@ -1,92 +1,145 @@
 <template>
-  <div class="container-fluid game card elevation-3 m-2 p-3">
-    <div class="row">
-      <div class="col text-danger text-end" v-if="route.name == 'GameCloset'">
-        <i
-          class="mdi mdi-trash-can-outline selectable mdi-24px p-2"
-          @click="remove(game.id)"
-        ></i>
+  <div class="flip-card my-4">
+    <div class="flip-card-inner">
+      <div class="flip-card-front elevation-3">
+        <div class="container">
+          <div class="row">
+            <div class="col p-0">
+              <img class="img-container m-2" :src="game.image_url" alt="" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col text-center my-1">
+              <h3 class="col">{{ game.name }}</h3>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+      <div class="flip-card-back elevation-3">
+        <div class="row">
+          <div
+            class="col text-danger text-end"
+            v-if="route.name == 'GameCloset'"
+          >
+            <i
+              class="mdi mdi-trash-can-outline selectable mdi-24px p-2"
+              @click="remove(game.id)"
+            ></i>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <h3 class="my-4">Game Details</h3>
+          </div>
+        </div>
+        <div class="row" v-if="game.min_playtime && game.max_playtime">
+          <h4
+            class="col text-start ms-3"
+            v-if="game.min_playtime === game.max_playtime"
+          >
+            Play time: {{ game.min_playtime }} minutes
+          </h4>
+          <h4 class="col text-start ms-3" v-else>
+            Play time: {{ game.min_playtime }} - {{ game.max_playtime }} minutes
+          </h4>
+        </div>
+        <div class="row" v-if="game.min_players && game.max_players">
+          <h4
+            class="col text-start ms-3"
+            v-if="game.min_players === game.max_players"
+          >
+            Number of players: {{ game.min_players }}
+          </h4>
+          <h4 class="col text-start ms-3" v-else>
+            Number of players: {{ game.min_players }} - {{ game.max_players }}
+          </h4>
+        </div>
 
-    <div class="row m-auto">
-      <img class="m-1 rounded col img-container" :src="game.image_url" alt="" />
-      <div class="row">
-        <h3 class="col">{{ game.name }}</h3>
-      </div>
-      <div class="row" v-if="game.min_playtime && game.max_playtime">
-        <p class="col" v-if="game.min_playtime === game.max_playtime">
-          Play time: {{ game.min_playtime }} minutes
-        </p>
-        <p class="col" v-else>
-          Play time: {{ game.min_playtime }} - {{ game.max_playtime }} minutes
-        </p>
-      </div>
-      <div class="row" v-if="game.min_players && game.max_players">
-        <p class="col" v-if="game.min_players === game.max_players">
-          Number of players: {{ game.min_players }}
-        </p>
-        <p class="col" v-else>
-          Number of players: {{ game.min_players }} - {{ game.max_players }}
-        </p>
-      </div>
-      <div class="row" v-if="game.rules_url || game.houseRules">
-        <div class="col">
-          <details>
-            <summary>Game Rules</summary>
-            <p><a target="_blank" :href="game.rules_url">Game Rules</a></p>
-            <p>{{ game.houseRules }}</p>
-          </details>
+        <div class="row">
+          <div class="col text-start ms-3" v-if="game.price > 0">
+            <h4>Cost: ${{ game.price }}</h4>
+          </div>
         </div>
-      </div>
-
-      <div class="row">
-        <div class="col" v-if="game.price > 0">
-          <p>Cost: ${{ game.price }}</p>
+        <div class="row">
+          <div class="col text-start mt-3 ms-3">
+            <h5>
+              <a target="_blank" :href="game.atlasUrl">See More Details</a>
+            </h5>
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-md-8 mt-3">
-          <p><a target="_blank" :href="game.atlasUrl">See More Details</a></p>
+        <div class="row" v-if="game.rules_url || game.houseRules">
+          <div class="col text-center mt-4">
+            <details>
+              <summary>Game Rules</summary>
+              <h5><a target="_blank" :href="game.rules_url">Game Rules</a></h5>
+              <h5>{{ game.houseRules }}</h5>
+            </details>
+          </div>
         </div>
-      </div>
-      <div class="row m-0 p-0" v-if="user.isAuthenticated">
-        <div class="col" v-if="isSearchResult">
-          <div v-if="!hasGame">
+        <div class="row" v-if="user.isAuthenticated">
+          <div class="col mt-3" v-if="isSearchResult">
+            <div v-if="!hasGame">
+              <p class="text-end">
+                <i
+                  v-if="route.name == 'Search' && !game.owned"
+                  @click="addToWishlist(game)"
+                  class="
+                    selectable
+                    mdi mdi-playlist-plus mdi-24px
+                    me-3
+                    p-2
+                    rounded
+                    text-success
+                  "
+                  title="add to wishlist"
+                ></i>
+                <i
+                  v-if="!game.owned"
+                  @click="addToGameCloset(game)"
+                  class="
+                    selectable
+                    mdi mdi-heart-outline mdi-24px
+                    p-2
+                    rounded
+                    text-danger
+                  "
+                  title="add to game closet"
+                ></i>
+              </p>
+            </div>
+            <div class="col text-end m-3 text-danger" v-else>
+              <p>You have this game!</p>
+            </div>
+          </div>
+          <div class="col mt-3" v-else>
             <p class="text-end">
               <i
-                v-if="route.name == 'Search'"
+                v-if="route.name == 'Search' && !game.owned"
                 @click="addToWishlist(game)"
-                class="selectable mdi mdi-playlist-plus me-3 p-2 rounded"
+                class="
+                  selectable
+                  mdi mdi-playlist-plus mdi-24px
+                  me-3
+                  p-2
+                  rounded
+                  text-success
+                "
                 title="add to wishlist"
               ></i>
               <i
                 v-if="!game.owned"
                 @click="addToGameCloset(game)"
-                class="selectable mdi mdi-heart-outline p-2 rounded"
+                class="
+                  selectable
+                  mdi mdi-heart-outline mdi-24px
+                  p-2
+                  rounded
+                  text-danger
+                "
                 title="add to game closet"
               ></i>
             </p>
           </div>
-          <div v-else>
-            <p>You have this!</p>
-          </div>
-        </div>
-        <div class="col" v-else>
-          <p class="text-end">
-            <i
-              v-if="route.name == 'Search'"
-              @click="addToWishlist(game)"
-              class="selectable mdi mdi-playlist-plus me-3 p-2 rounded"
-              title="add to wishlist"
-            ></i>
-            <i
-              v-if="!game.owned"
-              @click="addToGameCloset(game)"
-              class="selectable mdi mdi-heart-outline p-2 rounded"
-              title="add to game closet"
-            ></i>
-          </p>
         </div>
       </div>
     </div>
@@ -158,12 +211,11 @@ export default {
 
 <style lang="scss" scoped>
 .img-container {
-  height: 450px;
-  width: 450px;
-  object-fit: cover;
+  height: 350px;
+  width: 350px;
 }
 
-.card {
-  width: 50vh;
-}
+// .card {
+//   width: 50vh;
+// }
 </style>

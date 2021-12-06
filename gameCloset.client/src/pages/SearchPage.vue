@@ -1,10 +1,10 @@
 <template>
   <div class="container-fluid">
     <!-- SEARCH -->
-    <div class="row">
-      <div class="col">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
         <div class="search">
-          <div class="mb-3 w-25 m-3">
+          <div class="mb-3 m-3">
             <form @submit.prevent="searchGames">
               <div class="input-group mb-3">
                 <input

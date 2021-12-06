@@ -37,3 +37,42 @@ form:invalid button[type="submit"] {
   filter: grayscale(1);
   pointer-events: none;
 }
+
+.flip-card {
+  background-color: transparent;
+  min-width: 400px;
+  min-height: 415px;
+  perspective: 1000px;
+}
+
+.flip-card-inner {
+  position: relative;
+  min-width: 400px;
+  min-height: 415px;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front, .flip-card-back {
+  position: absolute;
+  min-width: 400px;
+  min-height: 415px;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.flip-card-front {
+  background-color: #f7f7f7;
+  color: black;
+}
+
+.flip-card-back {
+  background-color: #bebebe;
+  color: #000000;
+  transform: rotateY(180deg);
+}

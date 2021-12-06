@@ -4,7 +4,7 @@ const Schema = mongoose.Schema
 export const GameSchema = new Schema({
   name: { type: String, required: true },
   rules_url: { type: String },
-  houseRules: { type: String, default: 'no rules added yet.' },
+  houseRules: { type: String, default: 'No house rules added yet.' },
   atlasGameId: { type: String },
   // NOTE will need to change id to ids if you want to search atlas api by id(ids)
   min_players: { type: Number },
