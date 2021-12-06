@@ -67,6 +67,14 @@
                     </li>
                     <li>
                       <button
+                        class="dropdown-item selectable text-primary"
+                        @click="cancelGameNight(g.id)"
+                      >
+                        Cancel Event
+                      </button>
+                    </li>
+                    <li>
+                      <button
                         class="dropdown-item selectable text-danger"
                         @click="deleteGameNight(g.id)"
                       >
@@ -78,29 +86,43 @@
               </div>
             </div>
             <div>
-              <router-link
-                :to="{ name: 'GameNightDetails', params: { id: g.id } }"
-              >
-                <div class="row">
-                  <div class="col mt-2">
-                    <h4>{{ g.name }}</h4>
-                  </div>
-                </div>
-                <div class="row justify-content-center">
-                  <div class="col-md-6 my-3">
-                    <div class="row">
-                      <div class="col">
-                        <h5>{{ formatDate(g.gameNightDate) }}</h5>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col">
-                        <h5>{{ g.location }}</h5>
-                      </div>
+              <div :class="g.isCanceled ? 'disabled' : ''">
+                <router-link
+                  :to="{ name: 'GameNightDetails', params: { id: g.id } }"
+                >
+                  <div class="row">
+                    <div class="col mt-2">
+                      <h4>{{ g.name }}</h4>
                     </div>
                   </div>
-                </div>
-              </router-link>
+                  <div class="row justify-content-center" v-if="!g.isCanceled">
+                    <div class="col-md-6 my-3">
+                      <div class="row">
+                        <div class="col">
+                          <h5>{{ formatDate(g.gameNightDate) }}</h5>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col">
+                          <h5>{{ g.location }}</h5>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="row justify-content-center text-danger"
+                    v-if="g.isCanceled"
+                  >
+                    <div class="col-md-6 my-3">
+                      <div class="row">
+                        <div class="col">
+                          <h5>This game night has been canceled</h5>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </router-link>
+              </div>
             </div>
           </div>
         </div>
@@ -138,16 +160,10 @@ export default {
     return {
       closetGames: computed(() => AppState.myGames.filter(g => g.owned)),
       myGameNights: computed(() => AppState.myGameNights),
-      formatDate(dateString) {
-        let date = new Date(dateString)
-        return date.toLocaleString()
-      },
 
       async deleteGameNight(gameNightId) {
-
         try {
           await gameNightService.delete(gameNightId)
-
           // Rerun getMyGameNights to remove the deleted night from the page. 
           // REVIEW not entirely sure why the computed's do this sometimes, and other times they don't seem to work. 
           await gameNightService.getMyGameNights('/account/gamenight')
@@ -157,9 +173,34 @@ export default {
         }
       },
 
+      async cancelGameNight(gameNightId) {
+        try {
+          // logger.log(gameNightId)
+          const found = this.myGameNights.find(g => g.id === gameNightId)
+          // logger.log(found)
+          // found.isCanceled = true
+
+          // if (found.isCanceled) {
+          //   logger.log('canceled already')
+          //   Pop.toast("You've canceled this already, playa!", 'warning')
+          // }
+
+          await gameNightService.cancel(gameNightId, found)
+          await gameNightService.getMyGameNights('/account/gamenight')
+        } catch (error) {
+          logger.error(error)
+          Pop.toast(error.message, 'error')
+        }
+      },
+
       setActive(game) {
         AppState.activeGameNight = game
-      }
+      },
+
+      formatDate(dateString) {
+        let date = new Date(dateString)
+        return date.toLocaleString()
+      },
     }
   }
 }
