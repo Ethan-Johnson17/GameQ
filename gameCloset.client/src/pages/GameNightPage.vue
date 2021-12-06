@@ -201,8 +201,8 @@ export default {
         }
       },
 
-      setActive(game) {
-        AppState.activeGameNight = game
+      setActive(gameNight) {
+        AppState.activeGameNight = gameNight
       },
 
       formatDate(dateString) {
@@ -227,6 +227,7 @@ export default {
 a {
   color: var(--bs-dark);
 }
+
 a:hover {
   color: var(--bs-secondary) !important;
 }

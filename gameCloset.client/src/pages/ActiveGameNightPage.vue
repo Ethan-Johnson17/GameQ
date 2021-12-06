@@ -19,10 +19,10 @@
               also decide on style of selection input like checkbox style or
               toggle button etc. -->
           <div class="col-md-8">
-            <div class="row">
-              <div class="col" v-for="g in gameQueue" :key="g.id">
+            <div class="row" v-for="g in gameQueue" :key="g.id">
+              <div class="col">
                 <input type="checkbox" name="game" id="game" />
-                <label class="ms-3" for="game">{{ g.name }}</label>
+                <label class="ms-3" for="game">{{ g.game.name }}</label>
               </div>
             </div>
             <!-- NOTE these are just example wont be needed -->
@@ -40,6 +40,27 @@
             </div> -->
           </div>
           <div class="col-md-4">
+            <div class="row mb-2">
+              <div class="col-md-6 ">
+                <form @submit.prevent="addGame">
+                  <div class="dropdown mx-4 my-2">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
+                      data-bs-toggle="dropdown" aria-expanded="false">
+                      {{ newGame }}
+                    </button>
+                    <!-- TODO Filters of gameCloset games in gameQueue -->
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                      <li v-for="game in closetGames" :key="game.atlasGameId">
+                        <div class="dropdown-item selectable" @click="newGame = game.name">
+                          {{ game.name }}
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                  <button class="btn btn-primary" type="submit"><i class="mdi mdi-plus-thick"></i></button>
+                </form>
+              </div>
+            </div>
             <div class="row">
               <div class="col-md-10 bg-primary mb-3">
                 <div class="row">
@@ -49,14 +70,9 @@
                   </div>
                 </div>
                 <!-- //NOTE vfor -->
-                <div class="row">
-                  <div class="col-9 my-2">(Game Name)</div>
-                  <div class="col-3 my-2">(Votes)</div>
-                  <!-- NOTE Dont need these (for example) -->
-                  <div class="col-9 my-2">(Game Name)</div>
-                  <div class="col-3 my-2">(Votes)</div>
-                  <div class="col-9 my-2">(Game Name)</div>
-                  <div class="col-3 my-2">(Votes)</div>
+                <div class="row" v-for="gq in gameQueue" :key="gq.id">
+                  <div class="col-9 my-2">{{ gq.game.name }}</div>
+                  <div class="col-3 my-2">{{ gq.game.votes }}</div>
                 </div>
               </div>
             </div>
@@ -102,34 +118,66 @@
 
 
 <script>
-import { AppState } from "../AppState"
-import { computed } from "@vue/reactivity"
-import { gameNightService } from "../services/GameNightService";
-import { onMounted, watchEffect } from "@vue/runtime-core"
-import { logger } from "../utils/Logger"
-import Pop from "../utils/Pop"
-import { gamesService } from "../services/GamesService"
-import { useRouter } from "vue-router";
+  import { AppState } from "../AppState"
+  import { computed, ref } from "@vue/reactivity"
+  import { gameNightService } from "../services/GameNightService";
+  import { onMounted, watchEffect } from "@vue/runtime-core"
+  import { logger } from "../utils/Logger"
+  import Pop from "../utils/Pop"
+  import { gamesService } from "../services/GamesService"
+  import { useRoute, useRouter } from "vue-router"
+  import { gameQueuesService } from "../services/GameQueuesService"
 
-export default {
-  setup() {
-    return {
-      activeGameNight: computed(() => AppState.activeGameNight),
-      gameQueue: computed(() => {
-        const found = AppState.gameQueue.find(g => g.gameNightId === AppState.activeGameNight.id)
-        logger.log(AppState.activeGameNight.id)
-        // Get all gameQueues and try route.params if needed
-        return found
-      }),
+  export default {
+    setup() {
+      const route = useRoute()
+      const newGame = ref('Choose a game!')
+      const newGameQueue = ref({})
+      onMounted(async () => {
+        try {
+          await gameNightService.getMyGameNights('/account/gamenight')
+          const found = AppState.myGameNights.find(g => g.id === route.params.id)
+          AppState.activeGameNight = found
+          await gamesService.getMyGames('/account/myGames')
+          await gameQueuesService.getAllGameQueue(route.params.id)
+        } catch (error) {
+          logger.error(error)
+          Pop.toast('error', 'error')
+        }
+      })
+      return {
+        route,
+        newGame,
+        activeGameNight: computed(() => AppState.activeGameNight),
+        closetGames: computed(() => AppState.myGames.filter(g => g.owned)),
+        // filteredGames: computed(() => {
+        //   closetGames.filter(c => c.id)
+        // }),
+        gameQueue: computed(() => AppState.gameQueue),
 
-      formatDate(dateString) {
-        let date = new Date(dateString)
-        return date.toLocaleString()
-      },
+        formatDate(dateString) {
+          let date = new Date(dateString)
+          return date.toLocaleString()
+        },
 
+        async addGame(game) {
+          try {
+            // newGameQueue.value.gameId =
+            const game = newGame.value
+            const found = AppState.myGames.find(g => g.name === game)
+            logger.log('button works', game)
+            let gameObject = { gameId: found.id, gameNightId: AppState.activeGameNight.id }
+            logger.log('game object', gameObject)
+            await gameQueuesService.addToGameQueue(gameObject)
+          } catch (error) {
+            logger.error(error)
+            Pop.toast('Someone is bringing that game.', 'warning')
+
+          }
+        }
+      }
     }
   }
-}
 </script>
 
 

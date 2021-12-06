@@ -34,7 +34,7 @@
         </div>
         <div class="row" v-if="game.min_playtime && game.max_playtime">
           <h4
-            class="col text-start ms-3"
+            class="col text-start mx-3"
             v-if="game.min_playtime === game.max_playtime"
           >
             Play time: {{ game.min_playtime }} minutes
@@ -107,7 +107,7 @@
                 ></i>
               </p>
             </div>
-            <div class="col text-end m-3 text-danger" v-else>
+            <div class="col text-end m-2 text-danger" v-else>
               <p>You have this game!</p>
             </div>
           </div>
@@ -210,12 +210,4 @@ export default {
 
 
 <style lang="scss" scoped>
-.img-container {
-  height: 350px;
-  width: 350px;
-}
-
-// .card {
-//   width: 50vh;
-// }
 </style>
