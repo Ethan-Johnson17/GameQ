@@ -28,7 +28,7 @@
                 <p class="vote">
                   <i class="mdi mdi-thumb-up f-16 pt-0 selectable h-25 me-2" @click="vote(playerId)"></i> {{
                   g.game.name }}
-                  <i class="mdi mdi-trash-can mdi-24px text-danger ms-5 selectable"></i>
+                  <i class="mdi mdi-trash-can mdi-24px text-danger ms-5 selectable" @click="removeGameQueue(g.id)"></i>
                 </p>
 
               </div>
