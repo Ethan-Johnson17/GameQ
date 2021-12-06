@@ -57,7 +57,7 @@
                       </li>
                     </ul>
                   </div>
-                  <button class="btn btn-primary" type="submit">+</button>
+                  <button class="btn btn-primary" type="submit"><i class="mdi mdi-plus-thick"></i></button>
                 </form>
               </div>
             </div>
@@ -70,14 +70,9 @@
                   </div>
                 </div>
                 <!-- //NOTE vfor -->
-                <div class="row">
-                  <div class="col-9 my-2">(g.name)</div>
-                  <div class="col-3 my-2">(Votes)</div>
-                  <!-- NOTE Dont need these (for example) -->
-                  <div class="col-9 my-2">(Game Name)</div>
-                  <div class="col-3 my-2">(Votes)</div>
-                  <div class="col-9 my-2">(Game Name)</div>
-                  <div class="col-3 my-2">(Votes)</div>
+                <div class="row" v-for="gq in gameQueue" :key="gq.id">
+                  <div class="col-9 my-2">{{ gq.game.name }}</div>
+                  <div class="col-3 my-2">{{ gq.game.votes }}</div>
                 </div>
               </div>
             </div>
