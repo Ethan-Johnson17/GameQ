@@ -162,11 +162,14 @@ export default {
     const newGameQueue = ref({})
     onMounted(async () => {
       try {
-        await gameNightService.getMyGameNights('/account/gamenight')
-        const found = AppState.myGameNights.find(g => g.id === route.params.id)
-        AppState.activeGameNight = found
-        await gamesService.getMyGames('/account/myGames')
-        await gameQueuesService.getAllGameQueue(route.params.id)
+        const gameNight = AppState.activeGameNight
+        if (gameNight.accountId = AppState.user.id) {
+          await gameNightService.getMyGameNights('/account/gamenight')
+          const found = AppState.myGameNights.find(g => g.id === route.params.id)
+          AppState.activeGameNight = found
+          await gamesService.getMyGames('/account/myGames')
+          await gameQueuesService.getAllGameQueue(route.params.id)
+        }
       } catch (error) {
         logger.error(error)
         Pop.toast('error', 'error')
@@ -178,6 +181,7 @@ export default {
       // newGameQueue,
       activeGameNight: computed(() => AppState.activeGameNight),
       closetGames: computed(() => AppState.myGames.filter(g => g.owned)),
+      user: computed(() => AppState.user),
       // filteredGames: computed(() => {
       //   closetGames.filter(c => c.id)
       // }),

@@ -149,7 +149,6 @@ import { logger } from "../utils/Logger"
 import Pop from "../utils/Pop"
 import { gamesService } from "../services/GamesService"
 import { useRouter } from "vue-router";
-import { playersService } from "../services/PlayersService";
 
 
 export default {
@@ -206,6 +205,10 @@ export default {
         try {
           await gameNightService.findGameNight(search.value)
           search.value = ''
+          router.push({
+            name: "GameNightDetails",
+            params: { id: AppState.activeGameNight.id }
+          })
         } catch (error) {
           logger.error(error)
         }
