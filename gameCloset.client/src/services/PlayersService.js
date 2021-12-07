@@ -1,11 +1,13 @@
 import { AppState } from "../AppState"
+import { logger } from "../utils/Logger"
 import { api } from "./AxiosService"
 
 class PlayersService {
   async attendGameNight(pin) {
-    const res = await api.post(`api/gamenight/${pin}`)
+    const res = await api.post(`api/players/${pin}`)
     AppState.player = [...AppState.player, res.data]
     AppState.activeGameNight = res.data
+    logger.log(AppState.player, AppState.activeGameNight)
   }
   async unattendGameNight(playerId) {
     await api.delete(`api/players/${playerId}`)
