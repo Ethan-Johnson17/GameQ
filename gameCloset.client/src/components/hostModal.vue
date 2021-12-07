@@ -132,8 +132,10 @@ export default {
           await gameNightService.createGameNight(state.editable)
           const gameNight = AppState.activeGameNight
           await playersService.attendGameNight(gameNight.pin)
+
           const found = AppState.myGames.find(g => g.name === game)
           logger.log('Active GameNight', AppState.activeGameNight)
+          logger.log('Player', AppState.player)
           let gameObject = { gameId: found.id, gameNightId: AppState.activeGameNight.id }
           await gameQueuesService.addToGameQueue(gameObject)
           router.push({
