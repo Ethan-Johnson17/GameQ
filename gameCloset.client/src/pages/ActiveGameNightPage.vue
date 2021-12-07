@@ -75,6 +75,9 @@
                     <li v-for="game in closetGames" :key="game.atlasGameId">
                       <div
                         class="dropdown-item selectable"
+                        :class="
+                          arrOfNames.includes(game.name) ? 'disabled' : ''
+                        "
                         @click="newGame = game.name"
                       >
                         {{ game.name }}
