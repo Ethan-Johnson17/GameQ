@@ -170,11 +170,13 @@ export default {
   setup() {
     const route = useRoute()
     const newGame = ref('Choose a game!')
-    const newGameQueue = ref({})
-    onMounted(async () => {
+    // const newGameQueue = ref({})
+    watchEffect(async () => {
       try {
-        await gamesService.getMyGames('/account/myGames')
-        await gameQueuesService.getAllGameQueue(route.params.id)
+        if (route.params.id) {
+          await gameQueuesService.getAllGameQueue(route.params.id)
+          await gamesService.getMyGames('/account/myGames')
+        }
         const gameNight = AppState.activeGameNight
         if (gameNight.accountId === AppState.user.id) {
           await gameNightService.getMyGameNights('/account/gamenight')

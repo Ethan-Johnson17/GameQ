@@ -8,6 +8,9 @@ class GameQueuesService {
     const res = await api.post('api/gamequeue', gameObject)
     logger.log(res)
     AppState.gameQueue.push(res.data)
+    // It's pushing it to the AppState because it returns an array, and if we just set it then the way we're preventing duplicates breaks
+
+
   }
   async removeGameQueue(gameQueueId) {
     await api.delete(`api/gamequeue/${gameQueueId}`)
