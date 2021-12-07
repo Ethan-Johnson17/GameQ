@@ -52,6 +52,11 @@ class GameNightService {
     AppState.myGameNights.splice(index, 1, newGameNight)
 
   }
+  async findGameNight(query = '') {
+    const res = await api.get(`api/gamenight/${query}`)
+    AppState.activeGameNight = res.data
+  }
 }
+
 
 export const gameNightService = new GameNightService()

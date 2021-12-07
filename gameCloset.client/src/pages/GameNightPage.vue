@@ -89,8 +89,11 @@
                   @click="setActive(g)"
                 >
                   <div class="row">
-                    <div class="col mt-2">
+                    <div class="col-6 mt-2">
                       <h4>{{ g.name }}</h4>
+                    </div>
+                    <div class="col-6 mt-2 text-end">
+                      <h5>Game Pin: {{ g.pin }}</h5>
                     </div>
                   </div>
                   <div class="row justify-content-center" v-if="!g.isCanceled">
@@ -192,6 +195,15 @@ export default {
         } catch (error) {
           logger.error(error)
           Pop.toast(error.message, 'error')
+        }
+      },
+
+      async findGameNight() {
+        try {
+          await gameNightService.findGameNight('/search?q=' + search.value)
+          search.value = ''
+        } catch (error) {
+          logger.error(error)
         }
       },
 
