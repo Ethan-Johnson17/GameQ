@@ -40,10 +40,11 @@ class GamesService {
 
   async goodwillit(gameId, userId) {
     const game = await this.getById(gameId)
-    // if (game.accountId.toString() !== userId) {
-    //   throw new Forbidden('Wat!!')
-    // }
+    if (game.accountId.toString() !== userId) {
+      throw new Forbidden('Access denied!!')
+    }
     await dbContext.Game.findByIdAndDelete(gameId)
+    await dbContext.GameQueue.deleteMany({ gameId: gameId, accountId: userId })
   }
 }
 export const gamesService = new GamesService()
