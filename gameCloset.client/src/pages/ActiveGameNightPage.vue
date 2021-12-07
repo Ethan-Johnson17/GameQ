@@ -209,6 +209,7 @@ export default {
           if (newGame.value === 'Choose a game!') { return }
           let gameObject = { gameId: found.id, gameNightId: AppState.activeGameNight.id }
           await gameQueuesService.addToGameQueue(gameObject)
+          newGame.value = 'Choose a game!'
         } catch (error) {
           logger.error(error)
           Pop.toast('Someone is bringing that game.', 'warning')
