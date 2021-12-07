@@ -17,14 +17,8 @@
       </div>
       <div class="flip-card-back elevation-3">
         <div class="row">
-          <div
-            class="col text-danger text-end"
-            v-if="route.name == 'GameCloset'"
-          >
-            <i
-              class="mdi mdi-trash-can-outline selectable mdi-24px p-2"
-              @click="remove(game.id)"
-            ></i>
+          <div class="col text-danger text-end" v-if="route.name == 'GameCloset'">
+            <i class="mdi mdi-trash-can-outline selectable mdi-24px p-2" @click="remove(game.id)"></i>
           </div>
         </div>
         <div class="row">
@@ -33,10 +27,7 @@
           </div>
         </div>
         <div class="row" v-if="game.min_playtime && game.max_playtime">
-          <h4
-            class="col text-start mx-3"
-            v-if="game.min_playtime === game.max_playtime"
-          >
+          <h4 class="col text-start mx-3" v-if="game.min_playtime === game.max_playtime">
             Play time: {{ game.min_playtime }} minutes
           </h4>
           <h4 class="col text-start ms-3" v-else>
@@ -44,10 +35,7 @@
           </h4>
         </div>
         <div class="row" v-if="game.min_players && game.max_players">
-          <h4
-            class="col text-start ms-3"
-            v-if="game.min_players === game.max_players"
-          >
+          <h4 class="col text-start ms-3" v-if="game.min_players === game.max_players">
             Number of players: {{ game.min_players }}
           </h4>
           <h4 class="col text-start ms-3" v-else>
@@ -69,36 +57,97 @@
         </div>
         <div class="row" v-if="game.rules_url || game.houseRules">
           <div class="col text-center mt-4">
+            <!-- NOTE Accordion
+              <div class="accordion accordion-flush mb-5" id="accordionExample">
+              <div class="accordion-item bgColor ">
+                <h2 class="accordion-header" id="headingOne">
+                  <button class="accordion-button bg-light" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    Official Rules
+                  </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+                  data-bs-parent="#accordionExample">
+                  <div class="accordion-body" v-if="game.rules_url">
+                    <a target="_blank" :href="game.rules_url">{{game.name}} Rules</a>
+                  </div>
+                  <div class="accordion-body" v-else>
+                    <p>No {{game.name}} rules found. <span data-bs-toggle="modal"
+                        :data-bs-target="'#addRules-' + game.id" class="selectable">Add now?</span> </p>
+                  </div>
+                  <i class="mdi mdi-plus-thick text-secondary selectable btn" data-bs-toggle="modal"
+                    :data-bs-target="'#addRules-' + game.id" title="Add Official Rules"> Add Rules</i>
+
+                </div>
+              </div>
+              <div class="accordion-item bgColor">
+                <h2 class="accordion-header" id="headingTwo">
+                  <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    House Rules
+                  </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                  data-bs-parent="#accordionExample">
+                  <div class="accordion-body">
+                    {{ game.houseRules }}
+                  </div>
+                  <i class="mdi mdi-plus-thick text-secondary selectable" data-bs-toggle="modal"
+                    :data-bs-target="'#addRules-' + game.id" title="Add House Rules"> Add Rules</i>
+                </div>
+              </div>
+            </div> -->
+
+
+
+            <!-- NOTE Details -->
             <details>
               <summary>Game Rules</summary>
-              <h5><a target="_blank" :href="game.rules_url">Game Rules</a></h5>
-              <h5>{{ game.houseRules }}</h5>
+              <h5 class="accordion-header" id="headingOne">
+                Official Rules
+              </h5>
+              <div>
+                <div v-if="game.rules_url">
+                  <a target="_blank" :href="game.rules_url">{{game.name}} Rules</a>
+                </div>
+                <div v-else>
+                  <p>No {{game.name}} rules found. <span data-bs-toggle="modal" :data-bs-target="'#addRules-' + game.id"
+                      class="selectable">Add now?</span> </p>
+                  <i class="mdi mdi-plus-thick text-secondary selectable btn" data-bs-toggle="modal"
+                    :data-bs-target="'#addRules-' + game.id" title="Add Official Rules"> Add Rules</i>
+                </div>
+              </div>
+              <div>
+                <h5>
+                  House Rules
+                </h5>
+                <div>
+                  <div>
+                    {{ game.houseRules }}
+                  </div>
+                  <i class="mdi mdi-plus-thick text-secondary selectable" data-bs-toggle="modal"
+                    :data-bs-target="'#addRules-' + game.id" title="Add House Rules"> Add Rules</i>
+                </div>
+              </div>
             </details>
+
+
           </div>
         </div>
         <div class="row" v-if="user.isAuthenticated">
           <div class="col mt-3" v-if="isSearchResult">
             <div v-if="!hasGame">
               <p class="text-end">
-                <i
-                  v-if="route.name == 'Search' && !game.owned"
-                  @click="addToWishlist(game)"
-                  class="
+                <i v-if="route.name == 'Search' && !game.owned" @click="addToWishlist(game)" class="
                     selectable
                     mdi mdi-playlist-plus mdi-24px
                     me-3
                     p-2
                     rounded
                     text-success
-                  "
-                  title="add to wishlist"
-                ></i>
-                <button
-                  class="btn btn-secondary selectable p-1 rounded mx-4"
-                  title="add to game closet"
-                  v-if="!game.owned"
-                  @click="addToGameCloset(game)"
-                >
+                  " title="add to wishlist"></i>
+                <button class="btn btn-secondary selectable p-1 rounded mx-4" title="add to game closet"
+                  v-if="!game.owned" @click="addToGameCloset(game)">
                   Add to Game Closet
                 </button>
               </p>
@@ -109,25 +158,16 @@
           </div>
           <div class="col mt-3" v-else>
             <p class="text-end">
-              <i
-                v-if="route.name == 'Search' && !game.owned"
-                @click="addToWishlist(game)"
-                class="
+              <i v-if="route.name == 'Search' && !game.owned" @click="addToWishlist(game)" class="
                   selectable
                   mdi mdi-playlist-plus mdi-24px
                   me-3
                   p-2
                   rounded
                   text-success
-                "
-                title="add to wishlist"
-              ></i>
-              <button
-                class="btn btn-secondary selectable p-1 rounded mx-4"
-                title="add to game closet"
-                v-if="!game.owned"
-                @click="addToGameCloset(game)"
-              >
+                " title="add to wishlist"></i>
+              <button class="btn btn-secondary selectable p-1 rounded mx-4" title="add to game closet"
+                v-if="!game.owned" @click="addToGameCloset(game)">
                 Add to Game Closet
               </button>
             </p>
@@ -140,67 +180,74 @@
 
 
 <script>
-import { computed } from "@vue/reactivity"
-import { gamesService } from "../services/GamesService"
-import { logger } from "../utils/Logger"
-import { AppState } from "../AppState"
-import { useRoute } from "vue-router"
-import Pop from "../utils/Pop"
-export default {
-  props: {
-    game: { type: Object },
-    isSearchResult: { type: Boolean, default: false }
-  },
-  setup(props) {
-    const route = useRoute()
-    return {
-      route,
-      user: computed(() => AppState.user),
-      account: computed(() => AppState.account),
-      hasGame: computed(() => {
-        const found = AppState.myGames.find(g => g.atlasGameId === props.game.atlasGameId)
-        return found
-      }),
+  import { computed } from "@vue/reactivity"
+  import { gamesService } from "../services/GamesService"
+  import { logger } from "../utils/Logger"
+  import { AppState } from "../AppState"
+  import { useRoute } from "vue-router"
+  import Pop from "../utils/Pop"
+  export default {
+    props: {
+      game: { type: Object },
+      isSearchResult: { type: Boolean, default: false }
+    },
+    setup(props) {
+      const route = useRoute()
+      return {
+        route,
+        user: computed(() => AppState.user),
+        account: computed(() => AppState.account),
+        hasGame: computed(() => {
+          const found = AppState.myGames.find(g => g.atlasGameId === props.game.atlasGameId)
+          return found
+        }),
 
 
-      async addToWishlist() {
-        try {
-          const game = props.game
-          const response = await gamesService.addToWishlist(game)
-          logger.log('wishlist response', response)
-          Pop.toast('Added to Wishlist', 'success')
-        } catch (error) {
-          Pop.toast("Already in your wishlist!:" + error.message, 'error')
-          logger.error(error)
-        }
-      },
+        async addToWishlist() {
+          try {
+            const game = props.game
+            const response = await gamesService.addToWishlist(game)
+            logger.log('wishlist response', response)
+            Pop.toast('Added to Wishlist', 'success')
+          } catch (error) {
+            Pop.toast("Already in your wishlist!:" + error.message, 'error')
+            logger.error(error)
+          }
+        },
 
-      async addToGameCloset() {
-        try {
-          const closetGame = props.game
-          closetGame.owned = true
-          logger.log('add', closetGame)
-          await gamesService.addToGameCloset(closetGame)
-          Pop.toast('Added to Game Closet', 'success')
-        } catch (error) {
-          Pop.toast("Already in your closet!" + error.message, 'error')
-          logger.error(error)
-        }
-      },
+        async addToGameCloset() {
+          try {
+            const closetGame = props.game
+            closetGame.owned = true
+            logger.log('add', closetGame)
+            await gamesService.addToGameCloset(closetGame)
+            Pop.toast('Added to Game Closet', 'success')
+          } catch (error) {
+            Pop.toast("Already in your closet!" + error.message, 'error')
+            logger.error(error)
+          }
+        },
 
-      async remove(id) {
-        try {
-          await gamesService.remove(id)
-        } catch (error) {
-          Pop.toast(error.message, 'error')
-          logger.error(error)
+        async remove(id) {
+          try {
+            await gamesService.remove(id)
+          } catch (error) {
+            Pop.toast(error.message, 'error')
+            logger.error(error)
+          }
         }
       }
     }
   }
-}
 </script>
 
 
 <style lang="scss" scoped>
+  .bgColor {
+    background-color: #bebebe
+  }
+
+  .zind {
+    z-index: 5000;
+  }
 </style>
