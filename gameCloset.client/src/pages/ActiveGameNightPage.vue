@@ -67,6 +67,9 @@
                       <li v-for="game in closetGames" :key="game.atlasGameId">
                         <div
                           class="dropdown-item selectable"
+                          :class="
+                            arrOfNames.includes(game.name) ? 'disabled' : ''
+                          "
                           @click="newGame = game.name"
                         >
                           {{ game.name }}
@@ -163,7 +166,7 @@ export default {
     onMounted(async () => {
       try {
         const gameNight = AppState.activeGameNight
-        if (gameNight.accountId = AppState.user.id) {
+        if (gameNight.accountId === AppState.user.id) {
           await gameNightService.getMyGameNights('/account/gamenight')
           const found = AppState.myGameNights.find(g => g.id === route.params.id)
           AppState.activeGameNight = found
@@ -182,10 +185,14 @@ export default {
       activeGameNight: computed(() => AppState.activeGameNight),
       closetGames: computed(() => AppState.myGames.filter(g => g.owned)),
       user: computed(() => AppState.user),
-      // filteredGames: computed(() => {
-      //   closetGames.filter(c => c.id)
-      // }),
       gameQueue: computed(() => AppState.gameQueue),
+      arrOfNames: computed(() => {
+        let arrOfNames = []
+        AppState.gameQueue.forEach(g => {
+          arrOfNames.push(g.game.name)
+        })
+        return arrOfNames
+      }),
 
       formatDate(dateString) {
         let date = new Date(dateString)
