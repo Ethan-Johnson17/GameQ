@@ -74,9 +74,9 @@
                   <div class="accordion-body" v-else>
                     <p>No {{game.name}} rules found. <span data-bs-toggle="modal"
                         :data-bs-target="'#addRules-' + game.id" class="selectable">Add now?</span> </p>
+                    <i class="mdi mdi-plus-thick text-secondary selectable btn" data-bs-toggle="modal"
+                      :data-bs-target="'#addRules-' + game.id" title="Add Official Rules"> Add Rules</i>
                   </div>
-                  <i class="mdi mdi-plus-thick text-secondary selectable btn" data-bs-toggle="modal"
-                    :data-bs-target="'#addRules-' + game.id" title="Add Official Rules"> Add Rules</i>
 
                 </div>
               </div>
