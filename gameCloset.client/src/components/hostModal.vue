@@ -109,6 +109,7 @@ import { gameQueuesService } from "../services/GameQueuesService"
 
 export default {
   setup() {
+    let router = useRouter()
     const newPlayer = ref({})
     const gameQueue = ref('Choose a game!')
     const state = reactive({
@@ -123,13 +124,25 @@ export default {
 
 
       async createGameNight() {
-        const game = gameQueue.value
-        logger.log('create', state.editable, 'gameQueue', game)
-        await gameNightService.createGameNight(state.editable)
-        const found = AppState.myGames.find(g => g.name === game)
-        logger.log('found', found)
-        let gameObject = { gameId: found.id, gameNightId: AppState.activeGameNight.id }
-        await gameQueuesService.addToGameQueue(gameObject)
+
+        try {
+          const game = gameQueue.value
+          logger.log('create', state.editable, 'gameQueue', game)
+          await gameNightService.createGameNight(state.editable)
+          const found = AppState.myGames.find(g => g.name === game)
+          logger.log('found', found)
+          let gameObject = { gameId: found.id, gameNightId: AppState.activeGameNight.id }
+          await gameQueuesService.addToGameQueue(gameObject)
+          router.push({
+            name: "GameNightDetails",
+            params: { id: AppState.activeGameNight.id }
+          })
+
+        } catch (error) {
+          logger.error(error)
+          Pop.toast(error.message, 'error')
+        }
+
 
         // const gameId = AppState.activeGame.id
         // router.push({
