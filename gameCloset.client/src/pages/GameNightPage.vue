@@ -1,5 +1,5 @@
 <template>
-  <div class="gameNight container-fluid">
+  <div class="gameNight container-fluid p-5">
     <div class="row">
       <div class="col text-center">
         <h1 class="text-light">GAME NIGHT</h1>
@@ -35,7 +35,7 @@
       <div class="col">
         <div class="row justify-content-center">
           <div
-            class="col-md-6 card elevation-2 mt-3 selectable grow"
+            class="col-md-8 mt-3 card elevation-2 selectable grow"
             title="Game Night Details"
           >
             <div class="row">
@@ -180,7 +180,7 @@ export default {
           const yes = await Pop.confirm('Delete your game night?')
           if (!yes) { return }
           const res = await gameNightService.delete(gameNightId)
-          logger.log(res)
+          // logger.log(res)
           Pop.toast('Deleted', 'success')
         } catch (error) {
           logger.error(error)

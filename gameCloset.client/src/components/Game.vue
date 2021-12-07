@@ -69,11 +69,117 @@
         </div>
         <div class="row" v-if="game.rules_url || game.houseRules">
           <div class="col text-center mt-4">
-            <details>
+            <!-- NOTE Accordion -->
+            <div class="accordion accordion-flush mb-5" id="accordionExample">
+              <div class="accordion-item bgColor">
+                <h2 class="accordion-header" id="headingOne">
+                  <button
+                    class="accordion-button bg-light"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseOne"
+                    aria-expanded="true"
+                    aria-controls="collapseOne"
+                  >
+                    Official Rules
+                  </button>
+                </h2>
+                <div
+                  id="collapseOne"
+                  class="accordion-collapse collapse"
+                  aria-labelledby="headingOne"
+                  data-bs-parent="#accordionExample"
+                >
+                  <div class="accordion-body" v-if="game.rules_url">
+                    <a target="_blank" :href="game.rules_url"
+                      >{{ game.name }} Rules</a
+                    >
+                  </div>
+                  <div class="accordion-body" v-else>
+                    <p>
+                      No {{ game.name }} rules found.
+                      <span
+                        data-bs-toggle="modal"
+                        :data-bs-target="'#addRules-' + game.id"
+                        class="selectable"
+                        >Add now?</span
+                      >
+                    </p>
+                    <i
+                      class="mdi mdi-plus-thick text-secondary selectable btn"
+                      data-bs-toggle="modal"
+                      :data-bs-target="'#addRules-' + game.id"
+                      title="Add Official Rules"
+                    >
+                      Add Rules</i
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item bgColor">
+                <h2 class="accordion-header" id="headingTwo">
+                  <button
+                    class="accordion-button collapsed bg-light"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseTwo"
+                    aria-expanded="false"
+                    aria-controls="collapseTwo"
+                  >
+                    House Rules
+                  </button>
+                </h2>
+                <div
+                  id="collapseTwo"
+                  class="accordion-collapse collapse"
+                  aria-labelledby="headingTwo"
+                  data-bs-parent="#accordionExample"
+                >
+                  <div class="accordion-body">
+                    {{ game.houseRules }}
+                  </div>
+                  <i
+                    class="mdi mdi-plus-thick text-secondary selectable"
+                    data-bs-toggle="modal"
+                    :data-bs-target="'#addRules-' + game.id"
+                    title="Add House Rules"
+                  >
+                    Add Rules</i
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- NOTE Details -->
+            <!-- <details>
               <summary>Game Rules</summary>
-              <h5><a target="_blank" :href="game.rules_url">Game Rules</a></h5>
-              <h5>{{ game.houseRules }}</h5>
-            </details>
+              <h5 class="accordion-header" id="headingOne">
+                Official Rules
+              </h5>
+              <div>
+                <div v-if="game.rules_url">
+                  <a target="_blank" :href="game.rules_url">{{game.name}} Rules</a>
+                </div>
+                <div v-else>
+                  <p>No {{game.name}} rules found. <span data-bs-toggle="modal" :data-bs-target="'#addRules-' + game.id"
+                      class="selectable">Add now?</span> </p>
+                  <i class="mdi mdi-plus-thick text-secondary selectable btn" data-bs-toggle="modal"
+                    :data-bs-target="'#addRules-' + game.id" title="Add Official Rules"> Add Rules</i>
+                </div>
+              </div>
+              <div>
+                <h5>
+                  House Rules
+                </h5>
+                <div>
+                  <div>
+                    {{ game.houseRules }}
+                  </div>
+                  <i class="mdi mdi-plus-thick text-secondary selectable" data-bs-toggle="modal"
+                    :data-bs-target="'#addRules-' + game.id" title="Add House Rules"> Add Rules</i>
+                </div>
+              </div>
+            </details> -->
           </div>
         </div>
         <div class="row" v-if="user.isAuthenticated">
@@ -203,4 +309,11 @@ export default {
 
 
 <style lang="scss" scoped>
+.bgColor {
+  background-color: #bebebe;
+}
+
+.zind {
+  z-index: 5000;
+}
 </style>

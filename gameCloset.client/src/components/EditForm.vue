@@ -116,7 +116,7 @@ export default {
           await gameNightService.getMyGameNights('/account/gamenight')
 
         } catch (error) {
-          logger.log(error)
+          // logger.log(error)
           Pop.toast(error.message, 'error')
         }
       }
