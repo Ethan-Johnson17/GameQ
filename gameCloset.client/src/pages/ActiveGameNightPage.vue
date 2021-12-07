@@ -235,8 +235,7 @@ export default {
 
       async joinGameNight(pin) {
         try {
-          const yes = await Pop.confirm("Want to join this game night?")
-          if (!yes) { return }
+
           await playersService.attendGameNight(pin)
 
         } catch (error) {
