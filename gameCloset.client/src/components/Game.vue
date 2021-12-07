@@ -57,8 +57,8 @@
         </div>
         <div class="row" v-if="game.rules_url || game.houseRules">
           <div class="col text-center mt-4">
-            <!-- NOTE Accordion
-              <div class="accordion accordion-flush mb-5" id="accordionExample">
+            <!-- NOTE Accordion -->
+            <div class="accordion accordion-flush mb-5" id="accordionExample">
               <div class="accordion-item bgColor ">
                 <h2 class="accordion-header" id="headingOne">
                   <button class="accordion-button bg-light" type="button" data-bs-toggle="collapse"
@@ -96,12 +96,12 @@
                     :data-bs-target="'#addRules-' + game.id" title="Add House Rules"> Add Rules</i>
                 </div>
               </div>
-            </div> -->
+            </div>
 
 
 
             <!-- NOTE Details -->
-            <details>
+            <!-- <details>
               <summary>Game Rules</summary>
               <h5 class="accordion-header" id="headingOne">
                 Official Rules
@@ -129,7 +129,7 @@
                     :data-bs-target="'#addRules-' + game.id" title="Add House Rules"> Add Rules</i>
                 </div>
               </div>
-            </details>
+            </details> -->
 
 
           </div>
