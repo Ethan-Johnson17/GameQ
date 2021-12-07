@@ -170,6 +170,7 @@ export default {
         return found
       }),
 
+
       async addToWishlist() {
         try {
           const game = props.game

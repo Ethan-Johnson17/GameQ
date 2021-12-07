@@ -194,6 +194,8 @@ export default {
           // newGameQueue.value.gameId = game.id
           const game = newGame.value
           const found = AppState.myGames.find(g => g.name === game)
+          logger.log('found', found)
+          if (newGame.value === 'Choose a game!') { return }
           let gameObject = { gameId: found.id, gameNightId: AppState.activeGameNight.id }
           await gameQueuesService.addToGameQueue(gameObject)
         } catch (error) {
