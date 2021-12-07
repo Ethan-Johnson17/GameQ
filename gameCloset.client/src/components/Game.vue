@@ -93,18 +93,14 @@
                   "
                   title="add to wishlist"
                 ></i>
-                <i
+                <button
+                  class="btn btn-secondary selectable p-1 rounded mx-4"
+                  title="add to game closet"
                   v-if="!game.owned"
                   @click="addToGameCloset(game)"
-                  class="
-                    selectable
-                    mdi mdi-heart-outline mdi-24px
-                    p-2
-                    rounded
-                    text-danger
-                  "
-                  title="add to game closet"
-                ></i>
+                >
+                  Add to Game Closet
+                </button>
               </p>
             </div>
             <div class="col text-end m-2 text-danger" v-else>
@@ -126,18 +122,14 @@
                 "
                 title="add to wishlist"
               ></i>
-              <i
+              <button
+                class="btn btn-secondary selectable p-1 rounded mx-4"
+                title="add to game closet"
                 v-if="!game.owned"
                 @click="addToGameCloset(game)"
-                class="
-                  selectable
-                  mdi mdi-heart-outline mdi-24px
-                  p-2
-                  rounded
-                  text-danger
-                "
-                title="add to game closet"
-              ></i>
+              >
+                Add to Game Closet
+              </button>
             </p>
           </div>
         </div>
