@@ -26,9 +26,20 @@
                 <label class="btn btn-outline-primary mdi mdi-thumb-up px-2 py-1 mb-2" for="game"></label>
                 <label class="ms-3" for="game"></label> -->
                 <p class="vote">
-                  <i class="mdi mdi-thumb-up f-16 pt-0 selectable h-25 me-2" @click="vote(playerId)"></i>
-                  {{ g.game.name }}
-                  <i class="mdi mdi-trash-can mdi-24px text-danger ms-5 selectable" @click="removeGameQueue(g.id)"></i>
+                  <i
+                    class="mdi mdi-thumb-up f-16 pt-0 selectable h-25 me-2"
+                    @click="vote(playerId)"
+                  ></i>
+                  {{ g.game?.name }}
+                  <i
+                    class="
+                      mdi mdi-trash-can mdi-24px
+                      text-danger
+                      ms-5
+                      selectable
+                    "
+                    @click="removeGameQueue(g.id)"
+                  ></i>
                 </p>
               </div>
             </div>
@@ -38,20 +49,41 @@
               <div class="col-md-12 d-flex">
                 <form @submit.prevent="addGame">
                   <div class="dropdown mx-4 my-2 input-group">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
-                      data-bs-toggle="dropdown" aria-expanded="false">
+                    <button
+                      class="btn btn-secondary dropdown-toggle"
+                      type="button"
+                      id="dropdownMenuButton1"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                    >
                       {{ newGame }}
                     </button>
                     <!-- TODO Filters of gameCloset games in gameQueue -->
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <ul
+                      class="dropdown-menu"
+                      aria-labelledby="dropdownMenuButton1"
+                    >
                       <li v-for="game in closetGames" :key="game.atlasGameId">
-                        <div class="dropdown-item selectable" @click="newGame = game.name">
+                        <div
+                          class="dropdown-item selectable"
+                          @click="newGame = game.name"
+                        >
                           {{ game.name }}
                         </div>
                       </li>
                     </ul>
-                    <button class="btn bg-white border border-secondary text-secondary px-2" type="submit"><i
-                        class="mdi mdi-plus-thick"></i></button>
+                    <button
+                      class="
+                        btn
+                        bg-white
+                        border border-secondary
+                        text-secondary
+                        px-2
+                      "
+                      type="submit"
+                    >
+                      <i class="mdi mdi-plus-thick"></i>
+                    </button>
                   </div>
                 </form>
               </div>
@@ -66,7 +98,7 @@
                 </div>
                 <!-- //NOTE vfor -->
                 <div class="row" v-for="gq in gameQueue" :key="gq.id">
-                  <div class="col-9 my-2">{{ gq.game.name }}</div>
+                  <div class="col-9 my-2">{{ gq.game?.name }}</div>
                   <div class="col-3 my-2">{{ gq.votes.length }}</div>
                 </div>
               </div>
@@ -113,93 +145,93 @@
 
 
 <script>
-  import { AppState } from "../AppState"
-  import { computed, ref } from "@vue/reactivity"
-  import { gameNightService } from "../services/GameNightService";
-  import { onMounted, watchEffect } from "@vue/runtime-core"
-  import { logger } from "../utils/Logger"
-  import Pop from "../utils/Pop"
-  import { gamesService } from "../services/GamesService"
-  import { useRoute, useRouter } from "vue-router"
-  import { gameQueuesService } from "../services/GameQueuesService"
+import { AppState } from "../AppState"
+import { computed, ref } from "@vue/reactivity"
+import { gameNightService } from "../services/GameNightService";
+import { onMounted, watchEffect } from "@vue/runtime-core"
+import { logger } from "../utils/Logger"
+import Pop from "../utils/Pop"
+import { gamesService } from "../services/GamesService"
+import { useRoute, useRouter } from "vue-router"
+import { gameQueuesService } from "../services/GameQueuesService"
 
-  export default {
-    setup() {
-      const route = useRoute()
-      const newGame = ref('Choose a game!')
-      const newGameQueue = ref({})
-      onMounted(async () => {
+export default {
+  setup() {
+    const route = useRoute()
+    const newGame = ref('Choose a game!')
+    const newGameQueue = ref({})
+    onMounted(async () => {
+      try {
+        await gameNightService.getMyGameNights('/account/gamenight')
+        const found = AppState.myGameNights.find(g => g.id === route.params.id)
+        AppState.activeGameNight = found
+        await gamesService.getMyGames('/account/myGames')
+        await gameQueuesService.getAllGameQueue(route.params.id)
+      } catch (error) {
+        logger.error(error)
+        Pop.toast('error', 'error')
+      }
+    })
+    return {
+      route,
+      newGame,
+      // newGameQueue,
+      activeGameNight: computed(() => AppState.activeGameNight),
+      closetGames: computed(() => AppState.myGames.filter(g => g.owned)),
+      // filteredGames: computed(() => {
+      //   closetGames.filter(c => c.id)
+      // }),
+      gameQueue: computed(() => AppState.gameQueue),
+
+      formatDate(dateString) {
+        let date = new Date(dateString)
+        return date.toLocaleString()
+      },
+
+      async addGame(game) {
         try {
-          await gameNightService.getMyGameNights('/account/gamenight')
-          const found = AppState.myGameNights.find(g => g.id === route.params.id)
-          AppState.activeGameNight = found
-          await gamesService.getMyGames('/account/myGames')
-          await gameQueuesService.getAllGameQueue(route.params.id)
+          // REVIEW wat ???
+          // newGameQueue.value.gameId = game.id
+          const game = newGame.value
+          const found = AppState.myGames.find(g => g.name === game)
+          let gameObject = { gameId: found.id, gameNightId: AppState.activeGameNight.id }
+          await gameQueuesService.addToGameQueue(gameObject)
         } catch (error) {
           logger.error(error)
-          Pop.toast('error', 'error')
+          Pop.toast('Someone is bringing that game.', 'warning')
+
         }
-      })
-      return {
-        route,
-        newGame,
-        newGameQueue,
-        activeGameNight: computed(() => AppState.activeGameNight),
-        closetGames: computed(() => AppState.myGames.filter(g => g.owned)),
-        // filteredGames: computed(() => {
-        //   closetGames.filter(c => c.id)
-        // }),
-        gameQueue: computed(() => AppState.gameQueue),
+      },
 
-        formatDate(dateString) {
-          let date = new Date(dateString)
-          return date.toLocaleString()
-        },
+      async removeGameQueue(id) {
+        try {
+          const yes = await Pop.confirm('Delete your game?')
+          if (!yes) { return }
+          await gameQueuesService.removeGameQueue(id)
+        } catch (error) {
+          logger.error(error)
+          Pop.toast(error.message, 'error')
+        }
+      },
 
-        async addGame(game) {
-          try {
-            // REVIEW wat ???
-            // newGameQueue.value.gameId = game.id
-            const game = newGame.value
-            const found = AppState.myGames.find(g => g.name === game)
-            let gameObject = { gameId: found.id, gameNightId: AppState.activeGameNight.id }
-            await gameQueuesService.addToGameQueue(gameObject)
-          } catch (error) {
-            logger.error(error)
-            Pop.toast('Someone is bringing that game.', 'warning')
+      async vote(id) {
+        try {
+          logger.log('vote', id)
+          await gameQueuesService.vote(id)
 
-          }
-        },
-
-        async removeGameQueue(id) {
-          try {
-            const yes = await Pop.confirm('Delete your game?')
-            if (!yes) { return }
-            await gameQueuesService.removeGameQueue(id)
-          } catch (error) {
-            logger.error(error)
-            Pop.toast(error.message, 'error')
-          }
-        },
-
-        async vote(id) {
-          try {
-            logger.log('vote', id)
-            await gameQueuesService.vote(id)
-
-          } catch (error) {
-            logger.error(error)
-          }
-        },
-      }
+        } catch (error) {
+          logger.error(error)
+        }
+      },
     }
   }
+}
 </script>
 
 
 <style lang="scss" scoped>
-  p:focus {
-    background-color: red;
-    color: red;
-  }
+p:focus {
+  background-color: red;
+  color: red;
+}
 </style>
