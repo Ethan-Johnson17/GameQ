@@ -20,9 +20,9 @@ class GameNightsService {
 
   async getByPin(pin) {
     const gamenight = await dbContext.GameNight.findOne({ pin }).populate('account')
-    if (!gamenight) {
-      throw new BadRequest('not your game night!')
-    }
+    // if (!gamenight) {
+    //   throw new BadRequest('not your game night!')
+    // }
     return gamenight
   }
 

@@ -7,9 +7,10 @@
     </div>
     <div class="row">
       <div class="col-md-3 my-3 text-center">
-        <form @submit.prevent="gameCodeSearch()">
+        <form @submit.prevent="findGameNight">
           <div class="input-group mb-3">
             <input
+              v-model="search"
               type="text"
               class="form-control"
               placeholder="Enter code..."
@@ -89,8 +90,11 @@
                   @click="setActive(g)"
                 >
                   <div class="row">
-                    <div class="col mt-2">
+                    <div class="col-6 mt-2">
                       <h4>{{ g.name }}</h4>
+                    </div>
+                    <div class="col-6 mt-2 text-end">
+                      <h5>Game Pin: {{ g.pin }}</h5>
                     </div>
                   </div>
                   <div class="row justify-content-center" v-if="!g.isCanceled">
@@ -138,18 +142,20 @@
 
 <script>
 import { AppState } from "../AppState"
-import { computed, reactive } from "@vue/reactivity"
+import { computed, reactive, ref } from "@vue/reactivity"
 import { gameNightService } from "../services/GameNightService";
 import { onMounted, watchEffect } from "@vue/runtime-core"
 import { logger } from "../utils/Logger"
 import Pop from "../utils/Pop"
 import { gamesService } from "../services/GamesService"
 import { useRouter } from "vue-router";
+import { playersService } from "../services/PlayersService";
 
 
 export default {
 
   setup() {
+    const search = ref('')
     const router = useRouter();
     const state = reactive({
       editable: {}
@@ -165,6 +171,7 @@ export default {
       }
     })
     return {
+      search,
       state,
       closetGames: computed(() => AppState.myGames.filter(g => g.owned)),
       myGameNights: computed(() => AppState.myGameNights),
@@ -192,6 +199,15 @@ export default {
         } catch (error) {
           logger.error(error)
           Pop.toast(error.message, 'error')
+        }
+      },
+
+      async findGameNight() {
+        try {
+          await gameNightService.findGameNight(search.value)
+          search.value = ''
+        } catch (error) {
+          logger.error(error)
         }
       },
 
