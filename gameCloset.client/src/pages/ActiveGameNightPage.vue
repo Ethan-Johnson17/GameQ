@@ -19,6 +19,7 @@
               also decide on style of selection input like checkbox style or
               toggle button etc. -->
           <div class="col-md-7">
+            <!-- TODO change g to gq -->
             <div class="row" v-for="g in gameQueue" :key="g.id">
               <div class="col d-flex">
                 <!-- NOTE Checkbox style 
@@ -96,7 +97,6 @@
                     <hr />
                   </div>
                 </div>
-                <!-- //NOTE vfor -->
                 <div class="row" v-for="gq in gameQueue" :key="gq.id">
                   <div class="col-9 my-2">{{ gq.game?.name }}</div>
                   <div class="col-3 my-2">{{ gq.votes.length }}</div>
