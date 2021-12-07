@@ -13,7 +13,14 @@ class GameNightService {
 
   async getMyGameNights(query = '') {
     const res = await api.get(query)
-    AppState.myGameNights = res.data
+    let response = this.sortByDate(res.data)
+    AppState.myGameNights = response
+  }
+
+  sortByDate(arr) {
+    return arr.sort((a, b) => {
+      return (a.gameNightDate < b.gameNightDate) ? -1 : (a.gameNightDate > b.gameNightDate) ? 1 : 0
+    })
   }
 
   async delete(gameNightId) {
