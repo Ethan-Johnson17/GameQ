@@ -75,6 +75,9 @@
                     <li v-for="game in closetGames" :key="game.atlasGameId">
                       <div
                         class="dropdown-item selectable"
+                        :class="
+                          arrOfNames.includes(game.name) ? 'disabled' : ''
+                        "
                         @click="newGame = game.name"
                       >
                         {{ game.name }}
@@ -170,13 +173,13 @@ export default {
     const newGameQueue = ref({})
     onMounted(async () => {
       try {
+        await gamesService.getMyGames('/account/myGames')
+        await gameQueuesService.getAllGameQueue(route.params.id)
         const gameNight = AppState.activeGameNight
         if (gameNight.accountId === AppState.user.id) {
           await gameNightService.getMyGameNights('/account/gamenight')
           const found = AppState.myGameNights.find(g => g.id === route.params.id)
           AppState.activeGameNight = found
-          await gamesService.getMyGames('/account/myGames')
-          await gameQueuesService.getAllGameQueue(route.params.id)
         }
       } catch (error) {
         logger.error(error)

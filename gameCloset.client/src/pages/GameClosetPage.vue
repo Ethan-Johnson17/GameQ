@@ -18,6 +18,12 @@
         <div class="row">
           <div class="col-md-4 d-flex justify-content-center" v-for="game in closetGames" :key="game.atlasGameId">
             <Game :game="game" />
+            <Modal :id="'addRules-' + game.id">
+              <template #modal-title>Add Rules</template>
+              <template #modal-body>
+                <AddRulesForm :game="game" />
+              </template>
+            </Modal>
           </div>
         </div>
       </div>
