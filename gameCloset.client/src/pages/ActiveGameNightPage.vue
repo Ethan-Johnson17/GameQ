@@ -171,7 +171,7 @@ export default {
     onMounted(async () => {
       try {
         const gameNight = AppState.activeGameNight
-        if (gameNight.accountId = AppState.user.id) {
+        if (gameNight.accountId === AppState.user.id) {
           await gameNightService.getMyGameNights('/account/gamenight')
           const found = AppState.myGameNights.find(g => g.id === route.params.id)
           AppState.activeGameNight = found
@@ -190,10 +190,14 @@ export default {
       activeGameNight: computed(() => AppState.activeGameNight),
       closetGames: computed(() => AppState.myGames.filter(g => g.owned)),
       user: computed(() => AppState.user),
-      // filteredGames: computed(() => {
-      //   closetGames.filter(c => c.id)
-      // }),
       gameQueue: computed(() => AppState.gameQueue),
+      arrOfNames: computed(() => {
+        let arrOfNames = []
+        AppState.gameQueue.forEach(g => {
+          arrOfNames.push(g.game.name)
+        })
+        return arrOfNames
+      }),
 
       formatDate(dateString) {
         let date = new Date(dateString)
@@ -210,6 +214,7 @@ export default {
           if (newGame.value === 'Choose a game!') { return }
           let gameObject = { gameId: found.id, gameNightId: AppState.activeGameNight.id }
           await gameQueuesService.addToGameQueue(gameObject)
+          newGame.value = 'Choose a game!'
         } catch (error) {
           logger.error(error)
           Pop.toast('Someone is bringing that game.', 'warning')
