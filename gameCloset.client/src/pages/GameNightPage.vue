@@ -180,7 +180,7 @@ export default {
           const yes = await Pop.confirm('Delete your game night?')
           if (!yes) { return }
           const res = await gameNightService.delete(gameNightId)
-          logger.log(res)
+          // logger.log(res)
           Pop.toast('Deleted', 'success')
         } catch (error) {
           logger.error(error)

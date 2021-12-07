@@ -104,6 +104,7 @@ import { useRoute, useRouter } from "vue-router";
 import { AppState } from "../AppState";
 import { gameNightService } from "../services/GameNightService";
 import { gameQueuesService } from "../services/GameQueuesService"
+import { playersService } from "../services/PlayersService";
 
 
 
@@ -129,8 +130,10 @@ export default {
           const game = gameQueue.value
           logger.log('create', state.editable, 'gameQueue', game)
           await gameNightService.createGameNight(state.editable)
+          const gameNight = AppState.activeGameNight
+          await playersService.attendGameNight(gameNight.pin)
           const found = AppState.myGames.find(g => g.name === game)
-          logger.log('found', found)
+          logger.log('Active GameNight', AppState.activeGameNight)
           let gameObject = { gameId: found.id, gameNightId: AppState.activeGameNight.id }
           await gameQueuesService.addToGameQueue(gameObject)
           router.push({
