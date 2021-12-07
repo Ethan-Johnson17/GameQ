@@ -30,7 +30,6 @@
                   {{ g.game.name }}
                   <i class="mdi mdi-trash-can mdi-24px text-danger ms-5 selectable" @click="removeGameQueue(g.id)"></i>
                 </p>
-
               </div>
             </div>
           </div>
@@ -144,6 +143,7 @@
       return {
         route,
         newGame,
+        newGameQueue,
         activeGameNight: computed(() => AppState.activeGameNight),
         closetGames: computed(() => AppState.myGames.filter(g => g.owned)),
         // filteredGames: computed(() => {
@@ -158,7 +158,8 @@
 
         async addGame(game) {
           try {
-            // newGameQueue.value.gameId =
+            // REVIEW wat ???
+            // newGameQueue.value.gameId = game.id
             const game = newGame.value
             const found = AppState.myGames.find(g => g.name === game)
             let gameObject = { gameId: found.id, gameNightId: AppState.activeGameNight.id }
