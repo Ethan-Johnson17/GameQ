@@ -26,8 +26,8 @@
                 <label class="btn btn-outline-primary mdi mdi-thumb-up px-2 py-1 mb-2" for="game"></label>
                 <label class="ms-3" for="game"></label> -->
                 <p class="vote">
-                  <i class="mdi mdi-thumb-up f-16 pt-0 selectable h-25 me-2" @click="vote(playerId)"></i> {{
-                  g.game.name }}
+                  <i class="mdi mdi-thumb-up f-16 pt-0 selectable h-25 me-2" @click="vote(playerId)"></i>
+                  {{ g.game.name }}
                   <i class="mdi mdi-trash-can mdi-24px text-danger ms-5 selectable" @click="removeGameQueue(g.id)"></i>
                 </p>
 
@@ -38,7 +38,7 @@
             <div class="row mb-2">
               <div class="col-md-12 d-flex">
                 <form @submit.prevent="addGame">
-                  <div class="dropdown mx-4 my-2">
+                  <div class="dropdown mx-4 my-2 input-group">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
                       data-bs-toggle="dropdown" aria-expanded="false">
                       {{ newGame }}
@@ -51,7 +51,7 @@
                         </div>
                       </li>
                     </ul>
-                    <button class="btn bg-white border border-secondary text-secondary px-2 ms-2" type="submit"><i
+                    <button class="btn bg-white border border-secondary text-secondary px-2" type="submit"><i
                         class="mdi mdi-plus-thick"></i></button>
                   </div>
                 </form>
