@@ -37,6 +37,13 @@ form:invalid button[type="submit"] {
   filter: grayscale(1);
   pointer-events: none;
 }
+.grow {
+  transition: all 0.2s ease-in-out;
+}
+
+.grow:hover {
+  transform: scale(1.06);
+}
 
 .flip-card {
   background-color: transparent;
@@ -46,6 +53,7 @@ form:invalid button[type="submit"] {
 }
 
 .flip-card-inner {
+  transform: rotateY(0deg);
   position: relative;
   min-width: 400px;
   min-height: 415px;
@@ -54,9 +62,9 @@ form:invalid button[type="submit"] {
   transform-style: preserve-3d;
 }
 
-.flip-card:hover .flip-card-inner {
-  transform: rotateY(180deg);
-}
+// .flip-card:active .flip-card-inner {
+//   transform: rotateY(180deg);
+// }
 
 .flip-card-front, .flip-card-back {
   position: absolute;
@@ -69,6 +77,8 @@ form:invalid button[type="submit"] {
 .flip-card-front {
   background-color: #f7f7f7;
   color: black;
+  transform: rotateY(0deg);
+
 }
 
 .flip-card-back {
@@ -148,3 +158,4 @@ form:invalid button[type="submit"] {
     transform-style: preserve-3d;
   }
 }
+
