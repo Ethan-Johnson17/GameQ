@@ -7,19 +7,9 @@
           <div class="mb-3 m-3">
             <form @submit.prevent="searchGames">
               <div class="input-group mb-3">
-                <input
-                  v-model="search"
-                  type="text"
-                  class="form-control"
-                  placeholder="Search Games"
-                  aria-label="Search Games"
-                  aria-describedby="button-addon2"
-                />
-                <button
-                  class="btn btn-outline-light"
-                  type="submit"
-                  id="button-addon2"
-                >
+                <input v-model="search" type="text" class="form-control" placeholder="Search Games"
+                  aria-label="Search Games" aria-describedby="button-addon2" />
+                <button class="btn btn-outline-light" type="submit" id="button-addon2">
                   Search
                 </button>
               </div>
@@ -31,12 +21,17 @@
 
     <!-- GAMES -->
     <div class="row">
-      <div
-        class="col-md-4 d-flex justify-content-center"
-        v-for="game in games"
-        :key="game.atlasGameId"
-      >
+      <div class="col-md-4 d-flex justify-content-center" v-for="game in games" :key="game.atlasGameId">
         <Game :game="game" :isSearchResult="true" />
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid">
+
+    <div class="row">
+      <div class="col justify-content-between d-flex mt-5">
+        <button @click="page(-24)" class="btn btn-light text-primary mx-4 mb-3 mdi mdi-arrow-left"></button>
+        <button @click="page(24)" class="btn btn-light text-primary mx-4 mb-3 mdi mdi-arrow-right"></button>
       </div>
     </div>
   </div>
@@ -44,42 +39,53 @@
 
 
 <script>
-import { computed, onMounted, ref } from "@vue/runtime-core"
-import { gamesService } from "../services/GamesService"
-import { logger } from "../utils/Logger"
-import { AppState } from "../AppState"
-export default {
-  setup() {
-    const search = ref('')
-    onMounted(async () => {
-      try {
-        await gamesService.getAll('/search?q=' + search.value)
-        await gamesService.getMyGames('account/myGames')
-      } catch (error) {
-        logger.error(error)
-      }
-    })
+  import { computed, onMounted, ref } from "@vue/runtime-core"
+  import { gamesService } from "../services/GamesService"
+  import { logger } from "../utils/Logger"
+  import { AppState } from "../AppState"
+  export default {
+    setup() {
+      let next = 0
+      let prev = next
 
-    return {
-      search,
-      user: computed(() => AppState.user),
-      games: computed(() => AppState.atlasGames),
-      myGames: computed(() => AppState.myGames),
-
-
-
-
-      async searchGames() {
+      const search = ref('')
+      onMounted(async () => {
         try {
           await gamesService.getAll('/search?q=' + search.value)
-          search.value = ''
+          await gamesService.getMyGames('account/myGames')
         } catch (error) {
           logger.error(error)
+        }
+      })
+
+      return {
+        search,
+        next,
+        prev,
+        user: computed(() => AppState.user),
+        games: computed(() => AppState.atlasGames),
+        myGames: computed(() => AppState.myGames),
+
+        async searchGames() {
+          try {
+            await gamesService.getAll('/search?q=' + search.value)
+            search.value = ''
+          } catch (error) {
+            logger.error(error)
+          }
+        },
+
+        async page(pageNum) {
+          try {
+            next += pageNum
+            await gamesService.getAll('/search?skip=' + next)
+          } catch (error) {
+            logger.error(error)
+          }
         }
       }
     }
   }
-}
 </script>
 
 
