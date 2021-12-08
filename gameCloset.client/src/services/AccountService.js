@@ -17,6 +17,12 @@ class AccountService {
     // logger.log(res.data)
     AppState.account = res.data
   }
+  async addItem(id){
+    const res = await api.put(`api/player/${id}`)
+    logger.log(res.data)
+    AppState.player =res.data
+  }
+
 }
 
 export const accountService = new AccountService()

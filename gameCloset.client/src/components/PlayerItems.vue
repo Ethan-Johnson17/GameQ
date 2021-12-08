@@ -1,6 +1,6 @@
 <template>
   <div class="component">
-    <form @submit.prevent="addItem">
+    <form @submit.prevent="addItem(player.id)">
       <input
         type="text"
         class="form-control"
@@ -21,13 +21,34 @@
 
 
 <script>
-import { computed } from "@vue/reactivity"
+import { computed, ref } from "@vue/reactivity"
 import { AppState } from "../AppState"
+import { accountService } from "../services/AccountService"
+import { logger } from "../utils/Logger"
+import Pop from "../utils/Pop"
 export default {
+  props: {
+    player: {
+      type: Object,
+      required: true
+    }
+  },
 
   setup() {
+    const items = ref('')
     return {
-      player: computed(() => AppState.player)
+      items,
+      player: computed(() => AppState.player),
+      async addItem() {
+        try {
+          player.items = items
+          await accountService.addItem(player.id, player)
+
+        } catch (error) {
+          logger.error(error)
+          Pop.toast(error)
+        }
+      }
     }
   }
 }
