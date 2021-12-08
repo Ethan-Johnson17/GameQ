@@ -186,19 +186,14 @@
           <div class="col mt-3" v-if="isSearchResult">
             <div v-if="!hasGame">
               <p class="text-end">
-                <i
+                <button
                   v-if="route.name == 'Search' && !game.owned"
                   @click="addToWishlist(game)"
-                  class="
-                    selectable
-                    mdi mdi-playlist-plus mdi-24px
-                    me-3
-                    p-2
-                    rounded
-                    text-success
-                  "
+                  class="btn btn-secondary selectable me-3 p-2 rounded"
                   title="add to wishlist"
-                ></i>
+                >
+                  Add to Wishlist
+                </button>
                 <button
                   class="btn btn-secondary selectable p-1 rounded mx-4"
                   title="add to game closet"
@@ -215,19 +210,14 @@
           </div>
           <div class="col mt-3" v-else>
             <p class="text-end">
-              <i
+              <button
                 v-if="route.name == 'Search' && !game.owned"
                 @click="addToWishlist(game)"
-                class="
-                  selectable
-                  mdi mdi-playlist-plus mdi-24px
-                  me-3
-                  p-2
-                  rounded
-                  text-success
-                "
+                class="btn btn-secondary selectable me-3 p-2 rounded"
                 title="add to wishlist"
-              ></i>
+              >
+                Add to Wishlist
+              </button>
               <button
                 class="btn btn-secondary selectable p-1 rounded mx-4"
                 title="add to game closet"
