@@ -10,6 +10,7 @@
         <form @submit.prevent="findGameNight">
           <div class="input-group mb-3">
             <input
+              required
               v-model="search"
               type="text"
               class="form-control"
