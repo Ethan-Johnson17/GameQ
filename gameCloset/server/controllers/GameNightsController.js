@@ -11,7 +11,7 @@ export class GameNightsController extends BaseController {
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.create)
       .get('/:id/gamequeue', this.getAllGQGames)
-      .get('/:pin', this.getByPin)
+      .get('/pin/:pin', this.getByPin)
       // NOTE this id is the Gamenight id
       .delete('/:id', this.remove)
       // NOTE  this id is the Gamenight id
