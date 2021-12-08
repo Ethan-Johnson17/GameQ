@@ -64,6 +64,7 @@
                 id="dropdownMenuButton1"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
+                required
               >
                 {{ gameQueue }}
               </button>
