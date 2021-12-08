@@ -9,7 +9,12 @@
         <div class="container">
           <div class="row">
             <div class="col p-0">
-              <img class="img-container m-2" :src="game.image_url" alt="" />
+              <img
+                class="img-container m-2"
+                :src="game.image_url"
+                alt=""
+                loading="lazy"
+              />
             </div>
           </div>
           <div class="row">
@@ -79,7 +84,7 @@
         <div class="row" v-if="user.isAuthenticated">
           <div class="col mt-3" v-if="isSearchResult">
             <div class="row" v-if="!hasGame">
-              <div class="col-6 text-center">
+              <div class="col-6 text-center" @click.stop>
                 <button
                   v-if="route.name == 'Search' && !game.owned"
                   @click="addToWishlist(game)"
@@ -89,7 +94,7 @@
                   Wishlist
                 </button>
               </div>
-              <div class="col-6 text-center px-2">
+              <div class="col-6 text-center px-2" @click.stop>
                 <button
                   class="btn btn-secondary"
                   title="add to game closet"
@@ -105,7 +110,7 @@
             </div>
           </div>
           <div class="col mt-3" v-else>
-            <div class="text-end">
+            <div class="text-end" @click.stop>
               <button
                 class="btn btn-secondary me-3"
                 title="add to game closet"
