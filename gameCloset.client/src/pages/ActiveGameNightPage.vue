@@ -175,15 +175,17 @@ export default {
       try {
 
         if (route.params.id) {
+          // debugger
+          // await gameNightService.findGameNightId(route.params.id)
           await gameQueuesService.getAllGameQueue(route.params.id)
           await gamesService.getMyGames('/account/myGames')
         }
-        // const gameNight = AppState.activeGameNight
-        // if (gameNight.accountId === AppState.account.id) {
-        await gameNightService.getMyGameNights('/account/gamenight')
-        const found = AppState.myGameNights.find(g => g.id === route.params.id)
-        AppState.activeGameNight = found
-        // }
+        const gameNight = AppState.activeGameNight
+        if (gameNight.accountId === AppState.account.id) {
+          await gameNightService.getMyGameNights('/account/gamenight')
+          const found = AppState.myGameNights.find(g => g.id === route.params.id)
+          AppState.activeGameNight = found
+        }
       } catch (error) {
         logger.error(error)
         Pop.toast('error', 'error')

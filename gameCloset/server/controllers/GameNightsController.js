@@ -11,7 +11,7 @@ export class GameNightsController extends BaseController {
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.create)
       .get('/:id/gamequeue', this.getAllGQGames)
-      .get('/:pin', this.getByPin)
+      .get('/pin/:pin', this.getByPin)
       // NOTE this id is the Gamenight id
       .delete('/:id', this.remove)
       // NOTE  this id is the Gamenight id
@@ -19,12 +19,23 @@ export class GameNightsController extends BaseController {
       .put('/:id/isCanceled', this.cancel)
       // NOTE this id is the gamenight id
       .get('/:id/players', this.getPlayers)
+      .get('/:id', this.getById)
   }
 
   async create(req, res, next) {
     try {
       req.body.accountId = req.userInfo.id
       const gamenight = await gameNightsService.create(req.body)
+      return res.send(gamenight)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async getById(req, res, next) {
+    try {
+      req.body.id = req.params.id
+      const gamenight = await gameNightsService.getById(req.params.id)
       return res.send(gamenight)
     } catch (error) {
       next(error)
