@@ -66,6 +66,7 @@ class GameNightService {
   }
 
   async findGameNightId(id) {
+    // debugger
     const res = await api.get(`api/gamenight/${id}`)
     AppState.activeGameNight = res.data
     logger.log(res.data)
