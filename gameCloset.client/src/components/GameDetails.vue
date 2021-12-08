@@ -1,7 +1,7 @@
 <template>
   <div class="offcanvas-body">
     <div class="col text-center">
-      <img class="img-container m-2" :src="game.image_url" alt="" />
+      <img class="img-container m-2 img-container" :src="game.image_url" alt="" />
     </div>
     <div class="col my-2">
       <h2>{{game.name}}</h2>
@@ -18,10 +18,11 @@
             Official Rules
           </button>
         </h2>
-        <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
           data-bs-parent="#accordionExample">
           <div class="accordion-body" v-if="game.rules_url">
             <a target="_blank" :href="game.rules_url">{{ game.name }} Rules</a>
+            <QRCode :game="game" />
           </div>
           <div class="accordion-body" v-else>
             <p>

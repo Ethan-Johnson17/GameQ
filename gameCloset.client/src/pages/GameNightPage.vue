@@ -10,6 +10,7 @@
         <form @submit.prevent="findGameNight">
           <div class="input-group mb-3">
             <input
+              required
               v-model="search"
               type="text"
               class="form-control"
@@ -229,14 +230,6 @@ export default {
 
 
 <style lang="scss" scoped>
-.grow {
-  transition: all 0.2s ease-in-out;
-}
-
-.grow:hover {
-  transform: scale(1.06);
-}
-
 a {
   color: var(--bs-dark);
 }

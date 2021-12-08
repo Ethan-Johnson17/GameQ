@@ -27,7 +27,8 @@ class GamesService {
 
   async addToGameCloset(closetGame) {
     if (!closetGame.id) {
-      await api.post('api/games', closetGame)
+      const res = await api.post('api/games', closetGame)
+      AppState.myGames.unshift(res.data)
     }
     else {
       await api.put('api/games/' + closetGame.id, closetGame)
