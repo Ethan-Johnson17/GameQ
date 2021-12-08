@@ -20,7 +20,7 @@
               class="btn btn-danger px-4"
               @click="unattendGameNight(player.id)"
             >
-              Leaph
+              Leave
             </button>
           </div>
         </div>
@@ -301,7 +301,7 @@ export default {
       },
       async unattendGameNight(id) {
         try {
-          if (await Pop.confirm('Are you sure, leaphing game night..')) {
+          if (await Pop.confirm('Are you sure you want to leave this game night??')) {
             await playersService.unattendGameNight(id)
             await gameNightService.getAllPlayers(route.params.id)
           }
