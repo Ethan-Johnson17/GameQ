@@ -230,14 +230,6 @@ export default {
 
 
 <style lang="scss" scoped>
-.grow {
-  transition: all 0.2s ease-in-out;
-}
-
-.grow:hover {
-  transform: scale(1.06);
-}
-
 a {
   color: var(--bs-dark);
 }
