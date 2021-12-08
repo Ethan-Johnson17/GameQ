@@ -117,38 +117,37 @@
         </div>
         <hr />
       </div>
+      <!-- <div class="row">
+        <div class="col"> -->
       <div class="row">
         <div class="col">
-          <div class="row">
-            <div class="col">
-              <h2>What everyone's bringing...</h2>
-            </div>
-          </div>
-          <!-- NOTE Vfor -->
-          <div class="row">
-            <div class="col my-2">
-              <ul>
-                <li>Item: Name of whose bringing it</li>
-              </ul>
-            </div>
-          </div>
-          <!-- NOTE wont need these are examples  -->
-          <div class="row">
-            <div class="col my-3">
-              <ul>
-                <li>Item: Name of whose bringing it</li>
-              </ul>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col my-3">
-              <ul>
-                <li>Item: Name of whose bringing it</li>
-              </ul>
-            </div>
-          </div>
+          <h2>What everyone's bringing...</h2>
         </div>
       </div>
+      <!-- NOTE Vfor -->
+      <div class="row">
+        <div class="col">
+          <form @submit.prevent="editMyItems()">
+            <div class="input-group">
+              <input
+                type="text"
+                class="form-control"
+                id="items"
+                placeholder="Add items here..."
+                v-model="editable"
+              />
+              <button class="btn btn-secondary" type="submit">
+                Post items
+              </button>
+            </div>
+          </form>
+        </div>
+        <div class="col-12 my-2" v-for="p in players" :key="p.id">
+          <PlayerItems :player="p" />
+        </div>
+      </div>
+      <!-- </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -165,9 +164,12 @@ import { gamesService } from "../services/GamesService"
 import { useRoute, useRouter } from "vue-router"
 import { gameQueuesService } from "../services/GameQueuesService"
 import { playersService } from "../services/PlayersService";
+import PlayerItems from "../components/PlayerItems.vue";
 
 export default {
+  components: { PlayerItems },
   setup() {
+    const editable = ref('')
     const route = useRoute()
     const newGame = ref('Choose a game!')
     // const newGameQueue = ref({})
@@ -179,6 +181,7 @@ export default {
           await gameNightService.findGameNightId(route.params.id)
           await gameQueuesService.getAllGameQueue(route.params.id)
           await gamesService.getMyGames('/account/myGames')
+          await gameNightService.getAllPlayers(route.params.id)
         }
         const gameNight = AppState.activeGameNight
         if (gameNight.accountId === AppState.account.id) {
@@ -192,9 +195,11 @@ export default {
       }
     })
     return {
+      editable,
       route,
       newGame,
       // newGameQueue,
+      players: computed(() => AppState.players),
       activeGameNight: computed(() => AppState.activeGameNight),
       closetGames: computed(() => AppState.myGames.filter(g => g.owned)),
       account: computed(() => AppState.account),
@@ -261,6 +266,21 @@ export default {
           logger.error(error)
         }
       },
+      async editMyItems() {
+        try {
+          // debugger
+          const player = AppState.players.find(p => p.account.id === AppState.account.id)
+          logger.log(player, "agn 272")
+          player.items = editable.value
+          // player = items.value
+          await playersService.editMyItems(player)
+          editable.value = ''
+
+        } catch (error) {
+          logger.error(error)
+          Pop.toast(error)
+        }
+      }
     }
   }
 }

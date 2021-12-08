@@ -71,6 +71,11 @@ class GameNightService {
     AppState.activeGameNight = res.data
     logger.log(res.data)
   }
+  async getAllPlayers(gameNightId){
+  const res = await api.get(`api/gamenight/${gameNightId}/players`)
+  AppState.players = res.data
+  logger.log('banana',AppState.players, res.data)
+  }
 
 }
 

@@ -9,6 +9,7 @@ class PlayersService {
       throw new Forbidden('stawp, na player')
     }
     const updatePlayer = await dbContext.Player.findByIdAndUpdate({ _id: body.id, accountId: body.accountId }, body, { new: true })
+    await updatePlayer.populate('account')
     return updatePlayer
   }
 
