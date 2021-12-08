@@ -14,6 +14,13 @@
           >
             Join
           </button>
+          <button
+            v-if="player"
+            class="btn btn-danger px-4"
+            @click="unattendGameNight(player.id)"
+          >
+            Leaph
+          </button>
         </div>
       </div>
       <div class="row">
@@ -57,9 +64,9 @@
         </div>
         <div class="col-md-5">
           <div class="row mb-2" v-if="player">
-            <div class="col-md-12 d-flex">
+            <div class="col">
               <form @submit.prevent="addGame">
-                <div class="dropdown mx-4 my-2 input-group">
+                <div class="dropdown input-group">
                   <button
                     class="btn btn-secondary dropdown-toggle"
                     type="button"
@@ -119,18 +126,11 @@
         </div>
         <hr />
       </div>
-      <!-- <div class="row">
-        <div class="col"> -->
       <div class="row">
-        <div class="col">
-          <h2>What everyone's bringing...</h2>
-        </div>
-      </div>
-      <!-- NOTE Vfor -->
-      <div class="row">
-        <div class="col" v-if="player">
+        <div class="col-6">
+          <h3 class="mb-5">What everyone's bringing...</h3>
           <form @submit.prevent="editMyItems()">
-            <div class="input-group">
+            <div class="input-group" v-if="player">
               <input
                 required
                 type="text"
@@ -140,17 +140,27 @@
                 v-model="editable"
               />
               <button class="btn btn-secondary" type="submit">
-                Post items
+                <i class="mdi mdi-plus-thick"></i>
               </button>
             </div>
           </form>
+          <div class="row" v-for="p in players" :key="p.id">
+            <div class="col my-2">
+              <PlayerItems :player="p" />
+            </div>
+          </div>
         </div>
-        <div class="col-12 my-2" v-for="p in players" :key="p.id">
-          <PlayerItems :player="p" />
+        <div class="col-6 text-center">
+          <h3 class="mb-5">Attending</h3>
+          <div class="row" v-for="p in players" :key="p.id">
+            <div class="col">
+              <h5 class="mt-3">
+                {{ p.account.name }}
+              </h5>
+            </div>
+          </div>
         </div>
       </div>
-      <!-- </div>
-      </div> -->
     </div>
   </div>
 </template>
@@ -175,12 +185,10 @@ export default {
     const editable = ref('')
     const route = useRoute()
     const newGame = ref('Choose a game!')
-    // const newGameQueue = ref({})
     watchEffect(async () => {
       try {
 
         if (route.params.id) {
-          // debugger
           await gameNightService.findGameNightId(route.params.id)
           await gameQueuesService.getAllGameQueue(route.params.id)
           await gamesService.getMyGames('/account/myGames')
@@ -201,7 +209,6 @@ export default {
       editable,
       route,
       newGame,
-      // newGameQueue,
       player: computed(() => AppState.players.find(p => p.accountId === AppState.account.id)),
 
       players: computed(() => AppState.players),
@@ -224,11 +231,9 @@ export default {
 
       async addGame(game) {
         try {
-          // REVIEW wat ???
-          // newGameQueue.value.gameId = game.id
+
           const game = newGame.value
           const found = AppState.myGames.find(g => g.name === game)
-          // logger.log('found', found)
           if (newGame.value === 'Choose a game!') { return }
           let gameObject = { gameId: found.id, gameNightId: AppState.activeGameNight.id }
           await gameQueuesService.addToGameQueue(gameObject)
@@ -264,7 +269,6 @@ export default {
 
       async vote(id) {
         try {
-          // logger.log('vote', id)
           await gameQueuesService.vote(id)
 
         } catch (error) {
@@ -273,13 +277,22 @@ export default {
       },
       async editMyItems() {
         try {
-          // debugger
           const player = AppState.players.find(p => p.account.id === AppState.account.id)
-          logger.log(player, "agn 272")
           player.items = editable.value
-          // player = items.value
           await playersService.editMyItems(player)
           editable.value = ''
+
+        } catch (error) {
+          logger.error(error)
+          Pop.toast(error)
+        }
+      },
+      async unattendGameNight(id) {
+        try {
+          if (await Pop.confirm('Are you sure, leaphing game night..')) {
+            await playersService.unattendGameNight(id)
+            await gameNightService.getAllPlayers(route.params.id)
+          }
 
         } catch (error) {
           logger.error(error)
