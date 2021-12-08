@@ -205,7 +205,4 @@ export default {
 
 
 <style lang="scss" scoped>
-.zind {
-  z-index: 5000;
-}
 </style>
