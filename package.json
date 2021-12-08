@@ -1,16 +1,17 @@
-
-  {
+{
     "name": "gamecloset",
     "version": "1.0.0",
     "scripts": {
-      "build": "npm run setup:server",
-      "setup:app": "npm run setup:server && npm run setup:client",
-      "setup:client": "cd gameCloset.client && npm i",
-      "setup:server": "cd gameCloset && npm i",
-      "start": "node gameCloset/index.js"
+        "build": "npm run setup:server",
+        "setup:app": "npm run setup:server && npm run setup:client",
+        "setup:client": "cd gameCloset.client && npm i",
+        "setup:server": "cd gameCloset && npm i",
+        "start": "node gameCloset/index.js"
     },
     "engines": {
-      "node": "^14.17.0"
+        "node": "^14.17.0"
+    },
+    "dependencies": {
+        "vue-qrcode-component": "^2.1.1"
     }
-  }
-  
+}

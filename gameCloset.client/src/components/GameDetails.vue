@@ -22,6 +22,7 @@
           data-bs-parent="#accordionExample">
           <div class="accordion-body" v-if="game.rules_url">
             <a target="_blank" :href="game.rules_url">{{ game.name }} Rules</a>
+            <QRCode :game="game" />
           </div>
           <div class="accordion-body" v-else>
             <p>
