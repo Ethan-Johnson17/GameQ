@@ -18,11 +18,11 @@
             Official Rules
           </button>
         </h2>
-        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+        <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
           data-bs-parent="#accordionExample">
           <div class="accordion-body" v-if="game.rules_url">
             <a target="_blank" :href="game.rules_url">{{ game.name }} Rules</a>
-            <QRCode :game="game" />
+            <QRCodeGame :game="game" />
           </div>
           <div class="accordion-body" v-else>
             <p>
