@@ -15,6 +15,7 @@
 
 <script>
   import { computed, ref } from "@vue/reactivity"
+  import { AppState } from "../AppState"
 
   export default {
     props: { game: { type: Object } },
