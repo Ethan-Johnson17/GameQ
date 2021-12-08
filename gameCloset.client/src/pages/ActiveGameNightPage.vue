@@ -176,7 +176,7 @@ export default {
 
         if (route.params.id) {
           // debugger
-          // await gameNightService.findGameNightId(route.params.id)
+          await gameNightService.findGameNightId(route.params.id)
           await gameQueuesService.getAllGameQueue(route.params.id)
           await gamesService.getMyGames('/account/myGames')
         }
