@@ -62,8 +62,15 @@ class GameNightService {
   async findGameNight(query = '') {
     const res = await api.get(`api/gamenight/${query}`)
     AppState.activeGameNight = res.data
-    logger.log(AppState.activeGameNight)
+    // logger.log(AppState.activeGameNight)
   }
+
+  async findGameNightId(id) {
+    const res = await api.get(`api/gamenight/${id}`)
+    AppState.activeGameNight = res.data
+    logger.log(res.data)
+  }
+
 }
 
 
