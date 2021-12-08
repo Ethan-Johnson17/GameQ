@@ -8,6 +8,7 @@
         </div>
         <div class="col-md-3 text-end p-3">
           <button
+            v-if="!player"
             class="btn btn-secondary px-4"
             @click="joinGameNight(activeGameNight.pin)"
           >
@@ -48,13 +49,14 @@
                 <i
                   class="mdi mdi-trash-can mdi-24px text-danger ms-5 selectable"
                   @click="removeGameQueue(g.id)"
+                  v-if="account.id === g.accountId"
                 ></i>
               </p>
             </div>
           </div>
         </div>
         <div class="col-md-5">
-          <div class="row mb-2">
+          <div class="row mb-2" v-if="player">
             <div class="col-md-12 d-flex">
               <form @submit.prevent="addGame">
                 <div class="dropdown mx-4 my-2 input-group">
@@ -126,10 +128,11 @@
       </div>
       <!-- NOTE Vfor -->
       <div class="row">
-        <div class="col">
+        <div class="col" v-if="player">
           <form @submit.prevent="editMyItems()">
             <div class="input-group">
               <input
+                required
                 type="text"
                 class="form-control"
                 id="items"
@@ -199,6 +202,8 @@ export default {
       route,
       newGame,
       // newGameQueue,
+      player: computed(() => AppState.players.find(p => p.accountId === AppState.account.id)),
+
       players: computed(() => AppState.players),
       activeGameNight: computed(() => AppState.activeGameNight),
       closetGames: computed(() => AppState.myGames.filter(g => g.owned)),
