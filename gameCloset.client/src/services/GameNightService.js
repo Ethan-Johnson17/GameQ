@@ -60,7 +60,7 @@ class GameNightService {
 
   }
   async findGameNight(query = '') {
-    const res = await api.get(`api/gamenight/${query}`)
+    const res = await api.get(`api/gamenight/pin/${query}`)
     AppState.activeGameNight = res.data
     // logger.log(AppState.activeGameNight)
   }

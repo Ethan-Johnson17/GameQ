@@ -24,6 +24,12 @@
                 <AddRulesForm :game="game" />
               </template>
             </Modal>
+            <OffCanvas :id="'gameDetails-' + game.id">
+              <template #offcanvas-title>{{game.name}} Details</template>
+              <template #offcanvas-body>
+                <GameDetails :game="game" />
+              </template>
+            </OffCanvas>
           </div>
         </div>
       </div>
