@@ -11,11 +11,11 @@
       <button class="btn btn-secondary" type="submit">Post items</button>
     </form>
 
-    <div class="card p-2">
+    <!-- <div class="card p-2">
       <img :src="player.account.picture" alt="" />
       <h3>{{ player.account.name }}</h3>
       <p>{{ player.items }}</p>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -38,7 +38,7 @@ export default {
     const items = ref('')
     return {
       items,
-      player: computed(() => AppState.player),
+      players: computed(() => AppState.players),
       async addItem() {
         try {
           player.items = items

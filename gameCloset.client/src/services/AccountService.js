@@ -20,7 +20,7 @@ class AccountService {
   async addItem(id){
     const res = await api.put(`api/player/${id}`)
     logger.log(res.data)
-    AppState.player =res.data
+    AppState.players =res.data
   }
 
 }

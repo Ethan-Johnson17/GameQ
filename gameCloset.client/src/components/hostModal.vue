@@ -135,7 +135,7 @@ export default {
 
           const found = AppState.myGames.find(g => g.name === game)
           logger.log('Active GameNight', AppState.activeGameNight)
-          logger.log('Player', AppState.player)
+          logger.log('Player', AppState.players)
           let gameObject = { gameId: found.id, gameNightId: AppState.activeGameNight.id }
           await gameQueuesService.addToGameQueue(gameObject)
           router.push({

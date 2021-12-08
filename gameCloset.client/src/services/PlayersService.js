@@ -5,9 +5,9 @@ import { api } from "./AxiosService"
 class PlayersService {
   async attendGameNight(pin) {
     const res = await api.post(`api/players/${pin}`)
-    AppState.player = [...AppState.player, res.data]
+    AppState.players = [...AppState.players, res.data]
     // AppState.activeGameNight = res.data
-    logger.log(AppState.player, AppState.activeGameNight)
+    logger.log(AppState.players, AppState.activeGameNight)
   }
   async unattendGameNight(playerId) {
     await api.delete(`api/players/${playerId}`)
@@ -16,13 +16,13 @@ class PlayersService {
   async editMyItems(player) {
     const res = await api.put(`api/player/${player.id}`, player)
     const newPlayer = res.data
-    AppState.player = newPlayer
-    const index = AppState.player.filter(p => p.id === player.id)
+    AppState.players = newPlayer
+    const index = AppState.players.filter(p => p.id === player.id)
     if (index === -1) {
-      AppState.player.push(newPlayer)
+      AppState.players.push(newPlayer)
       return
     }
-    AppState.player.splice(index, 1, newPlayer)
+    AppState.players.splice(index, 1, newPlayer)
 
   }
   async getGameNightsImAttending() {
