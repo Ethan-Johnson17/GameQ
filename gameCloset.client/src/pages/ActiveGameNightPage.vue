@@ -3,8 +3,11 @@
     <div class="row justify-content-center p-2">
       <div class="col-md-10 card my-2 elevation-3 px-5 py-3">
         <div class="row justify-content-center">
-          <div class="col-3"></div>
-          <div class="col-md-6 text-dark text-center pb-0">
+          <div class="col-3">
+            <h5 class="m-3">PIN: {{ activeGameNight.pin }}</h5>
+          </div>
+
+          <div class="col-md-6 text-dark text-center p-3">
             <h3>{{ activeGameNight.name }}</h3>
           </div>
           <div class="col-md-3 text-end p-1">
@@ -111,7 +114,7 @@
             <form @submit.prevent="editMyItems()">
               <div class="input-group" v-if="player">
                 <input required type="text" class="form-control" id="items" placeholder="Add items here..."
-                  v-model="editable" />
+                  v-model="editable" maxlength="1000" />
                 <button class="btn btn-secondary" type="submit">
                   <i class="mdi mdi-plus-thick"></i>
                 </button>
@@ -153,12 +156,14 @@
   import { playersService } from "../services/PlayersService";
   import PlayerItems from "../components/PlayerItems.vue";
   import { socketService } from '../services/SocketService';
+  import { router } from "../router";
 
   export default {
     components: { PlayerItems },
     setup() {
       const editable = ref('')
       const route = useRoute()
+      const router = useRouter()
       const newGame = ref('Choose a game!')
       watchEffect(async () => {
         try {
@@ -273,8 +278,10 @@
             if (await Pop.confirm('Are you sure you want to leave this game night??')) {
               await playersService.unattendGameNight(id)
               await gameNightService.getAllPlayers(route.params.id)
+              router.push({
+                name: "GameNight",
+              })
             }
-
           } catch (error) {
             logger.error(error)
             Pop.toast(error)
