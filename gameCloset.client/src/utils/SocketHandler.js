@@ -50,6 +50,11 @@ export class SocketHandler {
     this.socket?.emit(SOCKET_EVENTS.authenticate, bearerToken)
   }
 
+  joinRoom(gameNightId) {
+    this.socket?.emit('Join_Room', `Game${gameNightId}Night`)
+    logger.log('Joined_Room', gameNightId)
+  }
+
   onError(error) {
     logger.error('[SOCKET_ERROR]', error)
   }

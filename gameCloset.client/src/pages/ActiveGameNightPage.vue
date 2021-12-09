@@ -185,6 +185,7 @@ import { useRoute, useRouter } from "vue-router"
 import { gameQueuesService } from "../services/GameQueuesService"
 import { playersService } from "../services/PlayersService";
 import PlayerItems from "../components/PlayerItems.vue";
+import { socketService } from '../services/SocketService';
 
 export default {
   components: { PlayerItems },
@@ -200,12 +201,15 @@ export default {
           await gameQueuesService.getAllGameQueue(route.params.id)
           await gamesService.getMyGames('/account/myGames')
           await gameNightService.getAllPlayers(route.params.id)
+          socketService.joinRoom(route.params.id)
         }
         const gameNight = AppState.activeGameNight
         if (gameNight.accountId === AppState.account.id) {
           await gameNightService.getMyGameNights('/account/gamenight')
           const found = AppState.myGameNights.find(g => g.id === route.params.id)
           AppState.activeGameNight = found
+          socketService.joinRoom(route.params.id)
+
         }
       } catch (error) {
         logger.error(error)

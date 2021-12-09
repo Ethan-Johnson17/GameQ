@@ -7,7 +7,7 @@ class GameQueuesService {
   async addToGameQueue(gameObject) {
     const res = await api.post('api/gamequeue', gameObject)
     logger.log(res)
-    AppState.gameQueue.push(res.data)
+    // AppState.gameQueue.push(res.data)
     // It's pushing it to the AppState because it returns an array, and if we just set it then the way we're preventing duplicates breaks
 
 
@@ -28,7 +28,7 @@ class GameQueuesService {
     // NOTE either call this.getAllGameQueue here or check the computed to see if its listening to the right thing.will also need the game night id in this function to get all gameques again. no need for votes in the appstate
 
   }
-  sortByVote(arr){
+  sortByVote(arr) {
     return arr.sort((a, b) => {
       return (a.vote < b.vote) ? -1 : (a.vote > b.vote) ? 1 : 0
     })
