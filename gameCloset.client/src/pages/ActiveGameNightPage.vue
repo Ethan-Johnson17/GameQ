@@ -97,7 +97,7 @@
                 <p class="vote">
                   <i
                     class="mdi mdi-thumb-up f-16 pt-0 selectable h-25 me-2"
-                    @click="vote(playerId)"
+                    @click="vote(g.id)"
                   ></i>
                   {{ g.game?.name }}
                   <i
@@ -123,7 +123,7 @@
                     <hr />
                   </div>
                 </div>
-                <div class="row" v-for="gq in gameQueue" :key="gq.id">
+                <div class="row" v-for="gq in sortedGameQueue" :key="gq.id">
                   <div class="col-9 my-2">{{ gq.game?.name }}</div>
                   <div class="col-3 my-2">{{ gq.votes.length }}</div>
                 </div>
@@ -223,6 +223,9 @@ export default {
       closetGames: computed(() => AppState.myGames.filter(g => g.owned)),
       account: computed(() => AppState.account),
       gameQueue: computed(() => AppState.gameQueue),
+      sortedGameQueue: computed(() => [...AppState.gameQueue].sort((a, b) => {
+        return b.votes.length - a.votes.length
+      })),
       arrOfNames: computed(() => {
         let arrOfNames = []
         AppState.gameQueue.forEach(g => {
@@ -277,6 +280,7 @@ export default {
       async vote(id) {
         try {
           await gameQueuesService.vote(id)
+          await gameQueuesService.getAllGameQueue(route.params.id)
 
         } catch (error) {
           logger.error(error)

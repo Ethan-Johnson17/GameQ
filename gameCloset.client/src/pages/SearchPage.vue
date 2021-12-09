@@ -31,12 +31,11 @@
       <div class="col justify-content-between d-flex mt-3">
         <div class="selectable text-light mx-4 mb-3 row" @click="page(-24)">
           <div class="col-md-3">
-            <img class="handArrow" src="../assets/img/hand-left.png" alt="">
+            <img class="handArrow" src="../assets/img/hand-left.png" alt="" />
             <!-- <i class="mdi mdi-arrow-left-thick f-24"></i> -->
           </div>
           <div class="col-md-9 mt-2 text-end">
-            <i class="f-16">Previous
-              Page</i>
+            <i class="f-16">Previous Page</i>
           </div>
         </div>
         <div @click="page(24)" class="selectable text-light mx-4 mb-3 row">
@@ -44,7 +43,7 @@
             <i class="f-16">Next Page</i>
           </div>
           <div class="col-md-4">
-            <img class="handArrow" src="../assets/img/hand.png" alt="">
+            <img class="handArrow" src="../assets/img/hand.png" alt="" />
             <!-- <i class="mdi mdi-arrow-right-thick f-24"></i> -->
           </div>
         </div>
