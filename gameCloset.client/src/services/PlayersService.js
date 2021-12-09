@@ -1,6 +1,7 @@
 import { AppState } from "../AppState"
 import { logger } from "../utils/Logger"
 import { api } from "./AxiosService"
+import { gameNightService } from "./GameNightService"
 
 class PlayersService {
   async attendGameNight(pin) {
