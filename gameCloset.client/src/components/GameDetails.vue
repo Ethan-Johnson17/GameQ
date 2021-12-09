@@ -1,5 +1,5 @@
 <template>
-  <div class="offcanvas-body">
+  <div class="offcanvas-body p-1">
     <div class="col text-center">
       <img class="img-container m-2" :src="game.image_url" :alt="game.name" />
     </div>
@@ -10,6 +10,7 @@
     </div>
     <div class="col" v-else>{{game.min_players}} players</div>
     <div class="col">{{game.min_playtime}} to {{game.max_playtime}} minute playtime</div>
+    <div class="col" v-html='game.description'></div>
     <div class="accordion mb-5 col mt-3" id="accordionExample">
       <div class="accordion-item bgColor">
         <h2 class="accordion-header" id="headingOne">
@@ -45,7 +46,7 @@
         </h2>
         <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
           data-bs-parent="#accordionExample">
-          <div class="accordion-body">
+          <div class="accordion-body hover" contenteditable @blur="addRules">
             {{ game.houseRules }}
           </div>
           <i class="mdi mdi-plus-thick text-secondary selectable" data-bs-toggle="modal"
@@ -61,12 +62,33 @@
 
 <script>
   import { computed, ref } from "@vue/reactivity"
+  import { watchEffect } from "@vue/runtime-core"
+  import { logger } from "../utils/Logger"
+  import Pop from "../utils/Pop"
+  import { Modal } from "bootstrap"
+  import { AppState } from "../AppState"
+  import { gamesService } from "../services/GamesService"
   export default {
     props: { game: { type: Object } },
     setup(props) {
+      const editable = ref({})
+
       return {
+        editable,
         closetGames: computed(() => AppState.myGames.filter(g => g.owned)),
 
+        async addRules(event) {
+          try {
+            let rule = event.target.innerText
+            let gameId = props.game.id
+            logger.log('new rules', gameId, rule)
+            await gamesService.addRules(gameId, rule)
+            await gamesService.getMyGames('/account/myGames')
+          } catch (error) {
+            logger.log(error)
+            Pop.toast(error.message, 'error')
+          }
+        }
       }
     }
   }
@@ -76,5 +98,9 @@
 <style lang="scss" scoped>
   .bgColor {
     background-color: #d8d8d8;
+  }
+
+  .hover:hover {
+    background-color: white;
   }
 </style>
