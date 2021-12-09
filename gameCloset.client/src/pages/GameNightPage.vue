@@ -319,7 +319,6 @@ export default {
         } else if (now < gameNightDate) {
           return ""
         }
-
       }
     }
   }

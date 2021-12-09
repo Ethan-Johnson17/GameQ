@@ -46,10 +46,10 @@
             class="col text-start mx-3"
             v-if="game.min_playtime === game.max_playtime"
           >
-            Play time: {{ game.min_playtime }}- min
+            Play time: {{ game.min_playtime }} minutes
           </h4>
           <h4 class="col text-start ms-3" v-else>
-            Play time: {{ game.min_playtime }} - {{ game.max_playtime }}- min
+            Play time: {{ game.min_playtime }} - {{ game.max_playtime }} minutes
           </h4>
         </div>
         <div class="row" v-if="game.min_players && game.max_players">
