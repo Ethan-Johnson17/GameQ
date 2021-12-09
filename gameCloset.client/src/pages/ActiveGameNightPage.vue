@@ -190,12 +190,14 @@ import { gameQueuesService } from "../services/GameQueuesService"
 import { playersService } from "../services/PlayersService";
 import PlayerItems from "../components/PlayerItems.vue";
 import { socketService } from '../services/SocketService';
+import { router } from "../router";
 
 export default {
   components: { PlayerItems },
   setup() {
     const editable = ref('')
     const route = useRoute()
+    const router = useRouter()
     const newGame = ref('Choose a game!')
     watchEffect(async () => {
       try {
@@ -311,6 +313,9 @@ export default {
           if (await Pop.confirm('Are you sure you want to leave this game night??')) {
             await playersService.unattendGameNight(id)
             await gameNightService.getAllPlayers(route.params.id)
+            router.push({
+              name: "GameNight",
+            })
           }
 
         } catch (error) {
