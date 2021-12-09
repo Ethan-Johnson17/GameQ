@@ -79,9 +79,11 @@
 
         async addRules(event) {
           try {
-            let rule = event.target.innerText
+            let data = event.target.innerText
             let gameId = props.game.id
-            logger.log('new rules', gameId, rule)
+            // props.game.houseRules = rule
+            // logger.log('new rules', gameId, props.game)
+            let rule = { houseRules: data }
             await gamesService.addRules(gameId, rule)
             await gamesService.getMyGames('/account/myGames')
           } catch (error) {
