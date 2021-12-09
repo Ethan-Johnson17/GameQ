@@ -147,6 +147,7 @@
                   id="items"
                   placeholder="Add items here..."
                   v-model="editable"
+                  maxlength="1000"
                 />
                 <button class="btn btn-secondary" type="submit">
                   <i class="mdi mdi-plus-thick"></i>
