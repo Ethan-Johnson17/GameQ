@@ -11,6 +11,7 @@ export const GameSchema = new Schema({
   max_players: { type: Number },
   price: { type: String },
   min_playtime: { type: Number },
+  description: { type: String },
   max_playtime: { type: Number },
   image_url: { type: String },
   min_age: { type: Number },
