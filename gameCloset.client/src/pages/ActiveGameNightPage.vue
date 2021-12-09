@@ -3,7 +3,10 @@
     <div class="row justify-content-center p-2">
       <div class="col-md-10 card my-2 elevation-3">
         <div class="row justify-content-center">
-          <div class="col-3"></div>
+          <div class="col-3">
+            <h5 class="m-3">PIN: {{ activeGameNight.pin }}</h5>
+          </div>
+
           <div class="col-md-6 text-dark text-center p-3">
             <h3>{{ activeGameNight.name }}</h3>
           </div>
