@@ -38,10 +38,10 @@
           </div>
         </div>
         <div @click="page(24)" class="selectable text-light mx-4 mb-3 row">
-          <div class="col-md-9 mt-2 text-end">
+          <div class="col-md-8 mt-2 text-center">
             <i class="f-16">Next Page</i>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-4">
             <img class="handArrow" src="../assets/img/hand.png" alt="">
             <!-- <i class="mdi mdi-arrow-right-thick f-24"></i> -->
           </div>
