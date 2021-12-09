@@ -6,7 +6,6 @@ class GameQueuesService {
 
   async addToGameQueue(gameObject) {
     const res = await api.post('api/gamequeue', gameObject)
-    logger.log(res)
     // AppState.gameQueue.push(res.data)
     // It's pushing it to the AppState because it returns an array, and if we just set it then the way we're preventing duplicates breaks
 
@@ -20,7 +19,6 @@ class GameQueuesService {
     // NOTE make sure you have the gamenight id being pulled through the component. this allows all game queues to be pull for that game night
     const res = await api.get(`api/gamenight/${gameNightId}/gamequeue`)
     AppState.gameQueue = res.data
-    logger.log('GQ AppState', AppState.gameQueue)
   }
   async vote(gameQueueId) {
     await api.put(`api/gamequeue/${gameQueueId}/votes`)
@@ -30,6 +28,7 @@ class GameQueuesService {
   }
   sortByVote(arr) {
     return arr.sort((a, b) => {
+
       return (a.vote < b.vote) ? -1 : (a.vote > b.vote) ? 1 : 0
     })
   }

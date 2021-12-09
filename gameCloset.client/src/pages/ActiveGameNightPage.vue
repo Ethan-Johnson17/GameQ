@@ -126,7 +126,13 @@
                       v-if="g.votes.includes(account.id)"
                     ></i>
                   </div>
-                  <p class="mb-0">{{ g.game?.name }}</p>
+                  <p
+                    class="mb-0 selectable"
+                    data-bs-toggle="offcanvas"
+                    :data-bs-target="'#gameDetails-' + g.game.id"
+                  >
+                    {{ g.game?.name }}
+                  </p>
                   <i
                     class="
                       mdi mdi-trash-can
@@ -140,6 +146,12 @@
                   ></i>
                 </div>
               </div>
+              <OffCanvas :id="'gameDetails-' + g.game.id">
+                <template #offcanvas-title>{{ g.game.name }} Details</template>
+                <template #offcanvas-body>
+                  <GameDetails :game="g.game" />
+                </template>
+              </OffCanvas>
             </div>
           </div>
           <div class="col-md-6">
@@ -152,7 +164,11 @@
                   </div>
                 </div>
                 <div class="row" v-for="gq in sortedGameQueue" :key="gq.id">
-                  <div class="col-9 my-2">{{ gq.game?.name }}</div>
+                  <div class="col-9 my-2 mdi" v-if="gq == sortedGameQueue[0]">
+                    {{ gq.game?.name }} <i class="mdi mdi-chess-king ms-1"> </i>
+                    <hr />
+                  </div>
+                  <div class="col-9 my-2 mdi" v-else>{{ gq.game?.name }}</div>
                   <div class="col-3 my-2">{{ gq.votes.length }}</div>
                 </div>
               </div>
@@ -350,6 +366,7 @@ p:focus {
   background-color: red;
   color: red;
 }
+
 .pic {
   height: 50px;
   width: 50px;

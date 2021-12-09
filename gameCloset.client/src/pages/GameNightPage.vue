@@ -104,6 +104,9 @@
                     <div class="col-md-6 my-3">
                       <div class="row">
                         <div class="col">
+                          <h3 class="text-danger">
+                            {{ compareDate(g.gameNightDate) }}
+                          </h3>
                           <h5>{{ formatDate(g.gameNightDate) }}</h5>
                         </div>
                       </div>
@@ -175,6 +178,9 @@
                             <div class="col-md-6 my-3">
                               <div class="row">
                                 <div class="col">
+                                  <h3 class="text-danger">
+                                    {{ compareDate(a.gameNight.gameNightDate) }}
+                                  </h3>
                                   <h5>
                                     {{ formatDate(a.gameNight.gameNightDate) }}
                                   </h5>
@@ -299,9 +305,22 @@ export default {
       },
 
       formatDate(dateString) {
+        logger.log('formatDate')
         let date = new Date(dateString)
         return date.toLocaleString()
       },
+
+      compareDate(dateString) {
+        let gameNightDate = Date.parse(dateString);
+        let now = Date.now();
+        logger.log('dateString', dateString, 'now', now, 'gameNightDate', gameNightDate)
+        if (now > gameNightDate) {
+          return "This game night has passed."
+        } else if (now < gameNightDate) {
+          return ""
+        }
+
+      }
     }
   }
 }
