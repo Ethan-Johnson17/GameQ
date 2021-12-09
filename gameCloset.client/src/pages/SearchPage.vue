@@ -25,13 +25,27 @@
         <Game :game="game" :isSearchResult="true" />
       </div>
     </div>
-  </div>
-  <div class="container-fluid">
-
     <div class="row">
-      <div class="col justify-content-between d-flex mt-5">
-        <button @click="page(-24)" class="btn btn-light text-primary mx-4 mb-3 mdi mdi-arrow-left"></button>
-        <button @click="page(24)" class="btn btn-light text-primary mx-4 mb-3 mdi mdi-arrow-right"></button>
+      <div class="col justify-content-between d-flex mt-3">
+        <div class="selectable text-light mx-4 mb-3 row" @click="page(-24)">
+          <div class="col-md-3">
+            <img class="handArrow" src="../assets/img/hand-left.png" alt="">
+            <!-- <i class="mdi mdi-arrow-left-thick f-24"></i> -->
+          </div>
+          <div class="col-md-9 mt-2 text-end">
+            <i class="f-16">Previous
+              Page</i>
+          </div>
+        </div>
+        <div @click="page(24)" class="selectable text-light mx-4 mb-3 row">
+          <div class="col-md-9 mt-2 text-end">
+            <i class="f-16">Next Page</i>
+          </div>
+          <div class="col-md-3">
+            <img class="handArrow" src="../assets/img/hand.png" alt="">
+            <!-- <i class="mdi mdi-arrow-right-thick f-24"></i> -->
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -90,4 +104,8 @@
 
 
 <style lang="scss" scoped>
+  .handArrow {
+    height: 40px;
+    width: 60px;
+  }
 </style>
