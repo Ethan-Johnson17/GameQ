@@ -11,9 +11,22 @@ class GameNightService {
   }
 
   async getMyGameNights(query = '') {
+    // this res is getting the nights I created
     const res = await api.get(query)
-    let response = this.sortByDate(res.data)
-    AppState.myGameNights = response
+
+    // this res2 is getting the nights I've joined
+    const res2 = await api.get('account/players')
+
+    // sort by date
+    let mine = this.sortByDate(res.data)
+    let joined = this.sortByDate(res2.data)
+
+    // separate arrays for nights I created and nights I've joined
+    AppState.myGameNights = mine
+    AppState.myAttendance = joined
+
+    logger.log('Game nights I created:', AppState.myGameNights)
+    logger.log('Game nights I joined:', AppState.myAttendance)
   }
 
   sortByDate(arr) {

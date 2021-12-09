@@ -143,6 +143,7 @@ export default {
             name: "GameNightDetails",
             params: { id: AppState.activeGameNight.id }
           })
+          state.editable = {}
 
         } catch (error) {
           logger.error(error)

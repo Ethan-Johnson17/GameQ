@@ -1,3 +1,4 @@
+import { dangerouslyDisableDefaultSrc } from 'helmet/dist/middlewares/content-security-policy'
 import { dbContext } from '../db/DbContext'
 import { BadRequest, Forbidden } from '../utils/Errors'
 
@@ -58,6 +59,8 @@ class GameNightsService {
       throw new Forbidden('What is your favorite color... wrong')
     }
     await dbContext.GameNight.findByIdAndDelete(gamenightId)
+    await dbContext.Player.deleteMany({ gameNightId: gamenightId })
+    await dbContext.GameQueue.deleteMany({ gameNightId: gamenightId })
   }
 }
 export const gameNightsService = new GameNightsService()

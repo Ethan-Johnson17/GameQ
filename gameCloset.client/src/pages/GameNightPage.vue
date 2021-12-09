@@ -26,6 +26,7 @@
         </form>
       </div>
     </div>
+    <h3 class="text-light">Hosted Game Nights:</h3>
     <div class="row" v-for="g in myGameNights" :key="g.id">
       <div class="col">
         <div class="row justify-content-center">
@@ -138,6 +139,78 @@
         </template>
       </Modal>
     </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <h3 class="text-light my-4">Joined Game Nights:</h3>
+      <div class="row" v-for="a in myAttendance" :key="a.gameNightId">
+        <div class="col" v-if="a.gameNight.accountId !== account.id">
+          <div class="row justify-content-center">
+            <div
+              class="col-md-8 m-3 card elevation-2 selectable grow"
+              title="Game Night Details"
+            >
+              <div class="row">
+                <div class="col">
+                  <div>
+                    <div :class="a.gameNight.isCanceled ? 'disabled' : ''">
+                      <router-link
+                        :to="{
+                          name: 'GameNightDetails',
+                          params: { id: a.gameNightId },
+                        }"
+                        @click="setActive(a.gameNight)"
+                      >
+                        <div class="row">
+                          <div class="col-6 mt-2">
+                            <h4>{{ a.gameNight.name }}</h4>
+                          </div>
+                          <div class="col-6 mt-2 text-end">
+                            <h5>Game Pin: {{ a.gameNight.pin }}</h5>
+                          </div>
+                        </div>
+                        <div
+                          class="row justify-content-center"
+                          v-if="!a.gameNight.isCanceled"
+                        >
+                          <div class="col-md-6 my-3">
+                            <div class="row">
+                              <div class="col">
+                                <h5>
+                                  {{ formatDate(a.gameNight.gameNightDate) }}
+                                </h5>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col">
+                                <h5>{{ a.gameNight.location }}</h5>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="row justify-content-center text-danger"
+                          v-if="a.gameNight.isCanceled"
+                        >
+                          <div class="col-md-6 my-3">
+                            <div class="row">
+                              <div class="col">
+                                <h5>This game night has been canceled.</h5>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </router-link>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- <QRCodeModal :gameNight="gameNight" /> -->
   </div>
 </template>
@@ -177,6 +250,8 @@ export default {
       state,
       closetGames: computed(() => AppState.myGames.filter(g => g.owned)),
       myGameNights: computed(() => AppState.myGameNights),
+      myAttendance: computed(() => AppState.myAttendance),
+      account: computed(() => AppState.account),
 
       async deleteGameNight(gameNightId) {
         try {
