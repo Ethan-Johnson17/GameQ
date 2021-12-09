@@ -8,9 +8,19 @@
             <div class="mb-3 m-3">
               <form @submit.prevent="searchGames">
                 <div class="input-group mb-3">
-                  <input v-model="search" type="text" class="form-control" placeholder="Search Games"
-                    aria-label="Search Games" aria-describedby="button-addon2" />
-                  <button class="btn btn-outline-light" type="submit" id="button-addon2">
+                  <input
+                    v-model="search"
+                    type="text"
+                    class="form-control"
+                    placeholder="Search Games"
+                    aria-label="Search Games"
+                    aria-describedby="button-addon2"
+                  />
+                  <button
+                    class="btn btn-outline-light"
+                    type="submit"
+                    id="button-addon2"
+                  >
                     Search
                   </button>
                 </div>
@@ -22,7 +32,11 @@
 
       <!-- GAMES -->
       <div class="row">
-        <div class="col-md-4 d-flex justify-content-center" v-for="game in games" :key="game.atlasGameId">
+        <div
+          class="col-md-4 d-flex justify-content-center"
+          v-for="game in games"
+          :key="game.atlasGameId"
+        >
           <Game :game="game" :isSearchResult="true" />
         </div>
       </div>
@@ -54,72 +68,72 @@
 
 
 <script>
-  import { computed, onMounted, ref } from "@vue/runtime-core"
-  import { gamesService } from "../services/GamesService"
-  import { logger } from "../utils/Logger"
-  import { AppState } from "../AppState"
-  export default {
-    setup() {
-      let next = 0
-      let prev = next
+import { computed, onMounted, ref } from "@vue/runtime-core"
+import { gamesService } from "../services/GamesService"
+import { logger } from "../utils/Logger"
+import { AppState } from "../AppState"
+export default {
+  setup() {
+    let next = 0
+    let prev = next
 
-      const search = ref('')
-      onMounted(async () => {
+    const search = ref('')
+    onMounted(async () => {
+      try {
+        await gamesService.getAll('/search?q=' + search.value)
+        await gamesService.getMyGames('account/myGames')
+      } catch (error) {
+        logger.error(error)
+      }
+    })
+
+    return {
+      search,
+      next,
+      prev,
+      user: computed(() => AppState.user),
+      games: computed(() => AppState.atlasGames),
+      myGames: computed(() => AppState.myGames),
+
+      async searchGames() {
         try {
           await gamesService.getAll('/search?q=' + search.value)
-          await gamesService.getMyGames('account/myGames')
+          search.value = ''
         } catch (error) {
           logger.error(error)
         }
-      })
+      },
 
-      return {
-        search,
-        next,
-        prev,
-        user: computed(() => AppState.user),
-        games: computed(() => AppState.atlasGames),
-        myGames: computed(() => AppState.myGames),
-
-        async searchGames() {
-          try {
-            await gamesService.getAll('/search?q=' + search.value)
-            search.value = ''
-          } catch (error) {
-            logger.error(error)
-          }
-        },
-
-        async page(pageNum) {
-          try {
-            next += pageNum
-            await gamesService.getAll('/search?skip=' + next)
-          } catch (error) {
-            logger.error(error)
-          }
+      async page(pageNum) {
+        try {
+          next += pageNum
+          await gamesService.getAll('/search?skip=' + next)
+        } catch (error) {
+          logger.error(error)
         }
       }
     }
   }
+}
 </script>
 
 
 <style lang="scss" scoped>
-  .handArrow {
-    height: 40px;
-    width: 60px;
-  }
+.handArrow {
+  height: 40px;
+  width: 60px;
+}
 
-  .footerBottom {}
+.footerBottom {
+}
 
-  .body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+.body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
 
-  }
-
-  .main {
-    flex-grow: 1;
-  }
+.main {
+  flex-grow: 1;
+}
 </style>
