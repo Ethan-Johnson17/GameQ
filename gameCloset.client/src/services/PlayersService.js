@@ -8,7 +8,7 @@ class PlayersService {
     const res = await api.post(`api/players/${pin}`)
     AppState.players = [...AppState.players, res.data]
     // AppState.activeGameNight = res.data
-    logger.log(AppState.players, AppState.activeGameNight)
+    // logger.log(AppState.players, AppState.activeGameNight)
   }
   async unattendGameNight(playerId) {
     await api.delete(`api/players/${playerId}`)

@@ -262,13 +262,7 @@ export default {
       sortedGameQueue: computed(() => [...AppState.gameQueue].sort((a, b) => {
         return b.votes.length - a.votes.length
       })),
-      arrOfNames: computed(() => {
-        let arrOfNames = []
-        AppState.gameQueue.forEach(g => {
-          arrOfNames.push(g.game.name)
-        })
-        return arrOfNames
-      }),
+      arrOfNames: computed(() => AppState.gameQueue.map(g => g.game.name)),
 
       formatDate(dateString) {
         let date = new Date(dateString)
@@ -304,9 +298,7 @@ export default {
 
       async joinGameNight(pin) {
         try {
-
           await playersService.attendGameNight(pin)
-
         } catch (error) {
           logger.error(error)
           Pop.toast("Something went wrong joining the game!", 'error')
@@ -316,7 +308,7 @@ export default {
       async vote(id) {
         try {
           await gameQueuesService.vote(id)
-          await gameQueuesService.getAllGameQueue(route.params.id)
+          // await gameQueuesService.getAllGameQueue(route.params.id)
         } catch (error) {
           logger.error(error)
         }
