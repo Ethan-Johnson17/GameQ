@@ -1,7 +1,7 @@
 <template>
   <div class="offcanvas-body">
     <div class="col text-center">
-      <img class="img-container m-2 img-container" :src="game.image_url" alt="" />
+      <img class="img-container m-2" :src="game.image_url" :alt="game.name" />
     </div>
     <div class="col my-2">
       <h2>{{game.name}}</h2>
