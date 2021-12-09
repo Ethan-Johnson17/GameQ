@@ -1,5 +1,6 @@
 import { Auth0Provider } from '@bcwdev/auth0provider'
 import { gamesQueueService } from '../services/GamesQueueService'
+import { socketProvider } from '../SocketProvider'
 import BaseController from '../utils/BaseController'
 
 export class GamesQueueController extends BaseController {
@@ -21,7 +22,8 @@ export class GamesQueueController extends BaseController {
     try {
       req.body.accountId = req.userInfo.id
       const gameq = await gamesQueueService.create(req.body)
-      return res.send(gameq)
+      res.send(gameq)
+      socketProvider.messageRoom(`Game${gameq.gameNightId}Night`, 'New Game Que', gameq)
     } catch (error) {
       next(error)
     }
