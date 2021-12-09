@@ -11,7 +11,7 @@ class SocketService extends SocketHandler {
       .on('New Game Que', this.newGameQ)
       .on('Removed Game Que', this.removedGameQ)
       .on('Votes on Game Que', this.votes)
-      .on('Attending Game Night', this.newPlayer)
+    // .on('Attending Game Night', this.newPlayer)
   }
   newGameQ(newGameQ) {
     AppState.gameQueue.push(newGameQ)
