@@ -2,7 +2,7 @@
   <div class="gameNight container-fluid p-5">
     <div class="row">
       <div class="col text-center">
-        <h1 class="text-light">GAME NIGHT</h1>
+        <h1 class="text-light">GAME NIGHTS</h1>
       </div>
     </div>
     <div class="row">
@@ -24,13 +24,6 @@
             </button>
           </div>
         </form>
-      </div>
-    </div>
-    <!-- NOTE this is where the template starts for landing page for game nights 
-    Parenthesis is where the data will need to be bound  -->
-    <div class="row">
-      <div class="col text-light">
-        <h1>Active Event(s)</h1>
       </div>
     </div>
     <div class="row" v-for="g in myGameNights" :key="g.id">
