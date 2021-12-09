@@ -194,7 +194,7 @@ export default {
           Pop.toast('Deleted', 'success')
         } catch (error) {
           logger.error(error)
-          Pop.toast(error.message, 'error')
+          Pop.toast("Something went wrong deleting this GameNight!", 'error')
         }
       },
 
