@@ -1,31 +1,33 @@
 <template>
-  <div class="container-fluid">
+  <div class="container-fluid body">
     <!-- SEARCH -->
-    <div class="row justify-content-center">
-      <div class="col-md-6">
-        <div class="search">
-          <div class="mb-3 m-3">
-            <form @submit.prevent="searchGames">
-              <div class="input-group mb-3">
-                <input v-model="search" type="text" class="form-control" placeholder="Search Games"
-                  aria-label="Search Games" aria-describedby="button-addon2" />
-                <button class="btn btn-outline-light" type="submit" id="button-addon2">
-                  Search
-                </button>
-              </div>
-            </form>
+    <div class="main">
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <div class="search">
+            <div class="mb-3 m-3">
+              <form @submit.prevent="searchGames">
+                <div class="input-group mb-3">
+                  <input v-model="search" type="text" class="form-control" placeholder="Search Games"
+                    aria-label="Search Games" aria-describedby="button-addon2" />
+                  <button class="btn btn-outline-light" type="submit" id="button-addon2">
+                    Search
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- GAMES -->
-    <div class="row">
-      <div class="col-md-4 d-flex justify-content-center" v-for="game in games" :key="game.atlasGameId">
-        <Game :game="game" :isSearchResult="true" />
+      <!-- GAMES -->
+      <div class="row">
+        <div class="col-md-4 d-flex justify-content-center" v-for="game in games" :key="game.atlasGameId">
+          <Game :game="game" :isSearchResult="true" />
+        </div>
       </div>
     </div>
-    <div class="row">
+    <div class="row footerBottom">
       <div class="col justify-content-between d-flex mt-3">
         <div class="selectable text-light mx-4 mb-3 row" @click="page(-24)">
           <div class="col-md-3">
@@ -107,5 +109,18 @@
   .handArrow {
     height: 40px;
     width: 60px;
+  }
+
+  .footerBottom {}
+
+  .body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+
+  }
+
+  .main {
+    flex-grow: 1;
   }
 </style>
