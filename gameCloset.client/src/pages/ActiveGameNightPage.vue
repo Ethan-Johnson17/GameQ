@@ -38,7 +38,7 @@
             <div class="row mb-2" v-if="player">
               <div class="col-md-4">
                 <form @submit.prevent="addGame">
-                  <div class="dropdown input-group ms-5">
+                  <div class="dropdown input-group">
                     <button
                       class="btn btn-secondary dropdown-toggle form-control"
                       type="button"
@@ -87,14 +87,14 @@
         <div class="row">
           <div class="col-md-6">
             <!-- TODO change g to gq -->
-            <h3 class="ms-5">Vote on the Game(s) to play!</h3>
+            <h3>Vote on the Game(s) to play!</h3>
             <div class="row" v-for="g in gameQueue" :key="g.id">
               <div class="col d-flex">
                 <!-- NOTE Checkbox style 
                   <input type="checkbox" class="btn-check" name="game" id="game" autocomplete="off">
                 <label class="btn btn-outline-primary mdi mdi-thumb-up px-2 py-1 mb-2" for="game"></label>
                 <label class="ms-3" for="game"></label> -->
-                <p class="vote ms-5">
+                <p class="vote">
                   <i
                     class="mdi mdi-thumb-up f-16 pt-0 selectable h-25 me-2"
                     @click="vote(playerId)"
