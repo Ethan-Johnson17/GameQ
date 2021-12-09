@@ -28,6 +28,11 @@ class GameQueuesService {
     // NOTE either call this.getAllGameQueue here or check the computed to see if its listening to the right thing.will also need the game night id in this function to get all gameques again. no need for votes in the appstate
 
   }
+  sortByVote(arr){
+    return arr.sort((a, b) => {
+      return (a.vote < b.vote) ? -1 : (a.vote > b.vote) ? 1 : 0
+    })
+  }
 }
 
 export const gameQueuesService = new GameQueuesService()
