@@ -49,9 +49,6 @@
           <div class="accordion-body hover" contenteditable @blur="addRules">
             {{ game.houseRules }}
           </div>
-          <i class="mdi mdi-plus-thick text-secondary selectable" data-bs-toggle="modal"
-            :data-bs-target="'#addRules-' + game.id" title="Add House Rules">
-            Add Rules</i>
         </div>
       </div>
     </div>
