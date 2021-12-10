@@ -2,6 +2,7 @@ import { AppState } from '../AppState'
 import { logger } from '../utils/Logger'
 import Pop from '../utils/Pop'
 import { SocketHandler } from '../utils/SocketHandler'
+import { gameNightService } from './GameNightService'
 
 class SocketService extends SocketHandler {
   constructor() {
@@ -11,11 +12,12 @@ class SocketService extends SocketHandler {
       .on('New Game Que', this.newGameQ)
       .on('Removed Game Que', this.removedGameQ)
       .on('Votes on Game Que', this.votes)
-    // .on('Attending Game Night', this.newPlayer)
+      .on('Attending Game Night', this.newPlayer)
+      .on('Leaving Game Night', this.deletePlayer)
+      .on('Bringing Game Night', this.bringing)
   }
   newGameQ(newGameQ) {
     AppState.gameQueue.push(newGameQ)
-    logger.log('newGameQ Socket', newGameQ)
   }
 
   removedGameQ(gameQId) {
@@ -26,10 +28,18 @@ class SocketService extends SocketHandler {
     let index = AppState.gameQueue.findIndex(g => g.id === gameQ.id)
     AppState.gameQueue.splice(index, 1, gameQ)
   }
-  // newPlayer(playerId) {
-  //   AppState.players = [...AppState.players, playerId]
+  newPlayer(playerId) {
+    AppState.players = [...AppState.players, playerId]
+  }
+  deletePlayer(playerId) {
+    AppState.players = AppState.players.filter(p => p.id !== playerId)
+  }
+  bringing(playerId) {
+    logger.log('player id', playerId)
+    let index = AppState.players.findIndex(p => p.id === playerId)
+    AppState.players.splice(index, 1, playerId)
 
-  // }
+  }
 
   onError(e) {
     Pop.toast(e.message, 'error')

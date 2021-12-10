@@ -158,7 +158,7 @@ export default {
         try {
           const game = props.game
           const response = await gamesService.addToWishlist(game)
-          logger.log('wishlist response', response)
+          // logger.log('wishlist response', response)
           Pop.toast('Added to Wishlist', 'success')
         } catch (error) {
           Pop.toast("Already in your wishlist!:" + error.message, 'error')

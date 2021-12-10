@@ -305,7 +305,7 @@ export default {
       },
 
       formatDate(dateString) {
-        logger.log('formatDate')
+        // logger.log('formatDate')
         let date = new Date(dateString)
         return date.toLocaleString()
       },
@@ -313,7 +313,7 @@ export default {
       compareDate(dateString) {
         let gameNightDate = Date.parse(dateString);
         let now = Date.now();
-        logger.log('dateString', dateString, 'now', now, 'gameNightDate', gameNightDate)
+        // logger.log('dateString', dateString, 'now', now, 'gameNightDate', gameNightDate)
         if (now > gameNightDate) {
           return "This game night has passed."
         } else if (now < gameNightDate) {

@@ -25,8 +25,8 @@ class GameNightService {
     AppState.myGameNights = mine
     AppState.myAttendance = joined
 
-    logger.log('Game nights I created:', AppState.myGameNights)
-    logger.log('Game nights I joined:', AppState.myAttendance)
+    // logger.log('Game nights I created:', AppState.myGameNights)
+    // logger.log('Game nights I joined:', AppState.myAttendance)
   }
 
   sortByDate(arr) {
@@ -79,7 +79,7 @@ class GameNightService {
   async getAllPlayers(gameNightId) {
     const res = await api.get(`api/gamenight/${gameNightId}/players`)
     AppState.players = res.data
-    logger.log('banana', AppState.players, res.data)
+    // logger.log('banana', AppState.players, res.data)
   }
 
 }
