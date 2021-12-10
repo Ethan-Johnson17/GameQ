@@ -25,8 +25,8 @@ class GameNightService {
     AppState.myGameNights = mine
     AppState.myAttendance = joined
 
-    logger.log('Game nights I created:', AppState.myGameNights)
-    logger.log('Game nights I joined:', AppState.myAttendance)
+    // logger.log('Game nights I created:', AppState.myGameNights)
+    // logger.log('Game nights I joined:', AppState.myAttendance)
   }
 
   sortByDate(arr) {

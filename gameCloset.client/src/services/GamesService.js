@@ -36,7 +36,7 @@ class GamesService {
   }
 
   async addRules(gameId, closetGame) {
-    logger.log('adding rules', gameId, closetGame)
+    // logger.log('adding rules', gameId, closetGame)
     const res = await api.put('api/games/' + gameId, closetGame)
     // logger.log('adding', res.data)
   }
