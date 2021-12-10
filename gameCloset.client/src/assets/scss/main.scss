@@ -3,6 +3,9 @@
 @import "./_overrides.scss";
 @import "./utilities.scss";
 @import "./loaders.scss";
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Dongle:wght@300&display=swap');
+
 
 #app {
   display: flex;
@@ -10,6 +13,7 @@
   min-height: 100vh;
   background-color: $body-bg;
 }
+
 
 main {
   flex-grow: 1;
@@ -19,6 +23,22 @@ a {
   text-decoration: none;
   color: var(--bs-secondary);
 }
+
+h1 {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 50px;
+}
+
+h2 {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 30px;
+}
+
+h3, h4, h5, h6 {
+  font-family: 'Bebas Neue', cursive;
+}
+
+
 
 input,
 textarea,
