@@ -21,7 +21,8 @@ export class PlayersController extends BaseController {
       req.body.accountId = req.userInfo.id
       req.body.id = req.params.id
       const player = await playersService.edit(req.body)
-      return res.send(player)
+      res.send(player)
+      socketProvider.messageRoom(`Game${player.gameNightId}Night`, 'Bringing Game Night', player)
     } catch (error) {
       next(error)
     }

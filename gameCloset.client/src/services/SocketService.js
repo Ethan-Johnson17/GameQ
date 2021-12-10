@@ -14,6 +14,7 @@ class SocketService extends SocketHandler {
       .on('Votes on Game Que', this.votes)
       .on('Attending Game Night', this.newPlayer)
       .on('Leaving Game Night', this.deletePlayer)
+      .on('Bringing Game Night', this.bringing)
   }
   newGameQ(newGameQ) {
     AppState.gameQueue.push(newGameQ)
@@ -33,7 +34,12 @@ class SocketService extends SocketHandler {
   deletePlayer(playerId) {
     AppState.players = AppState.players.filter(p => p.id !== playerId)
   }
+  bringing(playerId) {
+    logger.log('player id', playerId)
+    let index = AppState.players.findIndex(p => p.id === playerId)
+    AppState.players.splice(index, 1, playerId)
 
+  }
 
   onError(e) {
     Pop.toast(e.message, 'error')
