@@ -44,6 +44,9 @@ class PlayersService {
       throw new Forbidden('what are you doing??')
     }
     await dbContext.Player.findByIdAndDelete(playerId)
+    const player = await this.getById(playerId)
+    const gameNightId = player.gameNightId
+    await dbContext.GameQueue.deleteMany({ accountId: userId, gameNightId: gameNightId })
     return found
   }
 
