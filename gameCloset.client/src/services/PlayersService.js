@@ -6,12 +6,12 @@ import { gameNightService } from "./GameNightService"
 class PlayersService {
   async attendGameNight(pin) {
     const res = await api.post(`api/players/${pin}`)
-    AppState.players = [...AppState.players, res.data]
+    // AppState.players = [...AppState.players, res.data]
     // AppState.activeGameNight = res.data
     // logger.log(AppState.players, AppState.activeGameNight)
   }
   async unattendGameNight(playerId) {
-    await api.delete(`api/players/${playerId}`)
+    let leaveGame = await api.delete(`api/players/${playerId}`)
     //  NOTE call the all my attendance function here
   }
   async editMyItems(player) {

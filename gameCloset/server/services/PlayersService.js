@@ -44,6 +44,7 @@ class PlayersService {
       throw new Forbidden('what are you doing??')
     }
     await dbContext.Player.findByIdAndDelete(playerId)
+    return found
   }
 
   async getMyAttendance(query = {}) {
