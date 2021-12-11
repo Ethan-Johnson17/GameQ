@@ -209,6 +209,7 @@
                 <h5 class="mt-3">
                   {{ p.account.name }}
                 </h5>
+                <p class="fnt ms-3 py-1 mt-2 text-grey">{{ account.rank }}</p>
               </div>
             </div>
           </div>
@@ -372,5 +373,9 @@ p:focus {
   width: 50px;
   object-fit: cover;
   border-radius: 50%;
+}
+
+.fnt {
+  font-size: 12px;
 }
 </style>
