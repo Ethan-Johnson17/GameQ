@@ -333,8 +333,9 @@ export default {
       async editMyItems() {
         try {
           const player = AppState.players.find(p => p.account.id === AppState.account.id)
-          player.items = editable.value
-          await playersService.editMyItems(player)
+          // player.items = editable.value
+          let update = { ...player, items: editable.value }
+          await playersService.editMyItems(update)
           editable.value = ''
 
         } catch (error) {
