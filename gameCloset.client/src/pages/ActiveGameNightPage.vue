@@ -208,19 +208,17 @@
           </div>
           <div class="col-md-6 text-center">
             <h3 class="mb-5">Attending</h3>
-            <div class="row" v-for="p in players" :key="p.id">
-              <div class="col">
-                <div class="row">
-                  <div class="col-md-2">
-                    <img class="pic my-1" :src="p.account.picture" alt="" />
-                  </div>
-                  <div class="col-md-10 d-flex">
-                    <h5 class="mt-3">{{ p.account.name }}</h5>
-                    <p class="fnt ms-3 py-1 mt-2 text-grey">
-                      {{ p.account.rank }}
-                    </p>
-                  </div>
-                </div>
+            <div
+              class="row border-grey border rounded my-2"
+              v-for="p in players"
+              :key="p.id"
+            >
+              <div class="col d-flex">
+                <img class="pic my-1 me-2" :src="p.account.picture" alt="" />
+                <h5 class="mt-3">{{ p.account.name }}</h5>
+                <p class="fnt ms-3 py-1 mt-2 text-grey">
+                  {{ p.account.rank }}
+                </p>
               </div>
             </div>
           </div>
