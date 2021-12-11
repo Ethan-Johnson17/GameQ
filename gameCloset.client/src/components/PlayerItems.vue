@@ -1,7 +1,13 @@
 <template>
   <div class="component">
     <div class="card p-2" v-if="player.items">
-      <h3>{{ player.account?.name }}</h3>
+      <h3>
+        <img
+          :src="player.account.picture"
+          alt="player picture"
+          class="pic me-3"
+        />{{ player.account?.name }}
+      </h3>
       <p>{{ player.items }}</p>
     </div>
   </div>
@@ -33,4 +39,10 @@ export default {
 
 
 <style lang="scss" scoped>
+.pic {
+  height: 50px;
+  width: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+}
 </style>
