@@ -34,7 +34,7 @@ export class PlayersController extends BaseController {
       const playerId = req.params.id
       const player = await playersService.unattend(playerId, userId)
       res.send('later tader')
-      socketProvider.messageRoom(`Game${player.gameNightId}Night`, 'Leaving Game Night', player.id)
+      socketProvider.messageRoom(`Game${player.gameNightId}Night`, 'Leaving Game Night', player)
     } catch (error) {
       next(error)
     }
