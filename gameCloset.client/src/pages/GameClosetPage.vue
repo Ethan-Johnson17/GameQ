@@ -27,8 +27,9 @@
         >
           <h1>My Game Closet</h1>
         </div>
-        <div class="col-md-6 text-light f-20 pt-4 text-end">
-          Experience: {{ account.xp }} XP
+        <div class="col-md-6 text-light f-20 pt-1 text-end">
+          <h3>Rank: {{ account.rank }}</h3>
+          <h3>Experience: {{ account.xp }} XP</h3>
         </div>
         <div class="row">
           <div
