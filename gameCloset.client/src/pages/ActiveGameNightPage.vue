@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid">
     <div class="row justify-content-center p-2">
-      <div class="col-md-10 card my-2 elevation-3 px-5 py-3">
+      <div class="col-md-10 card my-5 elevation-3 px-5 py-3">
         <div class="row justify-content-center">
           <div class="col-3">
             <h5 class="m-3">PIN: {{ activeGameNight.pin }}</h5>

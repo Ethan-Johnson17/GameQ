@@ -161,4 +161,31 @@ form:invalid button[type="submit"] {
     transform-style: preserve-3d;
   }
 }
+@media screen and (max-width: 450px) {
+  #siteLogo {
+  // margin-right: 0.4rem!important;
+  display: none
+}
+}
+
+@import url('https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900');
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-height: 10vh;
+  background: var(--bs-clr);
+  font-family: 'Poppins', sans-serif; 
+  // background: #fff; /* fallback for old browsers */
+}
+
+
+
 

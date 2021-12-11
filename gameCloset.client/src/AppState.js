@@ -11,5 +11,5 @@ export const AppState = reactive({
   players: [],
   gameQueue: [],
   myAttendance: [],
-  gameNights: {}
+  gameNights: {},
 })
