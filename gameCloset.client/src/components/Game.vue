@@ -185,10 +185,10 @@ export default {
       async addXp() {
         let account = AppState.account
         account.xp += 10
-        if (account.xp >= 320) {
+        if (account.xp >= 640) {
           account.rank = 'Noob-Slayer'
         }
-        else if (account.xp >= 240) {
+        else if (account.xp >= 320) {
           account.rank = 'Royalty'
         }
         else if (account.xp >= 160) {

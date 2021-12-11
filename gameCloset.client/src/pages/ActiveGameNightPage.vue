@@ -234,6 +234,7 @@ import { playersService } from "../services/PlayersService";
 import PlayerItems from "../components/PlayerItems.vue";
 import { socketService } from '../services/SocketService';
 import { router } from "../router";
+import { accountService } from '../services/AccountService';
 
 export default {
   components: { PlayerItems },
@@ -316,10 +317,55 @@ export default {
       async joinGameNight(pin) {
         try {
           await playersService.attendGameNight(pin)
+          this.addXp()
         } catch (error) {
           logger.error(error)
           Pop.toast("Something went wrong joining the game!", 'error')
         }
+      },
+
+      async addXp() {
+        let account = AppState.account
+        account.xp += 5
+        if (account.xp >= 640) {
+          account.rank = 'Noob-Slayer'
+        }
+        else if (account.xp >= 320) {
+          account.rank = 'Royalty'
+        }
+        else if (account.xp >= 160) {
+          account.rank = 'Champion'
+        }
+        else if (account.xp >= 80) {
+          account.rank = 'Knight'
+        }
+        else if (account.xp >= 40) {
+          account.rank = 'Squire'
+        }
+        logger.log('xp', account)
+        await accountService.edit(account)
+      },
+
+      async minusXp() {
+        let account = AppState.account
+        account.xp -= 5
+        if (account.xp >= 640) {
+          account.rank = 'Noob-Slayer'
+        }
+        else if (account.xp >= 320) {
+          account.rank = 'Royalty'
+        }
+        else if (account.xp >= 160) {
+          account.rank = 'Champion'
+        }
+        else if (account.xp >= 80) {
+          account.rank = 'Knight'
+        }
+        else if (account.xp >= 40) {
+          account.rank = 'Squire'
+        }
+        logger.log('xp', account)
+        await accountService.edit(account)
       },
 
       async vote(id) {
@@ -352,6 +398,7 @@ export default {
               name: "GameNight",
             })
           }
+          this.minusXp()
         } catch (error) {
           logger.error(error)
           Pop.toast(error)

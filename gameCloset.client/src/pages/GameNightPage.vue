@@ -230,6 +230,7 @@ import { logger } from "../utils/Logger"
 import Pop from "../utils/Pop"
 import { gamesService } from "../services/GamesService"
 import { useRouter } from "vue-router";
+import { accountService } from '../services/AccountService';
 
 
 export default {
@@ -278,10 +279,33 @@ export default {
           if (!yes) { return }
           await gameNightService.cancel(gameNightId)
           Pop.toast("You've canceled your event.", 'success')
+          this.addXp()
         } catch (error) {
           logger.error(error)
           Pop.toast(error.message, 'error')
         }
+      },
+
+      async addXp() {
+        let account = AppState.account
+        account.xp -= 25
+        if (account.xp >= 640) {
+          account.rank = 'Noob-Slayer'
+        }
+        else if (account.xp >= 320) {
+          account.rank = 'Royalty'
+        }
+        else if (account.xp >= 160) {
+          account.rank = 'Champion'
+        }
+        else if (account.xp >= 80) {
+          account.rank = 'Knight'
+        }
+        else if (account.xp >= 40) {
+          account.rank = 'Squire'
+        }
+        logger.log('xp', account)
+        await accountService.edit(account)
       },
 
       async findGameNight() {
