@@ -106,7 +106,7 @@
               </div>
             </div>
             <div class="col m-2 text-danger" v-else>
-              <p>You have this game!</p>
+              <p>Added</p>
             </div>
           </div>
           <div class="col mt-3" v-else>
