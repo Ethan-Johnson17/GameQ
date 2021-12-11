@@ -209,7 +209,7 @@
                 <h5 class="mt-3">
                   {{ p.account.name }}
                 </h5>
-                <p class="fnt ms-3 py-1 mt-2 text-grey">{{ account.rank }}</p>
+                <p class="fnt ms-3 py-1 mt-2 text-grey">{{ p.account.rank }}</p>
               </div>
             </div>
           </div>
