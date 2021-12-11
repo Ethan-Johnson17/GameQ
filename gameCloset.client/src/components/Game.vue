@@ -91,7 +91,7 @@
                   class="btn btn-secondary"
                   title="add to wishlist"
                 >
-                  Wishlist
+                  Add to Wishlist
                 </button>
               </div>
               <div class="col-6 text-center px-2" @click.stop>
@@ -101,7 +101,7 @@
                   v-if="!game.owned"
                   @click="addToGameCloset(game)"
                 >
-                  Closet
+                  Add to Closet
                 </button>
               </div>
             </div>
@@ -117,7 +117,7 @@
                 v-if="!game.owned"
                 @click="addToGameCloset(game)"
               >
-                Closet
+                Add to Closet
               </button>
             </div>
           </div>
