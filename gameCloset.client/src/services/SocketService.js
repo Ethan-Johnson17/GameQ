@@ -31,14 +31,14 @@ class SocketService extends SocketHandler {
   newPlayer(playerId) {
     AppState.players = [...AppState.players, playerId]
   }
-  deletePlayer(playerId) {
-    AppState.players = AppState.players.filter(p => p.id !== playerId)
+  deletePlayer(player) {
+    AppState.players = AppState.players.filter(p => p.id !== player.id)
+    AppState.gameQueue = AppState.gameQueue.filter(g => g.accountId !== player.accountId)
   }
   bringing(playerId) {
     logger.log('player id', playerId)
     let index = AppState.players.findIndex(p => p.id === playerId)
     AppState.players.splice(index, 1, playerId)
-
   }
 
   onError(e) {
