@@ -16,6 +16,7 @@ class AccountService {
     const res = await api.put('account/', account)
     // logger.log(res.data)
     AppState.account = res.data
+    logger.log('post', res.data.xp)
   }
 
 

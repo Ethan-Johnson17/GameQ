@@ -36,14 +36,12 @@ class GamesService {
   }
 
   async addRules(gameId, closetGame) {
-    logger.log('adding rules', gameId, closetGame)
+    // logger.log('adding rules', gameId, closetGame)
     const res = await api.put('api/games/' + gameId, closetGame)
-    logger.log('adding', res.data)
+    // logger.log('adding', res.data)
   }
 
   async remove(gameId) {
-    const yes = await Pop.confirm('Remove game?')
-    if (!yes) { return }
     await api.delete('api/games/' + gameId)
     AppState.myGames = AppState.myGames.filter(g => g.id !== gameId)
   }

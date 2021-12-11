@@ -1,7 +1,7 @@
 <template>
   <div class="flip-card my-4 grow" @click="flipCard">
     <div
-      class="flip-card-inner selectable"
+      class="flip-card-inner selectable animate__animated"
       :id="game.atlasGameId"
       style="transform: rotateY(0deg)"
     >
@@ -46,10 +46,10 @@
             class="col text-start mx-3"
             v-if="game.min_playtime === game.max_playtime"
           >
-            Play time: {{ game.min_playtime }}- min
+            Play time: {{ game.min_playtime }} minutes
           </h4>
           <h4 class="col text-start ms-3" v-else>
-            Play time: {{ game.min_playtime }} - {{ game.max_playtime }}- min
+            Play time: {{ game.min_playtime }} - {{ game.max_playtime }} minutes
           </h4>
         </div>
         <div class="row" v-if="game.min_players && game.max_players">
@@ -91,7 +91,7 @@
                   class="btn btn-secondary"
                   title="add to wishlist"
                 >
-                  Wishlist
+                  Add to Wishlist
                 </button>
               </div>
               <div class="col-6 text-center px-2" @click.stop>
@@ -101,12 +101,12 @@
                   v-if="!game.owned"
                   @click="addToGameCloset(game)"
                 >
-                  Closet
+                  Add to Closet
                 </button>
               </div>
             </div>
             <div class="col m-2 text-danger" v-else>
-              <p>You have this game!</p>
+              <p>Added</p>
             </div>
           </div>
           <div class="col mt-3" v-else>
@@ -117,7 +117,7 @@
                 v-if="!game.owned"
                 @click="addToGameCloset(game)"
               >
-                Closet
+                Add to Closet
               </button>
             </div>
           </div>
@@ -135,6 +135,7 @@ import { logger } from "../utils/Logger"
 import { AppState } from "../AppState"
 import { useRoute } from "vue-router"
 import Pop from "../utils/Pop"
+import { accountService } from '../services/AccountService'
 export default {
   props: {
     game: { type: Object },
@@ -158,7 +159,7 @@ export default {
         try {
           const game = props.game
           const response = await gamesService.addToWishlist(game)
-          logger.log('wishlist response', response)
+          // logger.log('wishlist response', response)
           Pop.toast('Added to Wishlist', 'success')
         } catch (error) {
           Pop.toast("Already in your wishlist!:" + error.message, 'error')
@@ -170,18 +171,46 @@ export default {
         try {
           const closetGame = props.game
           closetGame.owned = true
-          logger.log('add', closetGame)
+          let game = document.getElementById(props.game.atlasGameId)
+          game.classList.add('animate__bounce')
           await gamesService.addToGameCloset(closetGame)
           Pop.toast('Added to Game Closet', 'success')
+          this.addXp()
         } catch (error) {
           Pop.toast("Already in your closet!" + error.message, 'error')
           logger.error(error)
         }
       },
 
+      async addXp() {
+        let account = AppState.account
+        account.xp += 10
+        if (account.xp >= 640) {
+          account.rank = 'Noob-Slayer'
+        }
+        else if (account.xp >= 320) {
+          account.rank = 'Royalty'
+        }
+        else if (account.xp >= 160) {
+          account.rank = 'Champion'
+        }
+        else if (account.xp >= 80) {
+          account.rank = 'Knight'
+        }
+        else if (account.xp >= 40) {
+          account.rank = 'Squire'
+        }
+        logger.log('xp', account)
+        await accountService.edit(account)
+      },
+
       async remove(id) {
         try {
-          await gamesService.remove(id)
+          const yes = await Pop.confirm('Remove game?')
+          if (!yes) { return }
+          let game = document.getElementById(props.game.atlasGameId)
+          game.classList.add('animate__rollOut')
+          setTimeout(async () => { await gamesService.remove(id); }, 600)
         } catch (error) {
           Pop.toast(error.message, 'error')
           logger.error(error)
@@ -205,4 +234,7 @@ export default {
 
 
 <style lang="scss" scoped>
+.animate__animated.animate__rollOut {
+  --animate-duration: 1s;
+}
 </style>

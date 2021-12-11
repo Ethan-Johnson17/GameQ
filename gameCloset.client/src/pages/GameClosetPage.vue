@@ -16,13 +16,20 @@
     <div class="container-fluid">
       <div class="row">
         <div
-          class="col mt-2 text-light"
-          v-if="closetGames <= 0 && wishlistGames <= 0"
+          class="col-md-6 mt-2 text-light"
+          v-if="closetGames.length == 0 && wishlistGames.length == 0"
         >
           <h1>Go to Search to add Games!</h1>
         </div>
-        <div class="col mt-2 text-light" v-if="closetGames > 0">
+        <div
+          class="col-md-6 mt-2 text-light"
+          v-else-if="closetGames.length > 0"
+        >
           <h1>My Game Closet</h1>
+        </div>
+        <div class="col-md-6 text-light f-20 pt-1 text-end">
+          <h3>Rank: {{ account.rank }}</h3>
+          <h3>Experience: {{ account.xp }} XP</h3>
         </div>
         <div class="row">
           <div
@@ -30,7 +37,9 @@
             v-for="game in closetGames"
             :key="game.atlasGameId"
           >
-            <Game :game="game" />
+            <transition name="add">
+              <Game :game="game" />
+            </transition>
             <Modal :id="'addRules-' + game.id">
               <template #modal-title>Add Rules</template>
               <template #modal-body>
@@ -89,6 +98,7 @@ export default {
 
     return {
       user: computed(() => AppState.user),
+      account: computed(() => AppState.account),
       closetGames: computed(() => AppState.myGames.filter(g => g.owned)),
       wishlistGames: computed(() => AppState.myGames.filter(g => !g.owned)),
       async login() {
@@ -105,23 +115,23 @@ h1 {
   text-decoration: underline;
 }
 
-.home {
-  display: grid;
-  height: 80vh;
-  place-content: center;
-  text-align: center;
-  user-select: none;
+/* .home {
+    display: grid;
+    height: 80vh;
+    place-content: center;
+    text-align: center;
+    user-select: none;
 
-  .home-card {
-    width: 50vw;
+    .home-card {
+      width: 50vw;
 
-    > img {
-      height: 200px;
-      max-width: 200px;
-      width: 100%;
-      object-fit: contain;
-      object-position: center;
+      >img {
+        height: 200px;
+        max-width: 200px;
+        width: 100%;
+        object-fit: contain;
+        object-position: center;
+      }
     }
-  }
-}
+  } */
 </style>

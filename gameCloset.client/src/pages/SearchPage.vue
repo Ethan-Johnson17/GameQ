@@ -72,17 +72,14 @@ import { computed, onMounted, ref } from "@vue/runtime-core"
 import { gamesService } from "../services/GamesService"
 import { logger } from "../utils/Logger"
 import { AppState } from "../AppState"
-import { useRoute } from "vue-router"
 export default {
   setup() {
     let next = 0
     let prev = next
 
     const search = ref('')
-    const route = useRoute()
     onMounted(async () => {
       try {
-        AppState.navRoute = route.name
         await gamesService.getAll('/search?q=' + search.value)
         await gamesService.getMyGames('account/myGames')
       } catch (error) {

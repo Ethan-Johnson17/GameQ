@@ -6,6 +6,7 @@ import App from './App.vue'
 import { registerGlobalComponents } from './registerGlobalComponents'
 import { router } from './router'
 import VueQrcode from '@chenfengyuan/vue-qrcode';
+import 'animate.css';
 
 
 const root = createApp(App)

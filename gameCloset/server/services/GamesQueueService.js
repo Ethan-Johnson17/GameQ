@@ -13,7 +13,7 @@ class GamesQueueService {
   }
 
   async getById(id) {
-    const gameq = await dbContext.GameQueue.findById(id).populate('account')
+    const gameq = await dbContext.GameQueue.findById(id).populate('account game')
     if (!gameq) {
       throw new BadRequest('na qqqqueueueueueueu')
     }
@@ -45,6 +45,7 @@ class GamesQueueService {
       throw new Forbidden('removed ')
     }
     await dbContext.GameQueue.findByIdAndDelete(gameqId)
+    return gameq
   }
 }
 

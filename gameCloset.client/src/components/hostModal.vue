@@ -106,6 +106,7 @@ import { AppState } from "../AppState";
 import { gameNightService } from "../services/GameNightService";
 import { gameQueuesService } from "../services/GameQueuesService"
 import { playersService } from "../services/PlayersService";
+import { accountService } from '../services/AccountService';
 
 
 
@@ -131,6 +132,7 @@ export default {
           const game = gameQueue.value
           logger.log('create', state.editable, 'gameQueue', game)
           await gameNightService.createGameNight(state.editable)
+          this.addXp()
           const gameNight = AppState.activeGameNight
           await playersService.attendGameNight(gameNight.pin)
 
@@ -158,7 +160,29 @@ export default {
         // })
         // newPlayer.value.accountId = AppState.account.id
         // newPlayer.value.gameNightId = route.params.id
-      }
+      },
+
+      async addXp() {
+        let account = AppState.account
+        account.xp += 25
+        if (account.xp >= 640) {
+          account.rank = 'Noob-Slayer'
+        }
+        else if (account.xp >= 320) {
+          account.rank = 'Royalty'
+        }
+        else if (account.xp >= 160) {
+          account.rank = 'Champion'
+        }
+        else if (account.xp >= 80) {
+          account.rank = 'Knight'
+        }
+        else if (account.xp >= 40) {
+          account.rank = 'Squire'
+        }
+        logger.log('xp', account)
+        await accountService.edit(account)
+      },
     }
   }
 }

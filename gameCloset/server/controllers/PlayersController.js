@@ -1,5 +1,6 @@
 import { Auth0Provider } from '@bcwdev/auth0provider'
 import { playersService } from '../services/PlayersService'
+import { socketProvider } from '../SocketProvider'
 import BaseController from '../utils/BaseController'
 
 export class PlayersController extends BaseController {
@@ -20,7 +21,8 @@ export class PlayersController extends BaseController {
       req.body.accountId = req.userInfo.id
       req.body.id = req.params.id
       const player = await playersService.edit(req.body)
-      return res.send(player)
+      res.send(player)
+      socketProvider.messageRoom(`Game${player.gameNightId}Night`, 'Bringing Game Night', player)
     } catch (error) {
       next(error)
     }
@@ -30,8 +32,9 @@ export class PlayersController extends BaseController {
     try {
       const userId = req.userInfo.id
       const playerId = req.params.id
-      await playersService.unattend(playerId, userId)
+      const player = await playersService.unattend(playerId, userId)
       res.send('later tader')
+      socketProvider.messageRoom(`Game${player.gameNightId}Night`, 'Leaving Game Night', player)
     } catch (error) {
       next(error)
     }
@@ -42,7 +45,8 @@ export class PlayersController extends BaseController {
       req.body.pin = req.params.pin
       req.body.accountId = req.userInfo.id
       const player = await playersService.create(req.body)
-      return res.send(player)
+      res.send(player)
+      socketProvider.messageRoom(`Game${player.gameNightId}Night`, 'Attending Game Night', player)
     } catch (error) {
       next(error)
     }

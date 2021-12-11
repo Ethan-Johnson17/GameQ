@@ -43,7 +43,8 @@ export class GamesQueueController extends BaseController {
       req.body.accountId = req.userInfo.id
       req.body.id = req.params.id
       const vote = await gamesQueueService.edit(req.body)
-      return res.send(vote)
+      res.send(vote)
+      socketProvider.messageRoom(`Game${vote.gameNightId}Night`, 'Votes on Game Que', vote)
     } catch (error) {
       next(error)
     }
@@ -53,8 +54,9 @@ export class GamesQueueController extends BaseController {
     try {
       const userId = req.userInfo.id
       const gameqId = req.params.id
-      await gamesQueueService.remove(gameqId, userId)
+      const removeGQ = await gamesQueueService.remove(gameqId, userId)
       res.send('no more gq games')
+      socketProvider.messageRoom(`Game${removeGQ.gameNightId}Night`, 'Removed Game Que', removeGQ.id)
     } catch (error) {
       next(error)
     }
