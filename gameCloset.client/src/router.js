@@ -10,27 +10,27 @@ const routes = [
     path: '/',
     name: 'GameCloset',
     component: loadPage('GameClosetPage'),
-    beforeEnter: authSettled
+    beforeEnter: authGuard
 
   },
   {
     path: '/search',
     name: 'Search',
     component: loadPage('SearchPage'),
-    beforeEnter: authSettled
+    beforeEnter: authGuard
   },
   {
     path: '/gameNight',
     name: 'GameNight',
     component: loadPage('GameNightPage'),
-    beforeEnter: authSettled
+    beforeEnter: authGuard
   },
 
   {
     path: '/gameNight/:id',
     name: 'GameNightDetails',
     component: loadPage('ActiveGameNightPage'),
-    beforeEnter: authSettled
+    beforeEnter: authGuard
   },
 
   {
