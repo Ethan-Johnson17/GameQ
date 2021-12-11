@@ -15,16 +15,17 @@ class PlayersService {
     //  NOTE call the all my attendance function here
   }
   async editMyItems(player) {
-    const res = await api.put(`api/players/${player.id}`, player)
-    const newPlayer = res.data
+    await api.put(`api/players/${player.id}`, player)
+    // const newPlayer = res.data
     // AppState.players = newPlayer
-    const index = AppState.players.findIndex(p => p.id === player.id)
-    if (index === -1) {
-      AppState.players.push(newPlayer)
-      return
-    }
-    AppState.players.splice(index, 1, newPlayer)
-
+    // const index = AppState.players.findIndex(p => p.id === player.id)
+    // if (index === -1) {
+    //   AppState.players.push(newPlayer)
+    //   return
+    // }
+    // logger.log("[SPLICE IT]:", index, AppState.players.length)
+    // AppState.players.splice(index, 1, newPlayer)
+    // logger.log("[SPLICE IT POST]:", index, AppState.players.length)
   }
   async getGameNightsImAttending() {
     const res = await api.get('account/players')

@@ -35,10 +35,13 @@ class SocketService extends SocketHandler {
     AppState.players = AppState.players.filter(p => p.id !== player.id)
     AppState.gameQueue = AppState.gameQueue.filter(g => g.accountId !== player.accountId)
   }
-  bringing(playerId) {
-    logger.log('player id', playerId)
-    let index = AppState.players.findIndex(p => p.id === playerId)
-    AppState.players.splice(index, 1, playerId)
+  bringing(player) {
+    let index = AppState.players.findIndex(p => p.id === player.id)
+    if (index === -1) {
+      AppState.players.push(player)
+      return
+    }
+    AppState.players.splice(index, 1, player)
   }
 
   onError(e) {
