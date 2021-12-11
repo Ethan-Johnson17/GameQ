@@ -1,7 +1,7 @@
 <template>
   <div class="flip-card my-4 grow" @click="flipCard">
     <div
-      class="flip-card-inner selectable"
+      class="flip-card-inner selectable animate__animated"
       :id="game.atlasGameId"
       style="transform: rotateY(0deg)"
     >
@@ -170,7 +170,8 @@ export default {
         try {
           const closetGame = props.game
           closetGame.owned = true
-          // logger.log('add', closetGame)
+          let game = document.getElementById(props.game.atlasGameId)
+          game.classList.add('animate__bounce')
           await gamesService.addToGameCloset(closetGame)
           Pop.toast('Added to Game Closet', 'success')
         } catch (error) {
@@ -181,7 +182,11 @@ export default {
 
       async remove(id) {
         try {
-          await gamesService.remove(id)
+          const yes = await Pop.confirm('Remove game?')
+          if (!yes) { return }
+          let game = document.getElementById(props.game.atlasGameId)
+          game.classList.add('animate__rollOut')
+          setTimeout(async () => { await gamesService.remove(id); }, 600)
         } catch (error) {
           Pop.toast(error.message, 'error')
           logger.error(error)
@@ -205,4 +210,7 @@ export default {
 
 
 <style lang="scss" scoped>
+.animate__animated.animate__rollOut {
+  --animate-duration: 1s;
+}
 </style>

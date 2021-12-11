@@ -17,11 +17,11 @@
       <div class="row">
         <div
           class="col mt-2 text-light"
-          v-if="closetGames <= 0 && wishlistGames <= 0"
+          v-if="closetGames.length == 0 && wishlistGames.length == 0"
         >
           <h1>Go to Search to add Games!</h1>
         </div>
-        <div class="col mt-2 text-light" v-if="closetGames > 0">
+        <div class="col mt-2 text-light" v-else-if="closetGames.length > 0">
           <h1>My Game Closet</h1>
         </div>
         <div class="row">
@@ -30,7 +30,9 @@
             v-for="game in closetGames"
             :key="game.atlasGameId"
           >
-            <Game :game="game" />
+            <transition name="add">
+              <Game :game="game" />
+            </transition>
             <Modal :id="'addRules-' + game.id">
               <template #modal-title>Add Rules</template>
               <template #modal-body>
@@ -105,23 +107,23 @@ h1 {
   text-decoration: underline;
 }
 
-.home {
-  display: grid;
-  height: 80vh;
-  place-content: center;
-  text-align: center;
-  user-select: none;
+/* .home {
+    display: grid;
+    height: 80vh;
+    place-content: center;
+    text-align: center;
+    user-select: none;
 
-  .home-card {
-    width: 50vw;
+    .home-card {
+      width: 50vw;
 
-    > img {
-      height: 200px;
-      max-width: 200px;
-      width: 100%;
-      object-fit: contain;
-      object-position: center;
+      >img {
+        height: 200px;
+        max-width: 200px;
+        width: 100%;
+        object-fit: contain;
+        object-position: center;
+      }
     }
-  }
-}
+  } */
 </style>
