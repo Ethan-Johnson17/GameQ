@@ -135,6 +135,7 @@ import { logger } from "../utils/Logger"
 import { AppState } from "../AppState"
 import { useRoute } from "vue-router"
 import Pop from "../utils/Pop"
+import { accountService } from '../services/AccountService'
 export default {
   props: {
     game: { type: Object },
@@ -174,10 +175,33 @@ export default {
           game.classList.add('animate__bounce')
           await gamesService.addToGameCloset(closetGame)
           Pop.toast('Added to Game Closet', 'success')
+          this.addXp()
         } catch (error) {
           Pop.toast("Already in your closet!" + error.message, 'error')
           logger.error(error)
         }
+      },
+
+      async addXp() {
+        let account = AppState.account
+        account.xp += 10
+        if (account.xp >= 320) {
+          account.rank = 'Noob-Slayer'
+        }
+        else if (account.xp >= 240) {
+          account.rank = 'Royalty'
+        }
+        else if (account.xp >= 160) {
+          account.rank = 'Champion'
+        }
+        else if (account.xp >= 80) {
+          account.rank = 'Knight'
+        }
+        else if (account.xp >= 40) {
+          account.rank = 'Squire'
+        }
+        logger.log('xp', account)
+        await accountService.edit(account)
       },
 
       async remove(id) {

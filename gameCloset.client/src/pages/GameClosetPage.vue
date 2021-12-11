@@ -16,13 +16,19 @@
     <div class="container-fluid">
       <div class="row">
         <div
-          class="col mt-2 text-light"
+          class="col-md-6 mt-2 text-light"
           v-if="closetGames.length == 0 && wishlistGames.length == 0"
         >
           <h1>Go to Search to add Games!</h1>
         </div>
-        <div class="col mt-2 text-light" v-else-if="closetGames.length > 0">
+        <div
+          class="col-md-6 mt-2 text-light"
+          v-else-if="closetGames.length > 0"
+        >
           <h1>My Game Closet</h1>
+        </div>
+        <div class="col-md-6 text-light f-20 pt-4 text-end">
+          Experience: {{ account.xp }} XP
         </div>
         <div class="row">
           <div
@@ -91,6 +97,7 @@ export default {
 
     return {
       user: computed(() => AppState.user),
+      account: computed(() => AppState.account),
       closetGames: computed(() => AppState.myGames.filter(g => g.owned)),
       wishlistGames: computed(() => AppState.myGames.filter(g => !g.owned)),
       async login() {
