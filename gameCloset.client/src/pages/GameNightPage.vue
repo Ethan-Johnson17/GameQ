@@ -25,6 +25,15 @@
           </div>
         </form>
       </div>
+      <div class="col-md-3 ms-auto my-3 text-end">
+        <button
+          class="btn btn-outline-light"
+          data-bs-toggle="modal"
+          data-bs-target="#hostModal"
+        >
+          Host
+        </button>
+      </div>
     </div>
     <h3 class="text-light">Hosted Game Nights:</h3>
     <div class="row" v-for="g in myGameNights" :key="g.id">
@@ -218,6 +227,7 @@
       <!-- <QRCodeModal :gameNight="gameNight" /> -->
     </div>
   </div>
+  <hostModal />
 </template>
 
 
