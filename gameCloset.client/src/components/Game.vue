@@ -12,7 +12,7 @@
               <img
                 class="img-container m-2"
                 :src="game.image_url"
-                alt=""
+                :alt="game.name"
                 loading="lazy"
               />
             </div>
